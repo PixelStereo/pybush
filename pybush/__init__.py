@@ -25,13 +25,6 @@ Node base class has at least 1 property which is a name.
 Name must be unique in the namespace.
 When you create a name, it will raise an error if there is already the same name.
 
-There is others optionnals properties for each nodes, which are
-    - a priority
-        - priority is a positiv integer which will allow to classify nodes.
-          if there is several nodes with the same priority, they will be ordered alphabetically.
-    - some tags
-        - tags are un unordered list of strings.
-
 Nodes are used to organize your namespace.
 Leaves are used for parameters, messages and returns.
     - Parameter:
