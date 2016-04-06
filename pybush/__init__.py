@@ -20,19 +20,19 @@ So you can even create another node or another leaf under a node
 (or a leaf, because a leaf is a node).
 
 Node base class has at least 1 property which is a name.
-    - a name
 
 Name must be unique in the namespace.
 When you create a name, it will raise an error if there is already the same name.
 
 Nodes are used to organize your namespace.
 Leaves are used for parameters, messages and returns.
-    - Parameter:
-        - a parameter is a string, integer, boolean, float or list with a state.
-    - Message:
-        - a message is as a parameter but without a state.
-    - Return:
-        - a return is a result of a computation made by an algorythm or a controller.
+- Parameter : It is a string, integer, boolean, float or list with a state.
+- Message : It is a message is as a parameter but without a state.
+- Return : It is a return is a result of a computation made by an algorythm or a controller.
+
+There is others optionnals properties for each nodes, which are
+- a priority : priority is a positiv integer which will allow to classify nodes. if there is several nodes with the same priority, they will be ordered alphabetically.
+- tags : tags are un unordered list of strings.
 
 
 -------------------------------------------------------------------------------
