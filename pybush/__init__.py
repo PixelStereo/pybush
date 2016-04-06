@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
 This package contains useful classes designed to organize your Application
 It allows you to interact with various protocols from/to your app
@@ -53,7 +54,6 @@ Changelog:
 
 - v0.1.1 - Apr. 6th 2016
     - First draft
-
 
 """
 
