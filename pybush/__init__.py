@@ -26,19 +26,19 @@ When you create a name, it will raise an error if there is already the same name
 
 There is others optionnals properties for each nodes, which are
     - a priority
-    	- priority is a positiv integer which will allow to classify nodes.
-    	  if there is several nodes with the same priority, they will be ordered alphabetically.
+        - priority is a positiv integer which will allow to classify nodes.
+          if there is several nodes with the same priority, they will be ordered alphabetically.
     - some tags
-    	- tags are un unordered list of strings.
+        - tags are un unordered list of strings.
 
 Nodes are used to organize your namespace.
 Leaves are used for parameters, messages and returns.
-	- Parameter:
-		- a parameter is a string, integer, boolean, float or list with a state.
-	- Message:
-		- a message is as a parameter but without a state.
-	- Return:
-		- a return is a result of a computation made by an algorythm or a controller.
+    - Parameter:
+        - a parameter is a string, integer, boolean, float or list with a state.
+    - Message:
+        - a message is as a parameter but without a state.
+    - Return:
+        - a return is a result of a computation made by an algorythm or a controller.
 
 
 -------------------------------------------------------------------------------
