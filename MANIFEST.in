@@ -1,0 +1,2 @@
+include versioneer.py
+include pybush/_version.py
