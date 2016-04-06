@@ -38,3 +38,12 @@ Continious integration is made on linux for python 2 and 3.
 [![Coverage Status](https://coveralls.io/repos/github/PixelStereo/pybush/badge.svg?branch=master)](https://coveralls.io/github/PixelStereo/pybush?branch=master)
 [![Issue Count](https://codeclimate.com/github/PixelStereo/pybush/badges/issue_count.svg)](https://codeclimate.com/github/PixelStereo/pybush)
 [![Build Status](https://travis-ci.org/PixelStereo/pybush.svg?branch=master)](https://travis-ci.org/PixelStereo/pybush)
+
+####Notes
+---
+There is others optionnals properties for each nodes, which are
+    - a priority
+        - priority is a positiv integer which will allow to classify nodes.
+          if there is several nodes with the same priority, they will be ordered alphabetically.
+    - some tags
+        - tags are un unordered list of strings.
