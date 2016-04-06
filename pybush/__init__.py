@@ -15,7 +15,8 @@ In your application, you can create any nodes or directly any parameters you wan
 
 In each Node, you can create nodes and leaves.
 When you create a leaf, it automatically creates a nodes, as it is bassed on the Node Class.
-So you can even create another node or another leaf under a node (or a leaf, because a leaf is a node).
+So you can even create another node or another leaf under a node
+(or a leaf, because a leaf is a node).
 
 Node base class has at least 1 property which is a name.
     - a name
@@ -37,7 +38,7 @@ Leaves are used for parameters, messages and returns.
 	- Message:
 		- a message is as a parameter but without a state.
 	- Return:
-		- a return is a result of a computation made by an algorythm or a controller.  
+		- a return is a result of a computation made by an algorythm or a controller.
 
 
 -------------------------------------------------------------------------------
@@ -56,6 +57,8 @@ Changelog:
 
 """
 
+import os
+import sys
 from _version import get_versions
 __version__ = get_versions()['version']
 del get_versions
