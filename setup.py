@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 from distutils.core import setup
-import versioneer 
-from pylekture._version import get_versions
+import versioneer
+import os, sys
+sys.path.append(os.path.abspath('./pybush'))
+from _version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 __version__ = __version__.split('+')

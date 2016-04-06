@@ -5,8 +5,7 @@ import unittest
 import os, sys
 from time import sleep
 
-lib_path = os.path.abspath('./../')
-sys.path.append(lib_path)
+sys.path.append(os.path.abspath('./../'))
 
 import time
 import liblo
