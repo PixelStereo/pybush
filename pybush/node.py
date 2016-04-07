@@ -22,14 +22,12 @@ class Node(object):
         # initialise parameters for this node
         self._parameters = []
         if __dbug__:
-            print ("........... NODE %s Inited  ..........." %name)
+            print("........... NODE %s Inited  ..........." %name)
 
     def __repr__(self):
         printer = 'Node (name:{name}, priority:{priority}, tags:{tags})'
+        #return str({self.name: prop_dict(self)})
         return printer.format(name=self.name, priority=self.priority, tags=self.tags)
-
-    """def __repr__(self):
-        return str({self.name: prop_dict(self)})"""
 
     def parameter_new(self, *args, **kwargs):
         """
@@ -55,12 +53,18 @@ class Node(object):
         for key, value in kwargs.items():
             setattr(self._nodes[size], key, value)
         return self._nodes[size]
-    
+
     def export(self):
+        """
+        export Node to a json_string/python_dict with all its properties
+        """
         return {self.name:prop_dict(self)}
 
     @property
     def parameters(self):
+        """
+        return a list of parameters registered to this node
+        """
         return self._parameters
 
     @property
