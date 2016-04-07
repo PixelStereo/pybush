@@ -7,7 +7,7 @@ Application and Parameter are based on the Node Class
 """
 
 from pybush.functions import prop_dict
-from pybush.constants import __debug__
+from pybush.constants import __dbug__
 
 
 class Node(object):
@@ -21,7 +21,7 @@ class Node(object):
         self._nodes = []
         # initialise parameters for this node
         self._parameters = []
-        if __debug__:
+        if __dbug__:
             print ("........... NODE %s Inited  ..........." %name)
 
     def __repr__(self):
