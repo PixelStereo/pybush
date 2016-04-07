@@ -2,25 +2,24 @@ sudo: required
 dist: trusty
 language: python
 python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
+- "2.6"
+- "2.7"
+- "3.3"
+- "3.4"
+- "3.5"
 install:
-  - sudo apt-get update
-  - sudo apt-get -qq install python-setuptools liblo-dev liblo-tools
-  - pip install -r requirements.txt
-  - pip install coverage
-  - pip install coveralls
-  - pip install https://github.com/reno-/travis-sphinx/archive/master.zip
+- sudo apt-get update
+- sudo apt-get -qq install python-setuptools liblo-dev liblo-tools
+- pip install -r requirements.txt
+- pip install coverage
+- pip install coveralls
+- pip install travis-sphinx
 script:
-  - cd tests
-  - coverage run --omit ../pybush/_version.py test_.py
-  - coverage report -m
-  - cd ../
-  - travis-sphinx build
-  - echo $TRAVIS_TAG
+- cd tests
+- coverage run --omit ../pybush/_version.py test_.py
+- coverage report -m  --omit ../pybush/_version.py ../pybush/*.py
+- cd ../
+- travis-sphinx build
 after_success: 
-  - coveralls
-  - travis-sphinx deploy
+- coveralls
+- travis-sphinx deploy
