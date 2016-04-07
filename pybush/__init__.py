@@ -31,7 +31,8 @@ Leaves are used for parameters, messages and returns.
 - Return : It is a return is a result of a computation made by an algorythm or a controller.
 
 There is others optionnals properties for each nodes, which are
-- a priority : priority is a positiv integer which will allow to classify nodes. if there is several nodes with the same priority, they will be ordered alphabetically.
+- a priority : priority is a positiv integer which will allow to classify nodes.
+if there is several nodes with the same priority, they will be ordered alphabetically.
 - tags : tags are un unordered list of strings.
 
 
