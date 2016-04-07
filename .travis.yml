@@ -16,7 +16,7 @@ install:
   - pip install https://github.com/reno-/travis-sphinx/archive/master.zip
 script:
   - cd tests
-  - coverage run test_.py
+  - coverage run --omit ../pybush/_version.py test_.py
   - coverage report -m
   - cd ../
   - travis-sphinx build
