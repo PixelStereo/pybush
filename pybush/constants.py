@@ -5,5 +5,5 @@
 Contains constants for the package, accessible from any module
 """
 
-debug = False
+__debug__ = False
 _applications = []

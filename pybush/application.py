@@ -9,7 +9,7 @@ An Application has some protocol/plugin for input/output
 
 from pybush.node import Node
 from pybush.functions import prop_dict
-from pybush.constants import debug, _applications
+from pybush.constants import __debug__, _applications
 
 def application_new(*args, **kwargs):
     """Create a new application
@@ -22,6 +22,7 @@ def application_new(*args, **kwargs):
     return _applications[size]
 
 def applications():
+    """return a list of applications"""
     return _applications
 
 def applications_export():
@@ -50,7 +51,7 @@ class Application(Node):
         else:
             self._version = 'unknown'
         self._name = args[0]
-        if debug:
+        if __debug__:
             print("........... APP %s inited ..........." %args[0])
 
     def __repr__(self):

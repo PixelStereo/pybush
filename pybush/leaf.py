@@ -10,7 +10,7 @@ So a Leaf inherit from Node Class
 
 from pybush.node import Node
 from pybush.functions import *
-from pybush.constants import debug
+from pybush.constants import __debug__
 
 
 class Parameter(Node):
@@ -39,7 +39,8 @@ class Parameter(Node):
 			self.datatype = kwargs['datatype']
 		else:
 			self.datatype = 'generic'
-		if debug : print ("........... PARAM %s inited ..........." %args[0])
+		if __debug__:
+			print ("........... PARAM %s inited ..........." %args[0])
 
 	def __repr__(self):
 		"""represents the parameter class"""
