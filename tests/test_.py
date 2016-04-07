@@ -44,7 +44,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(len(my_app.nodes), 3)
         self.assertEqual(len(node_1.nodes), 0)
         self.assertEqual(len(node_2.nodes), 1)
-        print node_1
+        print(node_1)
         node_1.name = 'lol'
 
     def test_application_export(self):
