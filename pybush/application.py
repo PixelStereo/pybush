@@ -40,19 +40,11 @@ def applications_export():
 
 class Application(Node):
     """Application Class"""
-    def __init__(self, *args, **kwargs):
-        super(Application, self).__init__(*args, **kwargs)
-        if 'author' in kwargs:
-            self._author = kwargs['author']
-        else:
-            self._author = 'unknown'
-        if 'version' in kwargs:
-            self._version = kwargs['version']
-        else:
-            self._version = 'unknown'
-        self._name = args[0]
-        if __dbug__:
-            print("........... APP %s inited ..........." %args[0])
+    def __init__(self, name):
+        super(Application, self).__init__(name)
+        self._author = 'unknown'
+        self._version = 'unknown'
+        self._name = name
 
     def __repr__(self):
         printer = 'Application (name:{name}, author:{author}, version:{version})'
@@ -68,7 +60,7 @@ class Application(Node):
         self._author = author
     @author.deleter
     def author(self):
-        pass
+        return False
 
     # ----------- VERSION -------------
     @property
@@ -80,4 +72,4 @@ class Application(Node):
         self._version = version
     @version.deleter
     def version(self):
-        pass
+        return False

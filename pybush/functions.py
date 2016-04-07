@@ -5,17 +5,6 @@
 Bunch of functions usefull for types, or namespace assertions, conventions or convertions
 """
 
-def m_clip(int_or_float, value):
-    """clip a value to its domain according to its clipmode
-        :return cliped value"""
-    if int_or_float.clipmode == 'low' or int_or_float.clipmode == 'both':
-        if value < int_or_float.domain[0]:
-            value = int_or_float.domain[0]
-    if int_or_float.clipmode == 'high' or int_or_float.clipmode == 'both':
-        if value > int_or_float.domain[1]:
-            value = int_or_float.domain[1]
-    return value
-
 def m_bool(value):
     """Transform to a bool if it is not already"""
     if not isinstance(value, bool):

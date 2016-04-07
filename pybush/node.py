@@ -21,8 +21,6 @@ class Node(object):
         self._nodes = []
         # initialise parameters for this node
         self._parameters = []
-        if __dbug__:
-            print("........... NODE %s Inited  ..........." %name)
 
     def __repr__(self):
         printer = 'Node (name:{name}, priority:{priority}, tags:{tags})'
@@ -35,6 +33,9 @@ class Node(object):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
+        for param in self._parameters:
+            if param.name == args[0]:
+                return False
         size = len(self._parameters)
         from pybush.leaf import Parameter
         self._parameters.append(Parameter(args[0]))
@@ -78,10 +79,12 @@ class Node(object):
         return self._name
     @name.setter
     def name(self, name):
-        self._name = name
+        print('a name connot be changed for a node, or we might look if it already exists')
+        return False
+        #self._name = name
     @name.deleter
     def name(self):
-        pass
+        return False
 
     # ----------- TAGS -------------
     @property
@@ -93,7 +96,7 @@ class Node(object):
         self._tags = tags
     @tags.deleter
     def tags(self):
-        pass
+        return False
 
     # ----------- PRIORITY -------------
     @property
@@ -105,4 +108,4 @@ class Node(object):
         self._priority = priority
     @priority.deleter
     def priority(self):
-        pass
+        return False
