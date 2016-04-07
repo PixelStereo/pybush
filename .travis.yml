@@ -20,6 +20,7 @@ script:
   - coverage report -m
   - cd ../
   - travis-sphinx build
+  - echo $TRAVIS_TAG
 after_success: 
   - coveralls
   - travis-sphinx deploy
