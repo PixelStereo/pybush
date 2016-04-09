@@ -1,4 +1,7 @@
 # pybush
+[![Coverage Status](https://coveralls.io/repos/github/PixelStereo/pybush/badge.svg?branch=master&bust=1)](https://coveralls.io/github/PixelStereo/pybush?branch=master)
+[![Build Status](https://travis-ci.org/PixelStereo/pybush.svg?branch=master)](https://travis-ci.org/PixelStereo/pybush)
+
 =====
 ####Python Modular framework for real-time inter-media applications
 
@@ -33,6 +36,3 @@ The tests.py contains a nice exemple to understand what you can do with pybush p
 ---
 Development is made on OSX with python 2.7.11    
 Continious integration is made on linux for python 2 and 3.
-
-[![Coverage Status](https://coveralls.io/repos/github/PixelStereo/pybush/badge.svg?branch=master&bust=1)](https://coveralls.io/github/PixelStereo/pybush?branch=master)
-[![Build Status](https://travis-ci.org/PixelStereo/pybush.svg?branch=master)](https://travis-ci.org/PixelStereo/pybush)
