@@ -34,7 +34,5 @@ The tests.py contains a nice exemple to understand what you can do with pybush p
 Development is made on OSX with python 2.7.11    
 Continious integration is made on linux for python 2 and 3.
 
-[![Code Climate](https://codeclimate.com/github/PixelStereo/pybush/badges/gpa.svg)](https://codeclimate.com/github/PixelStereo/pybush)
 [![Coverage Status](https://coveralls.io/repos/github/PixelStereo/pybush/badge.svg?branch=master)](https://coveralls.io/github/PixelStereo/pybush?branch=master)
-[![Issue Count](https://codeclimate.com/github/PixelStereo/pybush/badges/issue_count.svg)](https://codeclimate.com/github/PixelStereo/pybush)
 [![Build Status](https://travis-ci.org/PixelStereo/pybush.svg?branch=master)](https://travis-ci.org/PixelStereo/pybush)
