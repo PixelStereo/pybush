@@ -15,9 +15,9 @@ install:
 - pip install travis-sphinx
 script:
 - cd tests
-- coverage run --omit ../pybush/_version.py --include=../pybush/"*" test_.py
-- coverage report -m
+- coverage run --omit ../pybush/_version.py --omit ../versioneer.py  --include=../pybush/"*" test_.py
 - coverage xml
+- coverage report -m
 - python-codacy-coverage -r coverage.xml
 - cd ../
 - travis-sphinx build
