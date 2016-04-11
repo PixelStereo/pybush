@@ -1,5 +1,6 @@
 # pybush
-[![Coverage Status](https://coveralls.io/repos/github/PixelStereo/pybush/badge.svg?branch=master&bust=1)](https://coveralls.io/github/PixelStereo/pybush?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/f17bbb174ef24686824a4f9142b36e83)](https://www.codacy.com/app/contact_37/pybush)
+[![Codacy Badge](https://api.codacy.com/project/badge/coverage/f17bbb174ef24686824a4f9142b36e83)](https://www.codacy.com/app/contact_37/pybush)
 [![Build Status](https://travis-ci.org/PixelStereo/pybush.svg?branch=master)](https://travis-ci.org/PixelStereo/pybush)
 
 =====
