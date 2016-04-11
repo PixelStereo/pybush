@@ -2,7 +2,6 @@ sudo: required
 dist: trusty
 language: python
 python:
-- "2.6"
 - "2.7"
 - "3.3"
 - "3.4"
@@ -12,12 +11,14 @@ install:
 - sudo apt-get -qq install python-setuptools liblo-dev liblo-tools
 - pip install -r requirements.txt
 - pip install coverage
-- pip install coveralls
+- pip install codacy-coverage
 - pip install travis-sphinx
 script:
 - cd tests
 - coverage run --omit ../pybush/_version.py --include=../pybush/"*" test_.py
 - coverage report -m
+- coverage xml
+- python-codacy-coverage -r coverage.xml
 - cd ../
 - travis-sphinx build
 after_success: 
