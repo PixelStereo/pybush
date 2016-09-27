@@ -9,6 +9,8 @@ python:
 install:
 - sudo apt-get update
 - sudo apt-get -qq install python-setuptools liblo-dev liblo-tools
+- pip install --upgrade pip
+- pip install Cython
 - pip install -r requirements.txt
 - pip install coverage
 - pip install codacy-coverage
