@@ -5,56 +5,56 @@ import os,sys
 lib_path = os.path.abspath('./../')
 sys.path.append(lib_path)
 import pybush
-from pybush.application import application_new, applications, applications_export
+from pybush.device import device_new, get_devices_list, devices_export
 
 def headerprint(args):
 	print('')
 	print(args)
 	print('-----------------------')
 	
-headerprint('create the main application')
-app = application_new('My App')
+headerprint('create the device')
+device = device_new('My Device')
 
 headerprint('create two nodes')
-node_1 = app.node_new('node.1')
-node_2 = app.node_new('node.2')
+node_1 = device.node_new('node.1')
+node_2 = device.node_new('node.2')
 
 headerprint('create a parameter for node.1')
 param_1 = node_1.parameter_new('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
-                                 priority=-1, rangeBounds=[0,1], rangeClipmode='both', \
+                                 priority=-1, domain=[0,1], clipmode='both', \
                                  repetitionsFilter=1)
-headerprint('list app, nodes and parameters')
-for app in applications():
-    print('    ' +  str(app))
-    for node in app.nodes:
+headerprint('list device, nodes and parameters')
+for device in get_devices_list():
+    print('    ' +  str(device))
+    for node in device.nodes:
         print('        ' +  str(node))
         for parameter in node.parameters:
             print('            ' +  str(parameter))
 
 
-headerprint('try rangeClipmode function')
-print ('rangeClipmode is : ' , param_1.rangeBounds)
+headerprint('try clipmode function')
+print ('domain is : ' , param_1.domain)
 print ('raw value is ' , param_1.raw)
-print ('rangeClipmode is : ' , param_1.rangeClipmode)
+print ('clipmode is : ' , param_1.clipmode)
 print ('value is : ' , param_1.value)
-param_1.rangeClipmode = 'low'
+param_1.clipmode = 'low'
 print ('raw value is ' , param_1.raw)
-print ('rangeClipmode is : ' , param_1.rangeClipmode)
+print ('clipmode is : ' , param_1.clipmode)
 print ('value is : ' , param_1.value)
 param_1.value = 2
-param_1.rangeClipmode = 'high'
+param_1.clipmode = 'high'
 print ('raw value is ' , param_1.raw)
-print ('rangeClipmode is : ' , param_1.rangeClipmode)
+print ('clipmode is : ' , param_1.clipmode)
 print ('value is : ' , param_1.value)
-param_1.rangeClipmode = 'both'
+param_1.clipmode = 'both'
 print ('raw value is ' , param_1.raw)
-print ('rangeClipmode is : ' , param_1.rangeClipmode)
+print ('clipmode is : ' , param_1.clipmode)
 print ('value is : ' , param_1.value)
 
-headerprint('repetitionsFilter')
-print (param_1.repetitionsFilter)
-param_1.repetitionsFilter = 0
-print (param_1.repetitionsFilter)
+headerprint('repetitions')
+print (param_1.repetitions)
+param_1.repetitions = 0
+print (param_1.repetitions)
 
 headerprint('try priority function')
 print (param_1.priority)
@@ -80,7 +80,7 @@ print (param_1.datatype)
 headerprint('set value and rangeClipmode')
 param_1.value = 999.99
 param_1.rangeClipmode = [0,1000]
-print ('raw value is : ' , param_1.raw , 'and rangeClipmode is : ' , param_1.rangeClipmode)
+print ('raw value is : ' , param_1.raw , 'and clipmode is : ' , param_1.clipmode)
 print ('datatype is : ' , param_1.datatype , 'and value is so : ' , type(param_1.value) , param_1.value)
 param_1.datatype = 'decimal'
 print ('datatype is : ' , param_1.datatype , 'and value is so : ' , type(param_1.value) , param_1.value)
@@ -89,4 +89,4 @@ print ('datatype is : ' , param_1.datatype , 'and value is so : ' , type(param_1
 import pprint
 pprint = pprint.PrettyPrinter(indent=4).pprint
 print('------------------ EXPORT NAMESPACE -------------------------------')
-pprint(applications_export())
+pprint(devices_export())
