@@ -6,4 +6,4 @@ Contains constants for the package, accessible from any module
 """
 
 __dbug__ = False
-_applications = []
+_devices = []
