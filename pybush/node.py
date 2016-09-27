@@ -7,7 +7,7 @@ Application and Parameter are based on the Node Class
 """
 
 from pybush.functions import prop_dict
-from pybush.constants import __dbug__
+from pybush.constants import __dbug__, _file_extention
 
 
 class Node(object):

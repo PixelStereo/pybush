@@ -7,3 +7,4 @@ Contains constants for the package, accessible from any module
 
 __dbug__ = False
 _devices = []
+_file_extention = 'lekture'
