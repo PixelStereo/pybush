@@ -22,7 +22,7 @@ class Node(File):
         self._tags = tags
         self._priority = priority
         # initialise children nodes for this node
-        self._nodes = []
+        self._children = []
         # initialise parameters for this node
         self._parameters = []
 
@@ -41,7 +41,7 @@ class Node(File):
             if param.name == args[0]:
                 return False
         size = len(self._parameters)
-        from pybush.leaf import Parameter
+        from pybush.paramter import Parameter
         self._parameters.append(Parameter(args[0], self))
         for key, value in kwargs.items():
             setattr(self._parameters[size], key, value)
@@ -53,14 +53,14 @@ class Node(File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
-        for node in self._nodes:
+        for node in self._children:
             if node.name == args[0]:
                 return False
-        size = len(self._nodes)
-        self._nodes.append(Node(args[0], self))
+        size = len(self._children)
+        self._children.append(Node(args[0], self))
         for key, value in kwargs.items():
-            setattr(self._nodes[size], key, value)
-        return self._nodes[size]
+            setattr(self._children[size], key, value)
+        return self._children[size]
 
     def export(self):
         """
@@ -91,11 +91,11 @@ class Node(File):
         return self._parent.name
 
     @property
-    def nodes(self):
+    def children(self):
         """
-        Return the list of the nodes registered to this nodes
+        Return the list of the children registered to this node
         """
-        return self._nodes
+        return self._children
 
     # ----------- NAME -------------
     @property

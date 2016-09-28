@@ -70,10 +70,10 @@ def prop_dict(the_class):
     plist = prop_list(the_class)
     pdict = {}
     for prop in plist:
-        if prop == 'nodes':
-            pdict.setdefault('nodes', {})
+        if prop == 'children':
+            pdict.setdefault('children', {})
             for item in getattr(the_class, prop):
-                pdict['nodes'].setdefault(item.name, prop_dict(item))
+                pdict['children'].setdefault(item.name, prop_dict(item))
         elif prop == 'parameters':
             pdict.setdefault('parameters', {})
             for item in getattr(the_class, prop):

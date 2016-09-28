@@ -14,10 +14,11 @@ The 'root' Node is a class called Application.
 The application is an entry to acces its children or its sibling through different protocols
 In your application, you can create any nodes or directly any parameters you want.
 
-In each Node, you can create nodes and leaves.
-When you create a leaf, it automatically creates a nodes, as it is bassed on the Node Class.
-So you can even create another node or another leaf under a node
-(or a leaf, because a leaf is a node).
+In each Node, you can create another nodes.
+Each Node can contain a value. If it does, it is a Parameter.
+It is just a Node with a value (and attributes relative to the value)
+When you create a parameter, it automatically creates a node, as it is bassed on the Node Class.
+So you can even create another node or another parameter under a node
 
 Node base class has at least 1 property which is a name.
 

@@ -4,8 +4,8 @@
 #
 
 """
-A leaf is a node, but without children.
-So a Leaf inherit from Node Class
+A Parameter is a node, with a value
+So a Parameter inherit from Node Class and just add attributes about value
 """
 
 from pybush.node import Node

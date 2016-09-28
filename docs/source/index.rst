@@ -38,10 +38,10 @@ pybush.node
     :undoc-members:
     :show-inheritance:
 
-pybush.leaf
+pybush.parameter
 ------------------------
 
-.. automodule:: pybush.leaf
+.. automodule:: pybush.parameter
     :members:
     :undoc-members:
     :show-inheritance:
