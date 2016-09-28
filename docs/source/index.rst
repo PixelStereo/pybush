@@ -19,7 +19,7 @@ pybush.constants
 .. automodule:: pybush.constants
     :members:
     :undoc-members:
-    :show-inheritance
+    :show-inheritance:
 
 
 pybush.device
