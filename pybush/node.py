@@ -60,7 +60,7 @@ class Node(File):
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties
-        """
+        """ 
         return {self.name:prop_dict(self)}
 
     @property

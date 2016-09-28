@@ -6,19 +6,26 @@ lib_path = os.path.abspath('./../')
 sys.path.append(lib_path)
 
 #import py
-from pybush.device import device_new, get_devices_list
+from pybush.device import device_new, get_devices_list, devices_export
 
 def headerprint(args):
 	print ('---------------- ' + str(args) + ' ----------------')
 	
 # create the device
+#print('GLOBAL EXPORT', devices_export())
 my_device = device_new('device_test',author='Pixel Stereo',version='0.0.1',project='my first device')
+#print('GLOBAL EXPORT', devices_export())
 #print(my_device.write('/Volumes/worK/Users/reno/Desktop/my_device'))
 # create two nodes
 node_1 = my_device.node_new('node.1')
 #print(node_1.write('/Volumes/worK/Users/reno/Desktop/node_1'))
-print(my_device.write('/Volumes/worK/Users/reno/Desktop/my_device'))
-quit()
+#print(my_device.write('/Volumes/worK/Users/reno/Desktop/my_device'))
+print('Exporting ' + my_device.name)
+print(my_device.export())
+#from pybush.functions import prop_dict
+#for prop in prop_dict(my_device):
+#	if prop == 'nodes' or prop == 'parameters':
+#		print('-- ' + prop + str(getattr(my_device, prop)))
 node_2 = my_device.node_new('node.2')
 print(node_2.write('/Volumes/worK/Users/reno/Desktop/node_2'))
 node_3 = node_2.node_new('node.3')
