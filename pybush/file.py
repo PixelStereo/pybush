@@ -179,10 +179,6 @@ class File(object):
                 print("ERROR 909 - path is not valid, could not save project - " + savepath)
                 return False
             node_string = self.export()
-            print('-------------------------------------------------')
-            print('-------------------------------------------------')
-            print(node_string)
-            print('-------------------------------------------------')
             try:
                 the_dump = json.dumps(node_string, sort_keys=True, indent=4,\
                                       ensure_ascii=False).encode("utf8")
