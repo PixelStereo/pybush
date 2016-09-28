@@ -21,7 +21,7 @@ node_1 = my_device.node_new('node.1')
 #print(node_1.write('/Volumes/worK/Users/reno/Desktop/node_1'))
 #print(my_device.write('/Volumes/worK/Users/reno/Desktop/my_device'))
 print('Exporting ' + my_device.name)
-print(my_device.export())
+#print(my_device.export())
 #from pybush.functions import prop_dict
 #for prop in prop_dict(my_device):
 #	if prop == 'nodes' or prop == 'parameters':
