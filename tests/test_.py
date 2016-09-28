@@ -57,8 +57,8 @@ class TestAll(unittest.TestCase):
 
     def test_prop_list(self):
         node_1 = get_devices_list()[0].nodes[0]
-        self.assertEqual(len(prop_dict(node_1).keys()), 6)
-        self.assertEqual(len(prop_list(node_1)), 6)
+        self.assertEqual(len(prop_dict(node_1).keys()), 7)
+        self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
         device = get_devices_list()[1]
