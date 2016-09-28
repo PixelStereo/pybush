@@ -16,7 +16,7 @@ def device_new(*args, **kwargs):
         :return node object if successful
         :return False if name is not valid (already exists or is not provided)"""
     size = len(_devices)
-    _devices.append(device(args[0]))
+    _devices.append(Device(args[0]))
     for key, value in kwargs.items():
         setattr(_devices[size], key, value)
     return _devices[size]
@@ -38,10 +38,10 @@ def devices_export():
     return devices
 
 
-class device(Node):
+class Device(Node):
     """device Class"""
     def __init__(self, name):
-        super(device, self).__init__(name)
+        super(Device, self).__init__(name)
         self._author = 'unknown'
         self._version = 'unknown'
         self._name = name

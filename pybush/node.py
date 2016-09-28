@@ -13,10 +13,11 @@ from pybush.constants import __dbug__, _file_extention
 
 class Node(File):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, tags=None, priority=None):
+    def __init__(self, name, service='node', tags=None, priority=None):
         super(Node, self).__init__(name, tags=None, priority=None)
         # initialise attributes/properties of this node
         self._name = name
+        self._service = service
         self._tags = tags
         self._priority = priority
         # initialise children nodes for this node
@@ -69,6 +70,13 @@ class Node(File):
         Return the list of the parameters registered to this node
         """
         return self._parameters
+
+    @property
+    def service(self):
+        """
+        Return the service of the node
+        """
+        return self.__class__.__name__
 
     @property
     def nodes(self):

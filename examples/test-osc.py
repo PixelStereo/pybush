@@ -76,4 +76,4 @@ for pop in vars(my_device):
 headerprint('Write nodes')
 headerprint('my_device')
 print(my_device.write())
-print(my_device.write('/Volumes/worK/Users/reno/Desktop'))
+print(my_device.write('/Volumes/worK/Users/reno/Desktop/test'))
