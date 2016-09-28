@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-device Class is the root class
-An device has some leaves and/or nodes
-An device has some protocol/plugin for input/output
+File Class hosts services for file loading/writing
 """
 
 import simplejson as json
@@ -80,7 +78,7 @@ class File(object):
                 flag = True
         # catch error if file is not valid or if file is not a Node file
         except (IOError, ValueError):
-            print("ERROR 906 - project not loaded, this is not a valid Node file")
+            print("ERROR 906 - node not loaded, this is not a valid Node file")
             return False
         if flag:
             # create objects from loaded file
@@ -150,10 +148,10 @@ class File(object):
                 print('ERROR 906 - loaded node file has not been totally loaded', loaded)
 
                 return False
-        # catch error if file is not valid or if file is not a lekture project
+        # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as Error:
             if debug:
-                print(Error, "ERROR 907 - project not loaded, this is not a valid Node")
+                print(Error, "ERROR 907 - node not loaded, this is not a valid Node")
             return False
 
     def write(self, path=None):
@@ -176,7 +174,7 @@ class File(object):
                 out_file = open((savepath), "wb")
             except IOError:
                 # path does not exists
-                print("ERROR 909 - path is not valid, could not save project - " + savepath)
+                print("ERROR 909 - path is not valid, could not save node - " + savepath)
                 return False
             node_string = self.export()
             try:
