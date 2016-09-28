@@ -1,0 +1,10 @@
+{
+    "node.2": {
+        "children": {},
+        "name": "node.2",
+        "path": "/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_2",
+        "priority": null,
+        "service": "Node",
+        "tags": null
+    }
+}

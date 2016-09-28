@@ -4,9 +4,9 @@
 """
 File Class hosts services for file loading/writing
 """
-
+import os
 import simplejson as json
-from pybush.functions import prop_dict
+from pybush.functions import prop_dict, iterate_dict
 from pybush.constants import __dbug__, _devices, _file_extention
 
 
@@ -21,6 +21,20 @@ class File(object):
     def __init__(self, name, parent, tags=None, priority=None, path=None):
         super(File, self).__init__()
         self._path = path
+        self._parent = parent
+
+    def reset(self):
+        """
+        Must be override by children
+        """
+        pass
+
+    def export(self):
+        """
+        Must be override by children
+        """
+        #self._parent.export()
+        pass
         
     @property
     def path(self):
@@ -51,12 +65,10 @@ class File(object):
             print("ERROR 901 - THIS PATH IS NOT VALID " + path)
             return False
         else:
-            print("loading node from " + path)
+            print("loading JSON from " + path)
             if self.load(path):
                 self._path = path
                 self.write(path)
-                if self._autoplay:
-                    self.play()
                 return True
             else:
                 return False
@@ -97,48 +109,14 @@ class File(object):
             # reset node
             self.reset()
             # dump attributes
-            attributes = loaded.pop('attributes')
-            for attribute, value in attributes.items():
-                if attribute == "created":
-                    self._created = value
-                elif attribute == "version":
-                    self._version = value
-                elif attribute == "autoplay":
-                    self.autoplay = value
-                elif attribute == "loop":
-                    self.loop = value
-                elif attribute == "name":
-                    self.name= value
-            self._lastopened = str(datetime.datetime.now())
-            # dump outputs
-            outputs = loaded.pop('outputs')
-            for out in outputs:
-                service = out.pop('service')
-                self.new_output(service, **out)
-            scenarios = loaded.pop('scenarios')
-            # dump events before scenario, because a scenario contains events
-            events = loaded.pop("events")
-            for event in events:
-                # remove the service name. We are in the event dict, so we are sure that it is an event
-                service = event.pop('service')
-                output = event['output']
-                if output != 0:
-                    output = output - 1
-                    # refer to the corresponding output instance object
-                    event['output'] = self.outputs[output]
-                else:
-                    # if output is set to None, do the same, it means 'use parent output'
-                    event.pop('output')
-                self.new_event(service, **event)
-            # dump scenario
-            for scenario in scenarios:
-                service = scenario.pop('service')
-                output = scenario['output']
-                if output != 0:
-                    # refer to the corresponding output instance object
-                    output = output - 1
-                    scenario['output'] = self.outputs[output]
-                self.new_scenario(**scenario)
+            print('-------------------')
+            print('-------------------')
+            print(loaded)
+            print('-------------------')
+            print('-------------------')
+            loaded = iterate_dict(loaded)
+            if loaded == True:
+                loaded = {}
             if loaded == {}:
                 # node has been loaded, lastopened date changed
                 # we have a path because we loaded a file from somewhere

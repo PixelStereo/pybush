@@ -79,3 +79,12 @@ def prop_dict(the_class):
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict
+
+def iterate_dict(loaded):
+    for branch, content in loaded.items():
+        if loaded[branch]['children'] != {}:
+            print('no more children')
+        else:
+            print('content.name')
+            iterate_dict(content)
+    return True

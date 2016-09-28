@@ -1,0 +1,43 @@
+{
+    "param.1": {
+        "children": {
+            "param.2": {
+                "children": {},
+                "clipmode": "both",
+                "datatype": "decimal",
+                "domain": [
+                    0,
+                    1
+                ],
+                "name": "param.2",
+                "path": null,
+                "priority": -1,
+                "raw": -1,
+                "repetitions": 0,
+                "service": "Parameter",
+                "tags": [
+                    "uno",
+                    "dos"
+                ],
+                "value": 0.0
+            }
+        },
+        "clipmode": "both",
+        "datatype": "decimal",
+        "domain": [
+            0,
+            1
+        ],
+        "name": "param.1",
+        "path": "/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_param_1",
+        "priority": -1,
+        "raw": -1,
+        "repetitions": 0,
+        "service": "Parameter",
+        "tags": [
+            "uno",
+            "dos"
+        ],
+        "value": 0.0
+    }
+}

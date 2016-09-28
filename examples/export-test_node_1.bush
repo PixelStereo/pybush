@@ -1,0 +1,60 @@
+{
+    "node.1": {
+        "children": {
+            "node.2": {
+                "children": {},
+                "name": "node.2",
+                "path": null,
+                "priority": null,
+                "service": "Node",
+                "tags": null
+            },
+            "param.1": {
+                "children": {
+                    "param.2": {
+                        "children": {},
+                        "clipmode": "both",
+                        "datatype": "decimal",
+                        "domain": [
+                            0,
+                            1
+                        ],
+                        "name": "param.2",
+                        "path": null,
+                        "priority": -1,
+                        "raw": -1,
+                        "repetitions": 0,
+                        "service": "Parameter",
+                        "tags": [
+                            "uno",
+                            "dos"
+                        ],
+                        "value": 0.0
+                    }
+                },
+                "clipmode": "both",
+                "datatype": "decimal",
+                "domain": [
+                    0,
+                    1
+                ],
+                "name": "param.1",
+                "path": null,
+                "priority": -1,
+                "raw": -1,
+                "repetitions": 0,
+                "service": "Parameter",
+                "tags": [
+                    "uno",
+                    "dos"
+                ],
+                "value": 0.0
+            }
+        },
+        "name": "node.1",
+        "path": "/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_1",
+        "priority": null,
+        "service": "Node",
+        "tags": null
+    }
+}
