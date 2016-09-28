@@ -12,11 +12,19 @@ Index
 
 Modules
 =======
-
-pybush.application
+pybush.constants
 --------------------------
 
-.. automodule:: pybush.application
+.. automodule:: pybush.constants
+    :members:
+    :undoc-members:
+    :show-inheritance
+
+
+pybush.device
+--------------------------
+
+.. automodule:: pybush.device
     :members:
     :undoc-members:
     :show-inheritance:
