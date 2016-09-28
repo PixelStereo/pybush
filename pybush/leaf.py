@@ -18,8 +18,8 @@ class Parameter(Node):
     E.G. : IF I DEFINE A PRIORITY OR TAG WHEN CREATING PARAMETER,
     IT NEED TO BE SEND TO THE NODE
     """
-    def __init__(self, name):
-        Node.__init__(self, name)
+    def __init__(self, name, parent):
+        Node.__init__(self, name, parent)
         self._value = None
         self._clipmode = None
         self._domain = None
@@ -56,6 +56,12 @@ class Parameter(Node):
         """
         return self._value
 
+    def update(self):
+        """
+        update is called when value is updated
+        """
+        print('update ' + self.name + ' to value ' + str(self.value))
+
     # ----------- VALUE -------------
     @property
     def value(self):
@@ -76,6 +82,7 @@ class Parameter(Node):
     @value.setter
     def value(self, value):
         self._value = value
+        self.update()
     @value.deleter
     def value(self):
         return False

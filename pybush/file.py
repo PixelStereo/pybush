@@ -18,7 +18,7 @@ def get_file_extention():
 
 class File(object):
     """docstring for File"""
-    def __init__(self, name, tags=None, priority=None, path=None):
+    def __init__(self, name, parent, tags=None, priority=None, path=None):
         super(File, self).__init__()
         self._path = path
         

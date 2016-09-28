@@ -13,10 +13,11 @@ from pybush.constants import __dbug__, _file_extention
 
 class Node(File):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, service='node', tags=None, priority=None):
-        super(Node, self).__init__(name, tags=None, priority=None)
+    def __init__(self, name, parent, service='node', tags=None, priority=None):
+        super(Node, self).__init__(name, parent)
         # initialise attributes/properties of this node
         self._name = name
+        self._parent = parent
         self._service = service
         self._tags = tags
         self._priority = priority
@@ -41,7 +42,7 @@ class Node(File):
                 return False
         size = len(self._parameters)
         from pybush.leaf import Parameter
-        self._parameters.append(Parameter(args[0]))
+        self._parameters.append(Parameter(args[0], self))
         for key, value in kwargs.items():
             setattr(self._parameters[size], key, value)
         return self._parameters[size]
@@ -52,8 +53,11 @@ class Node(File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
+        for node in self._nodes:
+            if node.name == args[0]:
+                return False
         size = len(self._nodes)
-        self._nodes.append(Node(args[0]))
+        self._nodes.append(Node(args[0], self))
         for key, value in kwargs.items():
             setattr(self._nodes[size], key, value)
         return self._nodes[size]
@@ -77,6 +81,14 @@ class Node(File):
         Return the service of the node
         """
         return self.__class__.__name__
+
+    @property
+    def parent(self):
+        """
+        Return the parent of the node
+        """
+        print(self.name + ' comes from ' + self._parent.name)
+        return self._parent.name
 
     @property
     def nodes(self):

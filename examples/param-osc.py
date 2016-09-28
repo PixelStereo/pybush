@@ -12,20 +12,10 @@ def headerprint(args):
 	print ('---------------- ' + str(args) + ' ----------------')
 	
 # create the device
-#print('GLOBAL EXPORT', devices_export())
 my_device = device_new('device_test',author='Pixel Stereo',version='0.0.1',project='my first device')
-#print('GLOBAL EXPORT', devices_export())
-#print(my_device.write('/Volumes/worK/Users/reno/Desktop/my_device'))
 # create two nodes
 node_1 = my_device.node_new('node.1')
-#print(node_1.write('/Volumes/worK/Users/reno/Desktop/node_1'))
-#print(my_device.write('/Volumes/worK/Users/reno/Desktop/my_device'))
 print('Exporting ' + my_device.name)
-#print(my_device.export())
-#from pybush.functions import prop_dict
-#for prop in prop_dict(my_device):
-#	if prop == 'nodes' or prop == 'parameters':
-#		print('-- ' + prop + str(getattr(my_device, prop)))
 node_2 = my_device.node_new('node.2')
 print(node_2.write('/Volumes/worK/Users/reno/Desktop/node_2'))
 node_3 = node_2.node_new('node.3')
@@ -42,38 +32,4 @@ param_3 = node_2.parameter_new('param.3',value=-1,datatype='decimal',tags=['uno'
 param_4 = node_2.parameter_new('param.4',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
 param_5 = node_3.parameter_new('param.5',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
 
-
-def get_device_attributes(app):
-	attr_list = []
-	for attr in dir(app):
-		if not attr.startswith('__'):
-			if not attr.startswith('_'):
-				if not attr == 'instances':
-					if not attr == 'name':
-						attr_list.append(attr)
-	return attr_list
-
-
-headerprint('Application attributes')
-for attr in get_device_attributes(my_device):
-	print (attr + ' : ' + str(getattr(my_device, attr)))
-
-
-headerprint('Namespace Explorer')
-print ('my_device has ' + str(len(my_device.nodes)) + ' nodes ')
-
-for child in my_device.nodes:
-	if child.nodes:
-		print(child.name + ' has children : ' + str(child.nodes))
-	else:
-		print(child.name + ' has no child')
-
-print('----------------------------------------')
-print('----------------------------------------')
-for pop in vars(my_device):
-	print pop
-
-headerprint('Write nodes')
-headerprint('my_device')
-print(my_device.write())
-print(my_device.write('/Volumes/worK/Users/reno/Desktop/test'))
+param_1.value = 12

@@ -41,13 +41,14 @@ def devices_export():
 class Device(Node):
     """device Class"""
     def __init__(self, name):
-        super(Device, self).__init__(name)
+        super(Device, self).__init__(name, 'no-parent')
         self._author = 'unknown'
         self._version = 'unknown'
         self._name = name
+        self._parent = self
 
     def __repr__(self):
-        printer = 'device (name:{name}, author:{author}, version:{version})'
+        printer = 'Device (name:{name}, author:{author}, version:{version})'
         return printer.format(name=self.name, author=self.author, version=self.version)
 
     # ----------- AUTHOR -------------
