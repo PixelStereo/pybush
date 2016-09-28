@@ -7,12 +7,12 @@ An device has some leaves and/or nodes
 An device has some protocol/plugin for input/output
 """
 
-from pybush.node import Node
+import simplejson as json
 from pybush.functions import prop_dict
-from pybush.constants import __dbug__, _devices
+from pybush.constants import __dbug__, _devices, _file_extention
 
 
-def get_file_extention_():
+def get_file_extention():
     """return the file extention"""
     file_extention = '.' + _file_extention
     return file_extention
@@ -20,9 +20,9 @@ def get_file_extention_():
 
 class File(object):
     """docstring for File"""
-    def __init__(self, arg):
+    def __init__(self, name, tags=None, priority=None, path=None):
         super(File, self).__init__()
-        self.arg = arg
+        self._path = path
         
     @property
     def path(self):
@@ -46,14 +46,14 @@ class File(object):
             :param path: Filepath to read from.
             :type path: string
             :returns: Boolean
-            :rtype: True if the project has been correctly loaded, False otherwise
+            :rtype: True if the node has been correctly loaded, False otherwise
         """
         path = os.path.abspath(path)
         if not os.path.exists(path):
             print("ERROR 901 - THIS PATH IS NOT VALID " + path)
             return False
         else:
-            print("loading project in " + path)
+            print("loading node from " + path)
             if self.load(path):
                 self._path = path
                 self.write(path)
@@ -70,15 +70,15 @@ class File(object):
 
             :arg: file to load. Filepath must be valid when provided, it must be checked before.
 
-            :rtype:True if the project has been correctly loaded, False otherwise
+            :rtype:True if the node has been correctly loaded, False otherwise
         """
         flag = False
         try:
             with open(path) as in_file:
-                # clear the project
+                # clear the node
                 loaded = json.load(in_file)
                 flag = True
-        # catch error if file is not valid or if file is not a Node project
+        # catch error if file is not valid or if file is not a Node file
         except (IOError, ValueError):
             print("ERROR 906 - project not loaded, this is not a valid Node file")
             return False
@@ -96,7 +96,7 @@ class File(object):
         :rtype: boolean
         """
         try:
-            # reset project
+            # reset node
             self.reset()
             # dump attributes
             attributes = loaded.pop('attributes')
@@ -142,12 +142,13 @@ class File(object):
                     scenario['output'] = self.outputs[output]
                 self.new_scenario(**scenario)
             if loaded == {}:
-                # project has been loaded, lastopened date changed
+                # node has been loaded, lastopened date changed
                 # we have a path because we loaded a file from somewhere
-                print("project loaded")
+                print("node loaded")
                 return True
             else:
-                print('ERROIR 906 - loaded file has not been totally loaded', loaded)
+                print('ERROR 906 - loaded node file has not been totally loaded', loaded)
+
                 return False
         # catch error if file is not valid or if file is not a lekture project
         except (IOError, ValueError) as Error:
@@ -161,13 +162,14 @@ class File(object):
         """
         if path:
             savepath = path
+            self._path = path
         else:
             savepath = self._path
         if savepath:
             if savepath.endswith("/"):
                 savepath = savepath + self.name
             # make sure we will write a file with json extension
-            if not savepath.endswith('.'+_file_extention):
+            if not savepath.endswith(get_file_extention()):
                 savepath = savepath + '.'+_file_extention
             try:
                 # create / open the file
@@ -176,9 +178,13 @@ class File(object):
                 # path does not exists
                 print("ERROR 909 - path is not valid, could not save project - " + savepath)
                 return False
-            project = self.export()
+            node_string = self.export()
+            print('-------------------------------------------------')
+            print('-------------------------------------------------')
+            print(node_string)
+            print('-------------------------------------------------')
             try:
-                the_dump = json.dumps(project, sort_keys=True, indent=4,\
+                the_dump = json.dumps(node_string, sort_keys=True, indent=4,\
                                       ensure_ascii=False).encode("utf8")
             except TypeError as Error:
                 print('ERROR 98 ' + str(Error))
@@ -192,7 +198,7 @@ class File(object):
                 print('ERROR 99 ' + str(Error))
                 return False
         else:
-            print('no filepath. Where do you want I save the project?')
+            print('no filepath. Where do you want I save the node_string?')
             return False
 
 

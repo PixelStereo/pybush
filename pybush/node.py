@@ -7,12 +7,14 @@ Application and Parameter are based on the Node Class
 """
 
 from pybush.functions import prop_dict
+from pybush.file import File
 from pybush.constants import __dbug__, _file_extention
 
 
-class Node(object):
+class Node(File):
     """Base Class for all item in the namespace"""
     def __init__(self, name, tags=None, priority=None):
+        super(Node, self).__init__(name, tags=None, priority=None)
         # initialise attributes/properties of this node
         self._name = name
         self._tags = tags
@@ -64,18 +66,23 @@ class Node(object):
     @property
     def parameters(self):
         """
-        return a list of parameters registered to this node
+        Return the list of the parameters registered to this node
         """
         return self._parameters
 
     @property
     def nodes(self):
-        """return the list of the nodes"""
+        """
+        Return the list of the nodes registered to this nodes
+        """
         return self._nodes
 
+    # ----------- NAME -------------
     @property
     def name(self):
-        "Current name of the node"
+        """
+        Current name of the node
+        """
         return self._name
     @name.setter
     def name(self, name):
@@ -89,7 +96,9 @@ class Node(object):
     # ----------- TAGS -------------
     @property
     def tags(self):
-        "Current tags of the node"
+        """
+        Current tags of the node
+        """
         return self._tags
     @tags.setter
     def tags(self, tags):
@@ -101,7 +110,9 @@ class Node(object):
     # ----------- PRIORITY -------------
     @property
     def priority(self):
-        "Current priority of the node"
+        """
+        Current priority of the node
+        """
         return self._priority
     @priority.setter
     def priority(self, priority):

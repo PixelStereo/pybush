@@ -10,7 +10,6 @@ An device has some protocol/plugin for input/output
 from pybush.node import Node
 from pybush.functions import prop_dict
 from pybush.constants import __dbug__, _devices
-from pybush.file import File
 
 def device_new(*args, **kwargs):
     """Create a new device
@@ -39,7 +38,7 @@ def devices_export():
     return devices
 
 
-class device(Node, File):
+class device(Node):
     """device Class"""
     def __init__(self, name):
         super(device, self).__init__(name)
