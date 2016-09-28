@@ -41,9 +41,9 @@ class TestAll(unittest.TestCase):
         self.assertEqual(node_2.priority, 10)
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.nodes), 3)
-        self.assertEqual(len(node_1.nodes), 0)
-        self.assertEqual(len(node_2.nodes), 1)
+        self.assertEqual(len(my_device.children), 3)
+        self.assertEqual(len(node_1.children), 0)
+        self.assertEqual(len(node_2.children), 1)
         print(node_1)
         node_1.name = 'lol'
 
@@ -56,14 +56,14 @@ class TestAll(unittest.TestCase):
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        node_1 = get_devices_list()[0].nodes[0]
-        self.assertEqual(len(prop_dict(node_1).keys()), 7)
+        node_1 = get_devices_list()[0].children[0]
+        self.assertEqual(len(prop_dict(node_1).keys()), 6)
         self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
         device = get_devices_list()[1]
         param1 = device.parameter_new('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
-                                 priority=-1, range=[0,1], clipmode='both', \
+                                 priority=-1, domain=[0,1], clipmode='both', \
                                  repetitions=1)
         self.assertEqual(param1.name, 'param.1')
 

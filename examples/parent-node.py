@@ -24,20 +24,23 @@ param_1 = node_1.parameter_new('param.1', value=-1, datatype='decimal', tags=['u
                                  priority=-1, domain=[0,1], clipmode='both', \
                                  repetitionsFilter=1)
 headerprint('create a root parameter')
-param_1 = device.parameter_new('param.0', value=-1, datatype='decimal', tags=['uno','dos'], \
+param_1 = device.parameter_new('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
                                  priority=-1, domain=[0,1], clipmode='both', \
                                  repetitionsFilter=1)
-
+headerprint('create a param parameter')
+param_2 = param_1.parameter_new('param.2', value=-1, datatype='decimal', tags=['uno','dos'], \
+                                 priority=-1, domain=[0,1], clipmode='both', \
+                                 repetitionsFilter=1)
 headerprint('----- Print parents ------')
 import pprint
 pprint = pprint.PrettyPrinter(indent=4).pprint
 
 headerprint('------- PARAMETERS OWNED BY ROOT --------')
-for parameter in device.parameters:
-	print(parameter.name + ' has for parent ' + parameter.parent)
-for node in device.nodes:
+for child in device.children:
+	print(child.name + ' has for parent ' + child.parent)
+for child in device.children:
 	headerprint('------- OWNED BY A NODE --------')
-	print(node.name + ' has for parent ' + node.parent)
-	for parameter in node.parameters:
+	print(child.name + ' has for parent ' + child.parent)
+	for child in child.children:
 		headerprint('------- PARAMETERS OWNED BY A NODE --------')
-		print(parameter.name + ' has for parent ' + parameter.parent)
+		print(child.name + ' has for parent ' + child.parent)

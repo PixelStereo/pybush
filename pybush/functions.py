@@ -74,10 +74,8 @@ def prop_dict(the_class):
             pdict.setdefault('children', {})
             for item in getattr(the_class, prop):
                 pdict['children'].setdefault(item.name, prop_dict(item))
-        elif prop == 'parameters':
-            pdict.setdefault('parameters', {})
-            for item in getattr(the_class, prop):
-                pdict['parameters'].setdefault(item.name, prop_dict(item))
+        elif prop == 'parent':
+            pass
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict

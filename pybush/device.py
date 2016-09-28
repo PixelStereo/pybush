@@ -3,8 +3,8 @@
 
 """
 device Class is the root class
-An device has some leaves and/or nodes
-An device has some protocol/plugin for input/output
+A device has some parameters and/or nodes
+A device has some protocol/plugin for input/output
 """
 
 from pybush.node import Node
@@ -31,10 +31,10 @@ def devices_export():
     for device in get_devices_list():
         devices['devices'].setdefault(device.name, {'attributes': \
             {'author':device.author, 'name':device.name, 'version':device.version}})
-        if device.nodes:
-            devices['devices'][device.name].setdefault('nodes', {})
-            for node in device.nodes:
-                devices['devices'][device.name]['nodes'].setdefault(node.name, prop_dict(node))
+        if device.children:
+            devices['devices'][device.name].setdefault('children', {})
+            for child in device.children:
+                devices['devices'][device.name]['children'].setdefault(child.name, prop_dict(child))
     return devices
 
 

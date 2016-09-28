@@ -23,8 +23,6 @@ class Node(File):
         self._priority = priority
         # initialise children nodes for this node
         self._children = []
-        # initialise parameters for this node
-        self._parameters = []
 
     def __repr__(self):
         printer = 'Node (name:{name}, priority:{priority}, tags:{tags})'
@@ -37,15 +35,15 @@ class Node(File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
-        for param in self._parameters:
-            if param.name == args[0]:
+        for child in self._children:
+            if child.name == args[0]:
                 return False
-        size = len(self._parameters)
-        from pybush.paramter import Parameter
-        self._parameters.append(Parameter(args[0], self))
+        size = len(self._children)
+        from pybush.parameter import Parameter
+        self._children.append(Parameter(args[0], self))
         for key, value in kwargs.items():
-            setattr(self._parameters[size], key, value)
-        return self._parameters[size]
+            setattr(self._children[size], key, value)
+        return self._children[size]
 
     def node_new(self, *args, **kwargs):
         """
@@ -67,13 +65,6 @@ class Node(File):
         export Node to a json_string/python_dict with all its properties
         """ 
         return {self.name:prop_dict(self)}
-
-    @property
-    def parameters(self):
-        """
-        Return the list of the parameters registered to this node
-        """
-        return self._parameters
 
     @property
     def service(self):
