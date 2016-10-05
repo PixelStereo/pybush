@@ -1,0 +1,23 @@
+{
+    "My Device": {
+        "author": "unknown",
+        "children": {
+            "node.1": {
+                "children": null,
+                "parameter": {
+                    "clipmode": "both",
+                    "datatype": "decimal",
+                    "domain": [
+                        0,
+                        1
+                    ],
+                    "repetitions": 1,
+                    "value": 0.0
+                },
+                "priority": null,
+                "tags": null
+            }
+        },
+        "version": "unknown"
+    }
+}

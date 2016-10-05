@@ -9,15 +9,14 @@ So a Parameter inherit from Node Class and just add attributes about value
 """
 
 from pybush.constants import __dbug__
-from pybush.node_abstract import NodeAbstract
 
-class Parameter(NodeAbstract):
+class Parameter(object):
     """
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its parent's node
     """
-    def __init__(self, name, parent):
-        super(Parameter, self).__init__(name, parent)
+    def __init__(self, parent):
+        super(Parameter, self).__init__()
         self._value = None
         self._clipmode = None
         self._domain = None

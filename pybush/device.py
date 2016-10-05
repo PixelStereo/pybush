@@ -30,20 +30,8 @@ def devices_export():
     """Export devices"""
     devices = {}
     for device in get_devices_list():
-        devices.setdefault(device.name, device.export())
+        devices.update(device.export())
     return devices
-
-def node_import(node):
-    for branch, content in node.items():
-        device = device_new(branch)
-        print('BBBBBBBBBBBBB', branch)
-        print('CCCCCCCCCCCCC', content)
-        if node[branch]['children'] != {}:
-            print('no more children')
-        else:
-            print('content.name')
-            iterate_dict(content)
-    return True
 
 def fillin(filepath):
     """
@@ -63,8 +51,8 @@ def fillin(filepath):
         print('ERROR 901 - file provided is not a valid file' + str(filepath))
     try:
         # dump attributes
-        print('BEFORE')
-        print(file_content)
+        #print('BEFORE')
+        #print(file_content)
         # itarate all devices
         for branch, content in file_content.items():
             # create a device object for all devices
@@ -75,10 +63,7 @@ def fillin(filepath):
                     if isinstance(value, dict):
                         # the device has children
                         for name in value.keys():
-                            if 'value' in value[name].keys():
-                                device.new_param(name)
-                            else:
-                                device.new_node(name)
+                            device.new_node(name)
                 elif prop == 'service':
                     # we don't need to register this stupid property
                     pass
@@ -114,13 +99,6 @@ class Device(Node):
         printer = 'Device (name:{name}, author:{author}, version:{version})'
         return printer.format(name=self.name, author=self.author, version=self.version)
 
-    def node_new(self, node):
-        """
-        Create a new node inside a device (override node new_node method)
-        """
-        node_import(node)
-
-
     @property
     def path(self):
         """
@@ -140,11 +118,10 @@ class Device(Node):
         export Node to a json_string/python_dict with all its properties
         """
         dev = {}
-        dev.setdefault(self.name, {'author':self.author, 'name':self.name, \
-                                    'version':self.version, 'children':{}})
+        dev.update({'name':self.name, 'author':self.author, 'version':self.version, 'children':{}})
         if self.children:
             for child in self.children:
-                dev[self.name]['children'].setdefault(child.name, child.export())
+                dev['children'].update(child.export())
         return dev
 
     # ----------- AUTHOR -------------

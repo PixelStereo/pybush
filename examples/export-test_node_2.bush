@@ -1,10 +1,16 @@
 {
-    "node.2": {
-        "children": {},
-        "name": "node.2",
-        "path": "/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_2",
-        "priority": null,
-        "service": "Node",
-        "tags": null
-    }
+    "children": null,
+    "name": "node.2",
+    "parameter": {
+        "clipmode": "both",
+        "datatype": "decimal",
+        "domain": [
+            0,
+            1
+        ],
+        "repetitions": 1,
+        "value": 1.0
+    },
+    "priority": null,
+    "tags": null
 }
