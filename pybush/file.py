@@ -10,7 +10,6 @@ from pybush.functions import prop_dict
 #from pybush.device import device_new
 from pybush.constants import __dbug__, _devices, _file_extention
 
-
 def get_file_extention():
     """return the file extention"""
     file_extention = '.' + _file_extention
@@ -54,7 +53,7 @@ def load(path):
         print("loading JSON from " + path)
         loading = load_json(path)
         if loading:
-            write(path)
+        #    write(path)
             return loading
         else:
             return False

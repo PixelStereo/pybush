@@ -14,7 +14,7 @@ from pybush.parameter import Parameter
 
 class Node(NodeAbstract):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, parent, service='no', tags=None, priority=None, param=None, children=None):
+    def __init__(self, name, parent, service='no', tags=None, priority=None, param=None, children=[]):
         super(Node, self).__init__(parent, service='no', tags=None, priority=None)
         # initialise attributes/properties of this node
         self._name = name
@@ -35,18 +35,18 @@ class Node(NodeAbstract):
         export Node to a json_string/python_dict with all its properties
         """
         nod = {}
+        print(self)
         print('------- ------- EXPORTING ' + self.name)
         if self.parameter:
             param_export = self.parameter.export()
         else:
             param_export = self.parameter
         nod.update({'name':self.name, 'tags':self.tags, \
-                                    'priority':self.priority, 'children':None, 'parameter':param_export})
-        """if self.children:
+                                    'priority':self.priority, 'children':[], 'parameter':param_export})
+        if self.children:
             for child in self.children:
-                    nod[self.name]['children'].setdefault(child.name, { 'name':child.name, 'tags':child.tags, \
-                                                'priority':child.priority, 'children':{}})
-                    for child1 in child.children:
+                    nod['children'].append({'name':child.name, 'tags':child.tags, 'priority':child.priority, 'children':{}})
+                    """for child1 in child.children:
                         nod[self.name]['children'][child.name]['children'].setdefault(child1.name, { 'name':child1.name, 'tags':child1.tags, \
                                                 'priority':child1.priority, 'children':{}})
                         for child2 in child1.children:
@@ -87,19 +87,16 @@ class Node(NodeAbstract):
             print('WHY DO YOU WANT TO CHANGE THE PARAMETER OBJECT OF THIS NODE ????', self.name)
         self._parameter = parameter_object
 
-    def new_node(self, *args, **kwargs):
+    def new_child(self, *args, **kwargs):
         """
         Create a new Node in its parent
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
         children = self.children
-        if children:
-            for child in children:
-                if child.name == args[0]:
-                    return False
-        else:
-            self._children = []
+        for child in children:
+            if child.name == args[0]:
+                return False
         size = len(self.children)
         self._children.append(Node(args[0], self))
         for key, value in kwargs.items():

@@ -112,38 +112,6 @@ class NodeAbstract(object):
     def priority(self):
         return False
 
-    def new_node(self, *args, **kwargs):
-        """
-        Create a new Node in its parent
-            :return node object if successful
-            :return False if name is not valid (already exists or is not provided)
-        """
-        children = self.children
-        for child in children:
-            if child.name == args[0]:
-                return False
-        size = len(self.children)
-        self._children.append(Node(args[0], self))
-        for key, value in kwargs.items():
-            setattr(self._children[size], key, value)
-        return self.children[size]
-
-    def new_param(self, *args, **kwargs):
-        """
-        Create a new Node in its parent
-            :return node object if successful
-            :return False if name is not valid (already exists or is not provided)
-        """
-        children = self.children
-        for child in children:
-            if child.name == args[0]:
-                return False
-        size = len(self.children)
-        self._children.append(Parameter(args[0], self))
-        for key, value in kwargs.items():
-            setattr(self._children[size], key, value)
-        return self.children[size]
-
     @property
     def children(self):
         """

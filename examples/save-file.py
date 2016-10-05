@@ -1,11 +1,11 @@
-print('PARENT')#! /usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import os,sys
 lib_path = os.path.abspath('./../')
 sys.path.append(lib_path)
 import pybush
-from pybush.device import device_new, get_devices_list, devices_export
+from pybush.project import new_project
 
 import pprint
 pprint = pprint.PrettyPrinter(indent=2).pprint
@@ -16,12 +16,16 @@ def headerprint(args):
 	print('-----------------------')
 	
 headerprint('create the device')
-device = device_new('My Device')
+project = new_project('My Project')
+
+headerprint('create the device')
+device = project.new_device('My Device')
 
 headerprint('create two nodes')
-node_1 = device.new_node('node.1')
+node_1 = device.new_child('node.1')
+node_1.tags = ['tag', 'for', 'node_1']
 pprint(node_1.export())
-node_2 = node_1.new_node('node.2')
+node_2 = node_1.new_child('node.2')
 
 headerprint('create a parameter for node.1')
 param_1 = node_1.make_parameter()
@@ -56,9 +60,10 @@ print('------------------ EXPORT NODE 1 -------------------------------')
 pprint(node_1.export())
 print('------------------ END OF EXPORT NODE 1 -------------------------------')
 print('------------------ EXPORT ALL DEVICES -------------------------------')
-pprint(devices_export())
+pprint(project.export())
 print('------------------ END OF ALL DEVICES -------------------------------')
 print(device.write())
 print(device.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_device'))
 print(node_1.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_1'))
 print(node_2.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_2'))
+print(project.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_project'))

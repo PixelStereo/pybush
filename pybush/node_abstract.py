@@ -5,10 +5,11 @@
 The Node is the Base class of all items in a namespace.
 Application and Parameter are based on the Node Class
 """
-
+import os
 import simplejson as json
 from pybush.functions import prop_dict
-from pybush.constants import __dbug__, _file_extention
+from pybush.constants import __dbug__, _devices, _file_extention
+
 
 
 class NodeAbstract(object):

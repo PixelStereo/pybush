@@ -1,5 +1,22 @@
 {
-    "children": null,
+    "children": [
+        {
+            "children": {},
+            "name": "node.1",
+            "priority": null,
+            "tags": [
+                "tag",
+                "for",
+                "node_1"
+            ]
+        },
+        {
+            "children": {},
+            "name": "node.2",
+            "priority": null,
+            "tags": null
+        }
+    ],
     "name": "node.1",
     "parameter": {
         "clipmode": "both",
@@ -12,5 +29,9 @@
         "value": 0.0
     },
     "priority": null,
-    "tags": null
+    "tags": [
+        "tag",
+        "for",
+        "node_1"
+    ]
 }

@@ -8,85 +8,17 @@ A device has some protocol/plugin for input/output
 """
 
 from pybush.node import Node
-from pybush.file import load
 from pybush.functions import prop_dict
 from pybush.constants import __dbug__, _devices
-
-def device_new(*args, **kwargs):
-    """Create a new device
-        :return node object if successful
-        :return False if name is not valid (already exists or is not provided)"""
-    size = len(_devices)
-    _devices.append(Device(args[0]))
-    for key, value in kwargs.items():
-        setattr(_devices[size], key, value)
-    return _devices[size]
-
-def get_devices_list():
-    """return a list of devices"""
-    return _devices
-
-def devices_export():
-    """Export devices"""
-    devices = {}
-    for device in get_devices_list():
-        devices.update(device.export())
-    return devices
-
-def fillin(filepath):
-    """
-    Fillin Bush with objects created from a json file
-
-    Creates Outputs, Scenario and Events obects
-    First, dump attributes, then outputs, scenario and finish with events.
-
-    :returns: True if file formatting is correct, False otherwise
-    :rtype: boolean
-    """
-    file_content = load(filepath)
-    devices = []
-    if file_content: 
-        print('loading device called : ' + file_content.keys()[0])
-    else:
-        print('ERROR 901 - file provided is not a valid file' + str(filepath))
-    try:
-        # dump attributes
-        #print('BEFORE')
-        #print(file_content)
-        # itarate all devices
-        for branch, content in file_content.items():
-            # create a device object for all devices
-            device = device_new(branch)
-            # iterate each attributes of the selected device
-            for prop, value in content.items():
-                if prop == 'children':
-                    if isinstance(value, dict):
-                        # the device has children
-                        for name in value.keys():
-                            device.new_node(name)
-                elif prop == 'service':
-                    # we don't need to register this stupid property
-                    pass
-                else:
-                    # register value of the given attribute for the device
-                    setattr(device, prop, value)
-            #print branch['author']
-            devices.append(device)
-            print('device loaded : ' + device.name)
-        return devices
-    # catch error if file is not valid or if file is not a valide node
-    except (IOError, ValueError) as Error:
-        if debug:
-            print(Error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
-        return False
+from pybush.file import load
 
 
 class Device(Node):
     """
     Device Class represent a device
     """
-    def __init__(self, name, path=None):
-        super(Device, self).__init__(name, 'no-parent')
+    def __init__(self, name='no-name-device', path=None):
+        super(Device, self).__init__(name, 'no-parent-for-a-Device')
         self._author = 'unknown'
         self._version = 'unknown'
         self._path = path
@@ -118,10 +50,10 @@ class Device(Node):
         export Node to a json_string/python_dict with all its properties
         """
         dev = {}
-        dev.update({'name':self.name, 'author':self.author, 'version':self.version, 'children':{}})
+        dev.update({'name':self.name, 'author':self.author, 'version':self.version, 'children':[]})
         if self.children:
             for child in self.children:
-                dev['children'].update(child.export())
+                dev['children'].append(child.export())
         return dev
 
     # ----------- AUTHOR -------------
