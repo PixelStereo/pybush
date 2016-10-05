@@ -8,13 +8,15 @@ Application and Parameter are based on the Node Class
 
 from pybush.functions import prop_dict
 from pybush.constants import __dbug__, _file_extention
-from pybush.parameter import Parameter
 
 
-class Node(object):
-    """Base Class for all item in the namespace"""
+class NodeAbstract(object):
+    """
+    Abstract Base Class for all item in the namespace
+    Need to be subclassed
+    """
     def __init__(self, name, parent, service='no', tags=None, priority=None, children=[]):
-        super(Node, self).__init__()
+        super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
         self._name = name
         self._parent = parent
