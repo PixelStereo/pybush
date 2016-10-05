@@ -33,8 +33,7 @@ class NodeAbstract(object):
         """
         nod = {}
         print('exporting ----------' + self.name)
-        nod.setdefault(self.name, { 'name':self.name, 'tags':self.tags, \
-                                    'priority':self.priority, 'children':{}})
+        nod.setdefault({'name':self.name, 'tags':self.tags, 'priority':self.priority, 'children':[]})
         if self.children:
             for child in self.children:
                 if child.service == 'Parameter':

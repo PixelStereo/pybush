@@ -4,7 +4,7 @@
         {
             "children": [
                 {
-                    "children": {},
+                    "children": [],
                     "name": "node.1",
                     "priority": null,
                     "tags": [
@@ -14,7 +14,7 @@
                     ]
                 },
                 {
-                    "children": {},
+                    "children": [],
                     "name": "node.2",
                     "priority": null,
                     "tags": null
@@ -41,7 +41,7 @@
         {
             "children": [
                 {
-                    "children": {},
+                    "children": [],
                     "name": "node.1",
                     "priority": null,
                     "tags": [
@@ -51,7 +51,7 @@
                     ]
                 },
                 {
-                    "children": {},
+                    "children": [],
                     "name": "node.2",
                     "priority": null,
                     "tags": null

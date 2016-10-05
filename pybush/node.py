@@ -45,7 +45,7 @@ class Node(NodeAbstract):
                                     'priority':self.priority, 'children':[], 'parameter':param_export})
         if self.children:
             for child in self.children:
-                    nod['children'].append({'name':child.name, 'tags':child.tags, 'priority':child.priority, 'children':{}})
+                    nod['children'].append({'name':child.name, 'tags':child.tags, 'priority':child.priority, 'children':[]})
                     """for child1 in child.children:
                         nod[self.name]['children'][child.name]['children'].setdefault(child1.name, { 'name':child1.name, 'tags':child1.tags, \
                                                 'priority':child1.priority, 'children':{}})
