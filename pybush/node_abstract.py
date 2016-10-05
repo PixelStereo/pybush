@@ -11,7 +11,7 @@ from pybush.constants import __dbug__, _file_extention
 from pybush.parameter import Parameter
 
 
-class Node(NodeAbstract):
+class Node(object):
     """Base Class for all item in the namespace"""
     def __init__(self, name, parent, service='no', tags=None, priority=None, children=[]):
         super(Node, self).__init__()

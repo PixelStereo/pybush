@@ -7,8 +7,7 @@ import sys
 lib_path = os.path.abspath('./../')
 sys.path.append(lib_path)
 import pybush
-from pybush.device import device_new, get_devices_list, devices_export
-from pybush.file import File
+from pybush.device import device_new, get_devices_list, devices_export, fillin
 
 from PyQt5 import uic
 from PyQt5.QtCore import (QAbstractItemModel, QIODevice,
@@ -96,11 +95,10 @@ class TreeItem(object):
 
 
 class TreeModel(QAbstractItemModel):
-    def __init__(self, headers, data, parent=None):
+    def __init__(self, devices, parent=None):
         super(TreeModel, self).__init__(parent)
-
-        rootData = [header for header in headers]
-        self.rootItem = TreeItem(rootData)
+        for device in devices:
+            self.rootItem = TreeItem(['attribute', 'value'])
 
     def columnCount(self, parent=QModelIndex()):
         return self.rootItem.columnCount()
@@ -228,13 +226,11 @@ class MainWindow(QMainWindow):
 
         headers = ("Title", "Description")
 
-        filepath = os.path.abspath('test_device.bush')
-        file = File('file2load', 'no-parent')
-        data = file.read(filepath)
-        if data:
-            print('DATA', data)
-            model = TreeModel(data.keys(), data.values())
-            print(TreeModel)
+        filepath = os.path.abspath('export-test_device.bush')
+        devices = fillin(filepath)
+        if devices:
+            model = TreeModel(devices)
+            #print(TreeModel)
         else:
             model = TreeModel('1', 'oh oui')
             print('failed to load file')

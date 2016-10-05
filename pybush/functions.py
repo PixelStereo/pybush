@@ -5,6 +5,8 @@
 Bunch of functions usefull for types, or namespace assertions, conventions or convertions
 """
 
+#from pybush.device import Device
+
 def m_bool(value):
     """Transform to a bool if it is not already"""
     if not isinstance(value, bool):
@@ -70,21 +72,10 @@ def prop_dict(the_class):
     plist = prop_list(the_class)
     pdict = {}
     for prop in plist:
-        if prop == 'children':
-            pdict.setdefault('children', {})
-            for item in getattr(the_class, prop):
-                pdict['children'].setdefault(item.name, prop_dict(item))
-        elif prop == 'parent':
+        if prop == 'parent':
+            pass
+        elif prop == 'service':
             pass
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict
-
-def iterate_dict(loaded):
-    for branch, content in loaded.items():
-        if loaded[branch]['children'] != {}:
-            print('no more children')
-        else:
-            print('content.name')
-            iterate_dict(content)
-    return True

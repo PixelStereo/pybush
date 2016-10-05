@@ -8,23 +8,26 @@ A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
 
-from pybush.node import Node
 from pybush.constants import __dbug__
 
 
 class Parameter(Node):
     """
-    ERROR NEED TO SEND ARGS TO NODE.
-    E.G. : IF I DEFINE A PRIORITY OR TAG WHEN CREATING PARAMETER,
-    IT NEED TO BE SEND TO THE NODE
+    A Parameter is always attached to a node.
+    It will provide value and value's attributes to its parent's node
     """
     def __init__(self, name, parent):
-        Node.__init__(self, name, parent)
+        super(Parameter, self).__init__()
         self._value = None
         self._clipmode = None
         self._domain = None
         self._repetitions = 0
         self._datatype = 'generic'
+        self._service = 'xXx'
+        # herited from the parent's node
+        self.name = parent.name
+        self.priority = parent.priority
+        self.tags = parent.tags
 
     def __repr__(self):
         """
@@ -34,6 +37,28 @@ class Parameter(Node):
         return printer.format(name=self.name, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
                               repetitions=self.repetitions, priority=self.priority, tags=self.tags)
+
+    @property
+    def service(self):
+        """
+        Return the service of the node
+        """
+        return self.__class__.__name__
+    @service.setter
+    def service(self, service):
+        pass
+
+    def export(self):
+        """
+        export the Parameter to a json_string/python_dict with all its properties
+        """
+        param = {}
+        param.setdefault('value', self.value)
+        param.setdefault('domain', self.domain)
+        param.setdefault('datatype', self.datatype)
+        param.setdefault('clipmode', self.clipmode)
+        param.setdefault('repetitions', self.repetitions)
+        return param
 
     def clip(self, value):
         """

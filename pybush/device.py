@@ -8,6 +8,7 @@ A device has some protocol/plugin for input/output
 """
 
 from pybush.node import Node
+from pybush.file import load
 from pybush.functions import prop_dict
 from pybush.constants import __dbug__, _devices
 
@@ -27,34 +28,131 @@ def get_devices_list():
 
 def devices_export():
     """Export devices"""
-    devices = {'devices':{}}
+    devices = {}
     for device in get_devices_list():
-        devices['devices'].setdefault(device.name, {'attributes': \
-            {'author':device.author, 'name':device.name, 'version':device.version}})
-        if device.children:
-            devices['devices'][device.name].setdefault('children', {})
-            for child in device.children:
-                devices['devices'][device.name]['children'].setdefault(child.name, prop_dict(child))
+        devices.setdefault(device.name, device.export())
     return devices
+
+def node_import(node):
+    for branch, content in node.items():
+        device = device_new(branch)
+        print('BBBBBBBBBBBBB', branch)
+        print('CCCCCCCCCCCCC', content)
+        if node[branch]['children'] != {}:
+            print('no more children')
+        else:
+            print('content.name')
+            iterate_dict(content)
+    return True
+
+def fillin(filepath):
+    """
+    Fillin Bush with objects created from a json file
+
+    Creates Outputs, Scenario and Events obects
+    First, dump attributes, then outputs, scenario and finish with events.
+
+    :returns: True if file formatting is correct, False otherwise
+    :rtype: boolean
+    """
+    file_content = load(filepath)
+    devices = []
+    if file_content: 
+        print('loading device called : ' + file_content.keys()[0])
+    else:
+        print('ERROR 901 - file provided is not a valid file' + str(filepath))
+    try:
+        # dump attributes
+        print('BEFORE')
+        print(file_content)
+        # itarate all devices
+        for branch, content in file_content.items():
+            # create a device object for all devices
+            device = device_new(branch)
+            # iterate each attributes of the selected device
+            for prop, value in content.items():
+                if prop == 'children':
+                    if isinstance(value, dict):
+                        # the device has children
+                        for name in value.keys():
+                            if 'value' in value[name].keys():
+                                device.new_param(name)
+                            else:
+                                device.new_node(name)
+                elif prop == 'service':
+                    # we don't need to register this stupid property
+                    pass
+                else:
+                    # register value of the given attribute for the device
+                    setattr(device, prop, value)
+            #print branch['author']
+            devices.append(device)
+            print('device loaded : ' + device.name)
+        return devices
+    # catch error if file is not valid or if file is not a valide node
+    except (IOError, ValueError) as Error:
+        if debug:
+            print(Error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
+        return False
 
 
 class Device(Node):
-    """device Class"""
-    def __init__(self, name):
+    """
+    Device Class represent a device
+    """
+    def __init__(self, name, path=None):
         super(Device, self).__init__(name, 'no-parent')
         self._author = 'unknown'
         self._version = 'unknown'
+        self._path = path
         self._name = name
+        # device is a root node of a device/fixture file. So it has no parent
+        # to simplify I use self, in order to always have a valid parent.name
         self._parent = self
 
     def __repr__(self):
         printer = 'Device (name:{name}, author:{author}, version:{version})'
         return printer.format(name=self.name, author=self.author, version=self.version)
 
+    def node_new(self, node):
+        """
+        Create a new node inside a device (override node new_node method)
+        """
+        node_import(node)
+
+
+    @property
+    def path(self):
+        """
+        This is the filepath where to write the file or where it is located.
+        It's initialised at None when created, and can be set to any valid path.
+
+        :param path: valid filepath. Return True if valid, False otherwise.
+        :type path: string
+        """
+        return self._path
+    @path.setter
+    def path(self, value):
+        self._path = value
+        
+    def export(self):
+        """
+        export Node to a json_string/python_dict with all its properties
+        """
+        dev = {}
+        dev.setdefault(self.name, {'author':self.author, 'name':self.name, \
+                                    'version':self.version, 'children':{}})
+        if self.children:
+            for child in self.children:
+                dev[self.name]['children'].setdefault(child.name, child.export())
+        return dev
+
     # ----------- AUTHOR -------------
     @property
     def author(self):
-        "Current author of the device"
+        """
+        Current author of the device
+        """
         return self._author
     @author.setter
     def author(self, author):
@@ -66,7 +164,9 @@ class Device(Node):
     # ----------- VERSION -------------
     @property
     def version(self):
-        "Current version of the device"
+        """
+        Current version of the device
+        """
         return self._version
     @version.setter
     def version(self, version):
