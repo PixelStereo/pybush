@@ -30,9 +30,6 @@ for child in node_1.children:
 	print(child.name)
 print('---- PARAMETER -----')
 print(node_1.parameter)
-#print(len(read.children))
-#quit()
-
 print('----------------------')
 print('------- VIEW AS STRING __repr__ ')
 print('----------------------')
@@ -42,5 +39,3 @@ print('------- VIEW AS DICT ')
 print('----------------------')
 for device in project.devices:
 	print(device.export())
-#print devices[0].children
-#print(devices[0].export())

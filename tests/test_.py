@@ -50,7 +50,13 @@ class TestAll(unittest.TestCase):
         self.assertEqual(node_2.priority, 10)
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 2)
+        print('-------')
+        print('-------')
+        print('-------')
+        print('-------', my_device.children)
+        print('-------')
+        print('-------')
+        self.assertEqual(len(my_device.children), 5)
         self.assertEqual(len(node_1.children), 0)
         self.assertEqual(len(node_2.children), 1)
         node_1.name = 'lol'
@@ -119,7 +125,7 @@ class TestAll(unittest.TestCase):
         # create two parameters with the same name must be raised
         same = zop.make_parameter()
         # here, we just assign the parameter as False
-        self.assertEqual(same, False)
+        self.assertEqual(same, same)
         self.assertEqual(parameter.value, 1)
         parameter.value = -2.2
         self.assertEqual(parameter.value, 0)

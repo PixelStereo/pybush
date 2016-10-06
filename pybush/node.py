@@ -106,7 +106,7 @@ class Node(NodeAbstract):
             return self._parameter
 
   # ----------- NEW CHILD METHOD -------------
-    def new_child(self, child):
+    def new_child(self, child, priority=-1, tags=None):
         """
         Create a new Node in its parent
 
