@@ -2,17 +2,17 @@
     "children": [
         {
             "children": [],
-            "name": "node.1",
-            "priority": null,
-            "tags": [
-                "tag",
-                "for",
-                "node_1"
-            ]
-        },
-        {
-            "children": [],
             "name": "node.2",
+            "parameter": {
+                "clipmode": "low",
+                "datatype": "integer",
+                "domain": [
+                    0,
+                    100
+                ],
+                "repetitions": 1,
+                "value": 2
+            },
             "priority": null,
             "tags": null
         }

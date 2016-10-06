@@ -1,32 +1,15 @@
 {
-    "children": [
-        {
-            "children": [],
-            "name": "node.1",
-            "priority": null,
-            "tags": [
-                "tag",
-                "for",
-                "node_1"
-            ]
-        },
-        {
-            "children": [],
-            "name": "node.2",
-            "priority": null,
-            "tags": null
-        }
-    ],
+    "children": [],
     "name": "node.2",
     "parameter": {
-        "clipmode": "both",
-        "datatype": "decimal",
+        "clipmode": "low",
+        "datatype": "integer",
         "domain": [
             0,
-            1
+            100
         ],
         "repetitions": 1,
-        "value": 1.0
+        "value": 2
     },
     "priority": null,
     "tags": null

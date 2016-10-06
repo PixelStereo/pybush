@@ -8,7 +8,7 @@ import os
 import simplejson as json
 from pybush.functions import prop_dict
 #from pybush.device import device_new
-from pybush.constants import __dbug__, _devices, _file_extention
+from pybush.constants import __dbug__, _file_extention
 
 def get_file_extention():
     """return the file extention"""

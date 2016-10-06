@@ -9,7 +9,7 @@ A device has some protocol/plugin for input/output
 
 from pybush.node import Node
 from pybush.functions import prop_dict
-from pybush.constants import __dbug__, _devices
+from pybush.constants import __dbug__
 from pybush.file import load
 
 
@@ -28,8 +28,8 @@ class Device(Node):
         self._parent = self
 
     def __repr__(self):
-        printer = 'Device (name:{name}, author:{author}, version:{version})'
-        return printer.format(name=self.name, author=self.author, version=self.version)
+        printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
+        return printer.format(name=self.name, author=self.author, version=self.version, children=self.children)
 
     @property
     def path(self):

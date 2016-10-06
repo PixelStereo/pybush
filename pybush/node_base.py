@@ -12,7 +12,7 @@ from pybush.constants import __dbug__, _file_extention
 
 class NodeAbstract(object):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, parent, service='no', tags=None, priority=None, children=[]):
+    def __init__(self, name, parent, service='no', tags=None, priority=None):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
         self._name = name
@@ -20,7 +20,6 @@ class NodeAbstract(object):
         self.service = service
         self._tags = tags
         self._priority = priority
-        self._children = children
 
     def __repr__(self):
         printer = 'Node (name:{name}, priority:{priority}, tags:{tags})'
@@ -33,7 +32,7 @@ class NodeAbstract(object):
         """
         nod = {}
         print('exporting ----------' + self.name)
-        nod.setdefault({'name':self.name, 'tags':self.tags, 'priority':self.priority, 'children':[]})
+        nod.setdefault({'name':self.name, 'tags':self.tags, 'priority':self.priority})
         if self.children:
             for child in self.children:
                 if child.service == 'Parameter':
@@ -110,13 +109,3 @@ class NodeAbstract(object):
     @priority.deleter
     def priority(self):
         return False
-
-    @property
-    def children(self):
-        """
-        Return the list of the children registered to this node
-
-        :param path: valid filepath. Return True if valid, False otherwise.
-        :type path: string
-        """
-        return self._children

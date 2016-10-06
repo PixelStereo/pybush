@@ -8,7 +8,7 @@ Application and Parameter are based on the Node Class
 import os
 import simplejson as json
 from pybush.functions import prop_dict
-from pybush.constants import __dbug__, _devices, _file_extention
+from pybush.constants import __dbug__, _file_extention
 
 
 
@@ -17,7 +17,7 @@ class NodeAbstract(object):
     Abstract Base Class for all item in the namespace
     Need to be subclassed
     """
-    def __init__(self, parent, service='no', tags=None, priority=None):
+    def __init__(self, parent, service='no-service-for-NodeAbstract', tags=None, priority=None):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
         self._parent = parent
@@ -26,9 +26,9 @@ class NodeAbstract(object):
         self._priority = priority
 
     def __repr__(self):
-        printer = 'Node (priority:{priority}, tags:{tags})'
+        printer = 'AbstractNode (priority:{priority}, tags:{tags})'
         #return str({self.name: prop_dict(self)})
-        return printer.format(name=self.name, priority=self.priority, tags=self.tags)
+        return printer.format(priority=self.priority, tags=self.tags)
 
     def reset(self):
         """
@@ -51,24 +51,8 @@ class NodeAbstract(object):
         """
         Return the parent of the node
         """
-        print(self.name + ' comes from ' + self._parent.name)
+        print('sqsdqsdqsdqsd', self)
         return self._parent.name
-
-    # ----------- NAME -------------
-    @property
-    def name(self):
-        """
-        Current name of the node
-        """
-        return self._name
-    @name.setter
-    def name(self, name):
-        print('a name connot be changed for a node, or we might look if it already exists')
-        return False
-        #self._name = name
-    @name.deleter
-    def name(self):
-        return False
 
     # ----------- TAGS -------------
     @property
