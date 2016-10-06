@@ -15,13 +15,13 @@ class Parameter(object):
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its parent's node
     """
-    def __init__(self, parent):
+    def __init__(self, parent, value=None, datatype='generic', tags=['uno','dos'], priority=-1, domain=[-999999999, 999999999], clipmode=None, repetitions=0):
         super(Parameter, self).__init__()
-        self._value = None
-        self._clipmode = None
-        self._domain = None
-        self._repetitions = 0
-        self._datatype = 'generic'
+        self._value = value
+        self._clipmode = clipmode
+        self._domain = domain
+        self._repetitions = repetitions
+        self._datatype = datatype
         self._service = 'xXx'
         # herited from the parent's node
         self.name = parent.name

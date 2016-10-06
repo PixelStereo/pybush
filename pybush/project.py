@@ -10,21 +10,31 @@ But it might it use only with devices and active mappings between input devices 
 
 from pybush.device import Device
 from pybush.node_abstract import NodeAbstract
+from pybush.node import Node
 from pybush.functions import prop_dict
-from pybush.constants import __dbug__
+from pybush.constants import __dbug__, _projects
 from pybush.file import load
 
 def new_project(name=None):
-    return Project()
+    new_proj = Project(name)
+    _projects.append(new_proj)
+    return new_proj
 
-class Project(NodeAbstract):
+def projects():
+    return _projects
+
+class Project(Node):
     """
     Project class, will host devices, scenario, mappings etc…
     """
-    def __init__(self, path=None):
-        super(Project, self).__init__('no-parent-for-Project')
+    def __init__(self, name='no-name-project', path=None):
+        super(Project, self).__init__(name, 'no-parent-for-Project')
         self._path = path
         self._devices = []
+
+    def __repr__(self):
+        printer = 'Project (name:{name}'
+        return printer.format(name=self.name)
 
     def export(self):
         """
@@ -42,7 +52,7 @@ class Project(NodeAbstract):
             :return False if name is not valid (already exists or is not provided)
         """
         size = len(self._devices)
-        self._devices.append(Device())
+        self._devices.append(Device(args[0], self))
         for key, value in kwargs.items():
             setattr(self._devices[size], key, value)
         return self._devices[size]

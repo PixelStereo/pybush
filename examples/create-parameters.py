@@ -5,32 +5,34 @@ import os,sys
 lib_path = os.path.abspath('./../')
 sys.path.append(lib_path)
 import pybush
-from pybush.device import device_new, get_devices_list, devices_export
+from pybush.project import new_project
 
 def headerprint(args):
 	print('')
 	print(args)
 	print('-----------------------')
 	
+headerprint('create the project')
+project = new_project('My Project')
+
 headerprint('create the device')
-device = device_new('My Device')
+device = project.new_device('My Device')
 
 headerprint('create two nodes')
-node_1 = device.node_new('node.1')
-node_2 = device.node_new('node.2')
+node_1 = device.new_child('node.1')
+node_2 = device.new_child('node.2')
 
 headerprint('create a parameter for node.1')
-param_1 = node_1.parameter_new('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
+param_1 = node_1.make_parameter('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
                                  priority=-1, domain=[0,1], clipmode='both', \
                                  repetitionsFilter=1)
 
 headerprint('list device, nodes and parameters')
-for device in get_devices_list():
+for device in project.devices:
     print('    ' +  str(device))
-    for node in device.nodes:
+    for node in device.children:
         print('        ' +  str(node))
-        for parameter in node.parameters:
-            print('            ' +  str(parameter))
+        print('            ' +  str(node.parameter))
 
 
 headerprint('try clipmode function')
@@ -78,6 +80,10 @@ print (param_1.datatype)
 param_1.datatype = 'integer'
 print (param_1.datatype)
 
+print('------')
+print(param_1)
+print('------')
+
 headerprint('set value and rangeClipmode')
 param_1.value = 999.99
 param_1.rangeClipmode = [0,1000]
@@ -90,4 +96,4 @@ print ('datatype is : ' , param_1.datatype , 'and value is so : ' , type(param_1
 import pprint
 pprint = pprint.PrettyPrinter(indent=4).pprint
 print('------------------ EXPORT NAMESPACE -------------------------------')
-pprint(devices_export())
+pprint(project.export())

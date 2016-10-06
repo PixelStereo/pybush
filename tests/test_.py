@@ -12,13 +12,21 @@ import liblo
 import datetime
 from pybush.constants import __dbug__
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
-from pybush.device import device_new, get_devices_list, devices_export
+from pybush.project import new_project, projects
 
  
 class TestAll(unittest.TestCase):
 
+    def test_a_project(self):
+        my_project = new_project('My Python project')
+        self.assertEqual(my_project.name, 'My Python project')
+        another_project = new_project('Another Python project')
+        self.assertEqual(another_project.name, 'Another Python project')
+        self.assertEqual(len(projects()), 2)
+
     def test_device(self):
-        my_device = device_new('My Python device', author='Pixel Stereo', version='0.1.0')
+        my_project = new_project('My Python project')
+        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
         author = my_device.author
         name = my_device.name
         version = my_device.version
@@ -28,44 +36,50 @@ class TestAll(unittest.TestCase):
         self.assertEqual(version, '0.1.0')
         self.assertEqual(type(name), str)
         self.assertEqual(name, 'My Python device')
-        another_device = device_new('Another Py device')
-        self.assertEqual(len(get_devices_list()), 2)
+        another_device = my_project.new_device('Another Py device')
+        self.assertEqual(len(my_project.devices), 2)
 
     def test_nodes(self):
-        my_device = get_devices_list()[0]
-        node_1 = my_device.node_new('node.1', priority=2, tags=['init', 'video'])
-        node_2 = my_device.node_new('node.2', tags=['lol', 'lal'], priority=-1)
-        node_2_bis = node_2.node_new('node.2.bis')
-        self.assertEqual(node_2.priority, -1)
+        my_project = new_project('My Python project')
+        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+        node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
+        node_2 = my_device.new_child('node.2', tags=['lol', 'lal'], priority=-1)
+        node_2_bis = node_2.new_child('node.2.bis')
+        self.assertEqual(node_2.priority, None)
         node_2.priority = 10
         self.assertEqual(node_2.priority, 10)
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 3)
+        self.assertEqual(len(my_device.children), 2)
         self.assertEqual(len(node_1.children), 0)
         self.assertEqual(len(node_2.children), 1)
-        print(node_1)
         node_1.name = 'lol'
 
     def test_device_export(self):
-        device = get_devices_list()[0]
-        node = device.node_new('node')
-        xprt = devices_export()
+        my_project = new_project('My Python project')
+        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+        node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
+        node_2 = my_device.new_child('node.2', tags=['lol', 'lal'], priority=-1)
+        node_2_bis = node_2.new_child('node.2.bis')
+        node = my_device.new_child('node')
+        xprt = my_project.export()
         self.assertEqual(isinstance(xprt, dict), True)
-        xprt_name = xprt['devices']['My Python device']['attributes']['author']
+        print 1, xprt
+        xprt_name = xprt['devices'][0]['author']
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        node_1 = get_devices_list()[0].children[0]
-        self.assertEqual(len(prop_dict(node_1).keys()), 6)
+        my_project = new_project('My Python project')
+        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+        node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
+        self.assertEqual(len(prop_dict(node_1).keys()), 5)
         self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
-        device = get_devices_list()[1]
-        param1 = device.parameter_new('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
-                                 priority=-1, domain=[0,1], clipmode='both', \
-                                 repetitions=1)
-        self.assertEqual(param1.name, 'param.1')
+        my_project = new_project('My Python project')
+        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+        param1 = my_device.make_parameter()
+        self.assertEqual(param1.name, 'My Python device')
 
     def test_modular_functions(self):
         b = 2
@@ -92,13 +106,20 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(s, list), True)
         s = m_string(s)
         self.assertEqual(isinstance(s, str), True)
-        zop = get_devices_list()[1]
-        parameter = zop.parameter_new('parameter', value=3.2, datatype='decimal', tags=['uno','dos'], \
-                                 priority=-1, domain=[0,1], clipmode='both', \
-                                 repetitions=1)
+        my_project = new_project('My Python project')
+        zop = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+        parameter = zop.make_parameter()
+        parameter.value = 3.2
+        parameter.datatype = 'decimal'
+        parameter.tags = ['uno','dos']
+        parameter.priority = -1
+        parameter.domain = [0,1]
+        parameter.clipmode = 'both'
+        parameter.repetitions = 1
         print(parameter)
         # create two parameters with the same name must be raised
-        same = zop.parameter_new('parameter')
+        same = zop.make_parameter()
+        print 1, 2, same
         # here, we just assign the parameter as False
         self.assertEqual(same, False)
         self.assertEqual(parameter.value, 1)
@@ -122,12 +143,14 @@ class TestAll(unittest.TestCase):
         del parameter.name
 
     def test_print(self):
-        zdevice = get_devices_list()[0]
+        my_project = new_project('My Python project')
+        zdevice = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
         #print(zdevice)
         del zdevice.author
         del zdevice.version
         print('----------------------------')
         print(zdevice.name + " version " + zdevice.version + " by " + zdevice.author)
+
 
 if __name__ == '__main__':
     unittest.main()

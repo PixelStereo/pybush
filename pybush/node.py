@@ -87,12 +87,15 @@ class Node(NodeAbstract):
         self._parameter = parameter_object
 
     # ----------- MAKE_PARAMETER METHOD -------------
-    def make_parameter(self):
+    def make_parameter(self, *args, **kwargs):
         """
         Call this method to attach a parameter to this node
         """
-        self._parameter = Parameter(self)
-        return self._parameter
+        if self._parameter == None:
+            self._parameter = Parameter(self, args, kwargs)
+            return self._parameter
+        else:
+            return False
 
   # ----------- NEW CHILD METHOD -------------
     def new_child(self, *args, **kwargs):
@@ -101,11 +104,6 @@ class Node(NodeAbstract):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
-        print('')
-        print('')
-        print(args[0], self)
-        print('')
-        print('')
         the_new_child = Node(args[0], self)
         self._children.append(the_new_child)
         return the_new_child
