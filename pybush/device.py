@@ -34,7 +34,7 @@ class Device(Node):
     @property
     def path(self):
         """
-        This is the filepath where to write the file or where it is located.
+        This is the filepath where to save the file or where it is located.
         It's initialised at None when created, and can be set to any valid path.
 
         :param path: valid filepath. Return True if valid, False otherwise.

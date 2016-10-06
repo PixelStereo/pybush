@@ -53,7 +53,6 @@ def load(path):
         print("loading JSON from " + path)
         loading = load_json(path)
         if loading:
-        #    write(path)
             return loading
         else:
             return False

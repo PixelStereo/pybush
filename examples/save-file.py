@@ -26,16 +26,24 @@ pprint(device.export())
 headerprint('create a node')
 node_1 = device.new_child('node.1')
 node_1.tags = ['tag', 'for', 'node_1']
+
+print(node_1.children)
+
+print('ON EN EST LA ---------- ', node_1)
+
+
+
 pprint(node_1.export())
 
 headerprint('THE PROJECT')
-pprint(project.export())
+#pprint(project.export())
 
 headerprint('create another node')
 node_2 = node_1.new_child('node.2')
 
 headerprint('create a parameter for node.1')
 param_1 = node_1.make_parameter()
+print(param_1)
 param_1.value = -1
 param_1.datatype = 'decimal'
 param_1.tags = ['one','two']
@@ -76,9 +84,9 @@ headerprint('export to json file')
 print('------------------ EXPORT NODE 1 -------------------------------')
 pprint(node_1.export())
 print('------------------ END OF EXPORT NODE 1 -------------------------------')
-print('------------------ EXPORT ALL DEVICES -------------------------------')
+print('------------------ EXPORT A PROJECT -------------------------------')
 pprint(project.export())
-print('------------------ END OF ALL DEVICES -------------------------------')
+print('------------------ END OF A PROJECT -------------------------------')
 #print(device.write())
 #print(device.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_device'))
 print(node_1.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_1'))

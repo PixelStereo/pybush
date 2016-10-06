@@ -1,5 +1,11 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
+
+import os,sys
+lib_path = os.path.abspath('./../')
+sys.path.append(lib_path)
+import pybush
+from pybush.project import new_project
 
 import sys
 from PyQt5 import uic
@@ -20,11 +26,12 @@ def fill_item(item, value):
     for val in value:
       child = QTreeWidgetItem()
       item.addChild(child)
-      if type(val) is dict:      
-        child.setText(0, '[dict]')
+      if type(val) is dict:
+        pass
+        #child.setText(0, '[dict]')
         fill_item(child, val)
       elif type(val) is list:
-        child.setText(0, '[list]')
+        #child.setText(0, '[list]')
         fill_item(child, val)
       else:
         child.setText(0, unicode(val))              
@@ -38,12 +45,11 @@ def fill_widget(widget, value):
   widget.clear()
   fill_item(widget.invisibleRootItem(), value)
 
-d = { 'key1': 'value1', 
-  'key2': 'value2',
-  'key3': [1,2,3, { 1: 3, 7 : 9}],
-  'key4': object(),
-  'key5': { 'another key1' : 'another value1',
-            'another key2' : 'another value2'} }
+filepath = os.path.abspath('export-test_project.bush')
+my_project = new_project('The Project')
+my_project.read(filepath)
+print('-----z---z-z--z-z--', my_project)
+d = my_project.export()['devices'][0]
 
 
 if __name__ == "__main__":

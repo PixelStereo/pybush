@@ -33,7 +33,7 @@ class Project(Node):
         self._devices = []
 
     def __repr__(self):
-        printer = 'Project (name:{name}'
+        printer = 'Project (name:{name})'
         return printer.format(name=self.name)
 
     def export(self):
@@ -65,9 +65,6 @@ class Project(Node):
         return self._devices
 
     def read(self, filepath):
-        self.fillin(filepath)
-
-    def fillin(self, filepath):
         """
         Fillin Bush with objects created from a json file
 
@@ -79,19 +76,24 @@ class Project(Node):
         """
         file_content = load(filepath)
         if file_content: 
-            print('loading device called : ' + file_content.keys()[0])
+            print('loading project called : ' + filepath)
         else:
             print('ERROR 901 - file provided is not a valid file' + str(filepath))
         try:
             for device_dict in file_content['devices']:
                 # create a device object for all devices
-                device = self.new_device()
+                print('------- new-device : ' + device_dict['name'] + ' ------ ')
+                device = self.new_device(device_dict['name'])
                 # iterate each attributes of the selected device
                 for prop, value in device_dict.items():
                     if prop == 'children':
                         # the device has children
-                        for child in device_dict['children']:
+                        count = 0
+                        for child in value:
                             device.new_child(child)
+                    elif prop == 'parameter':
+                        print('no parameter for device')
+                        #device.make_parameter(value)
                     else:
                         # register value of the given attribute for the device
                         setattr(device, prop, value)
@@ -99,6 +101,6 @@ class Project(Node):
             return True
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as Error:
-            if debug:
+            if __dbug__:
                 print(Error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
             return False

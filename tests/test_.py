@@ -64,7 +64,6 @@ class TestAll(unittest.TestCase):
         node = my_device.new_child('node')
         xprt = my_project.export()
         self.assertEqual(isinstance(xprt, dict), True)
-        print 1, xprt
         xprt_name = xprt['devices'][0]['author']
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
@@ -119,7 +118,6 @@ class TestAll(unittest.TestCase):
         print(parameter)
         # create two parameters with the same name must be raised
         same = zop.make_parameter()
-        print 1, 2, same
         # here, we just assign the parameter as False
         self.assertEqual(same, False)
         self.assertEqual(parameter.value, 1)
