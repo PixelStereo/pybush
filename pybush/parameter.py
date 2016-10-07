@@ -60,11 +60,13 @@ class Parameter(NodeAbstract):
             :return cliped value
         """
         if self.clipmode == 'low' or self.clipmode == 'both':
-            if value < self.domain[0]:
-                value = self.domain[0]
+            if len(self.domain) > 0:
+                if value < self.domain[0]:
+                    value = self.domain[0]
         if self.clipmode == 'high' or self.clipmode == 'both':
-            if value > self.domain[1]:
-                value = self.domain[1]
+            if len(self.domain) > 1:
+                if value > self.domain[1]:
+                    value = self.domain[1]
         return value
 
     # ----------- RAW VALUE -------------
