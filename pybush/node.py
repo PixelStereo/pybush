@@ -53,6 +53,12 @@ class Node(NodeAbstract):
         Return the list of the children registered to this node
         """
         return self._children
+    @children.setter
+    def children(self, the_new_child):
+        if self._children is None:
+            self._children = [the_new_child]
+        else:
+            self._children.append(the_new_child)
 
     # ----------- NAME -------------
     @property
@@ -118,10 +124,7 @@ class Node(NodeAbstract):
             # which needs to instanciate Classes Node and Parameter
             the_new_child = Node(child['name'], self, tags=child['tags'], \
                                 priority=child['priority'], children=[])
-            if self._children is None:
-                self._children = [the_new_child]
-            else:
-                self._children.append(the_new_child)
+            self.children = the_new_child
             # maybe the new_child contains children itself?
             if len(child['children']) > 0:
                 for little_child in child['children']:
@@ -136,8 +139,5 @@ class Node(NodeAbstract):
         else:
             # if the child argument is only a string, this is the name of the new_child to create
             the_new_child = Node(child, self, children=[])
-            if self._children is None:
-                self._children = [the_new_child]
-            else:
-                self._children.append(the_new_child)
+            self.children = the_new_child
         return the_new_child
