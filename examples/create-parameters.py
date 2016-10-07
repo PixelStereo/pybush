@@ -25,7 +25,7 @@ node_2 = device.new_child('node.2')
 headerprint('create a parameter for node.1')
 param_1 = node_1.make_parameter('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
                                  priority=-1, domain=[0,1], clipmode='both', \
-                                 repetitionsFilter=1)
+                                 repetitions=1)
 
 headerprint('list device, nodes and parameters')
 for device in project.devices:
@@ -84,9 +84,9 @@ print('------')
 print(param_1)
 print('------')
 
-headerprint('set value and rangeClipmode')
+headerprint('set value and clipmode')
 param_1.value = 999.99
-param_1.rangeClipmode = [0,1000]
+param_1.clipmode = [0,1000]
 print ('raw value is : ' , param_1.raw , 'and clipmode is : ' , param_1.clipmode)
 print ('datatype is : ' , param_1.datatype , 'and value is so : ' , type(param_1.value) , param_1.value)
 param_1.datatype = 'decimal'

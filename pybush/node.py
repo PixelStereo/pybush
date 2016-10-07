@@ -26,9 +26,9 @@ class Node(NodeAbstract):
         self._children = children
 
     def __repr__(self):
-        printer = 'Node (name:{name}, priority:{priority}, tags:{tags}, children:{children})'
+        printer = 'Node (name:{name}, priority:{priority}, tags:{tags}, parameter:{parameter}, children:{children})'
         #return str({self.name: prop_dict(self)})
-        return printer.format(name=self.name, priority=self.priority, tags=self.tags, children=self.children)
+        return printer.format(name=self.name, priority=self.priority, tags=self.tags, parameter=self.parameter, children=self.children)
 
     def export(self):
         """
@@ -90,6 +90,8 @@ class Node(NodeAbstract):
     def make_parameter(self, *args, **kwargs):
         """
         Call this method to attach a parameter to this node
+        You can send a string or a dict as argument
+            :string : create a parameter with this name
         """
         if args:
             if self._parameter == None:
@@ -118,28 +120,20 @@ class Node(NodeAbstract):
             # we import a python dict to create the child
             # be careful about children and parameter which needs to instanciate Classes Node and Parameter
             assert(child, dict)
-            print('-------------')
-            print('-------------------------------------')
-            print('START ' + child['name'])
-            print(1, child['name'] + ' has ' + str(len(child['children'])) + ' children')
             the_new_child = Node(child['name'], self, tags=child['tags'], priority=child['priority'], children=[])
-            print(self.children)
             self._children.append(the_new_child)
-            print(self.children)
-            print(2, the_new_child.name + ' has ' + str(len(the_new_child.children)) + ' children')
-            print('---created HERE -----', the_new_child.children)
+            # maybe the new_child contains children itself?
             if len(child['children']) > 0:
                 for ch in child['children']:
+                    # create a new child for each of the new_child.children item recursivly
                     little_new_child = the_new_child.new_child(ch)
+            # if the new_child have a parameter, create it please
             if child['parameter']:
+                # we give the parameter dict to the make_parameter method to create the parameter with values from the dict
                 the_new_child.make_parameter(child['parameter'])
-            print('END ' + child['name'])
-            print('-------------------------------------')
-            print('-------------')
 
         else:
-            print('creating child with just a name')
+            # if the child argument is only a string, this is the name of the new_child to create
             the_new_child = Node(child, self, children=[])
             self._children.append(the_new_child)
-            print('--- created 2-----', the_new_child)
         return the_new_child

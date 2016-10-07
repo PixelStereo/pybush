@@ -38,4 +38,5 @@ print('----------------------')
 print('------- VIEW AS DICT ')
 print('----------------------')
 for device in project.devices:
-	print(device.export())
+	from pprint import pprint
+	pprint(device.export())
