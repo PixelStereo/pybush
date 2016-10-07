@@ -91,7 +91,7 @@ class Node(NodeAbstract):
         """
         Call this method to attach a parameter to this node
         You can send a string or a dict as argument
-            :string : create a parameter with this name
+        string : create a parameter with this name
         """
         if args:
             if self._parameter == None:
