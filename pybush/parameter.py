@@ -25,6 +25,7 @@ class Parameter(NodeAbstract):
         self._repetitions = repetitions
         self._datatype = datatype
         self._service = 'xXx'
+        self._raw = raw
         # herited from the parent's node
         self.name = parent.name
         self.priority = parent.priority
