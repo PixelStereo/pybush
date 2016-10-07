@@ -5,11 +5,9 @@
 The Node is the Base class of all items in a namespace.
 Application and Parameter are based on the Node Class
 """
-import os
-import simplejson as json
-from pybush.functions import prop_dict
-from pybush.constants import __dbug__, _file_extention
 
+import simplejson as json
+from pybush.constants import __dbug__, __file_extention__
 
 
 class NodeAbstract(object):
@@ -27,7 +25,6 @@ class NodeAbstract(object):
 
     def __repr__(self):
         printer = 'AbstractNode (priority:{priority}, tags:{tags})'
-        #return str({self.name: prop_dict(self)})
         return printer.format(priority=self.priority, tags=self.tags)
 
     def reset(self):
@@ -64,9 +61,6 @@ class NodeAbstract(object):
     @tags.setter
     def tags(self, tags):
         self._tags = tags
-    @tags.deleter
-    def tags(self):
-        return False
 
     # ----------- PRIORITY -------------
     @property
@@ -78,9 +72,6 @@ class NodeAbstract(object):
     @priority.setter
     def priority(self, priority):
         self._priority = priority
-    @priority.deleter
-    def priority(self):
-        return False
 
     def write(self, savepath=None):
         """
@@ -90,8 +81,8 @@ class NodeAbstract(object):
             if savepath.endswith("/"):
                 savepath = savepath + self.name
             # make sure we will write a file with json extension
-            if not savepath.endswith('.' + _file_extention):
-                savepath = savepath + '.' + _file_extention
+            if not savepath.endswith('.' + __file_extention__):
+                savepath = savepath + '.' + __file_extention__
             try:
                 # create / open the file
                 out_file = open((savepath), "wb")
@@ -103,16 +94,16 @@ class NodeAbstract(object):
             try:
                 the_dump = json.dumps(project, sort_keys=True, indent=4,\
                                       ensure_ascii=False).encode("utf8")
-            except TypeError as Error:
-                print('ERROR 98 ' + str(Error))
+            except TypeError as error:
+                print('ERROR 98 ' + str(error))
                 return False
             try:
                 out_file.write(the_dump)
                 print("file has been written in " + savepath)
                 out_file.close()
                 return True
-            except TypeError as Error:
-                print('ERROR 99 ' + str(Error))
+            except TypeError as error:
+                print('ERROR 99 ' + str(error))
                 return False
         else:
             print('no filepath. Where do you want I save the project?')

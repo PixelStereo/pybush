@@ -8,9 +8,7 @@ A device has some protocol/plugin for input/output
 """
 
 from pybush.node import Node
-from pybush.functions import prop_dict
 from pybush.constants import __dbug__
-from pybush.file import load
 
 
 class Device(Node):
@@ -29,7 +27,8 @@ class Device(Node):
 
     def __repr__(self):
         printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
-        return printer.format(name=self.name, author=self.author, version=self.version, children=self.children)
+        return printer.format(name=self.name, author=self.author, \
+                                version=self.version, children=self.children)
 
     @property
     def path(self):
@@ -44,7 +43,7 @@ class Device(Node):
     @path.setter
     def path(self, value):
         self._path = value
-        
+
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties
@@ -66,9 +65,6 @@ class Device(Node):
     @author.setter
     def author(self, author):
         self._author = author
-    @author.deleter
-    def author(self):
-        return False
 
     # ----------- VERSION -------------
     @property
@@ -80,6 +76,3 @@ class Device(Node):
     @version.setter
     def version(self, version):
         self._version = version
-    @version.deleter
-    def version(self):
-        return False

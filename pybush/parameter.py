@@ -16,7 +16,8 @@ class Parameter(NodeAbstract):
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its parent's node
     """
-    def __init__(self, parent, value=None, datatype='generic', tags=['uno','dos'], priority=-1, domain=[-999999999, 999999999], clipmode=None, repetitions=0):
+    def __init__(self, parent, raw=None, value=None, datatype='generic', tags=['uno', 'dos'], \
+                    priority=-1, domain=[-999999999, 999999999], clipmode=None, repetitions=0):
         super(Parameter, self).__init__('no-name-for-a-parameter', parent)
         self._value = value
         self._clipmode = clipmode
@@ -33,26 +34,19 @@ class Parameter(NodeAbstract):
         """
         represents the parameter class
         """
-        printer = 'Parameter (name:{name}, value:{value}, datatype:{datatype}, domain:{domain}, clipmode:{clipmode}, repetitions:{repetitions}, priority:{priority}, tags:{tags})'
-        return printer.format(name=self.name, value=self.value, datatype=self.datatype, \
+        printer = 'Parameter (raw:{raw}, value:{value}, datatype:{datatype}, \
+                                domain:{domain}, clipmode:{clipmode}, \
+                                repetitions:{repetitions}, priority:{priority}, tags:{tags})'
+        return printer.format(raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
                               repetitions=self.repetitions, priority=self.priority, tags=self.tags)
-
-    @property
-    def service(self):
-        """
-        Return the service of the node
-        """
-        return self.__class__.__name__
-    @service.setter
-    def service(self, service):
-        pass
 
     def export(self):
         """
         export the Parameter to a json_string/python_dict with all its properties
         """
         param = {}
+        param.setdefault('raw', self.value)
         param.setdefault('value', self.value)
         param.setdefault('domain', self.domain)
         param.setdefault('datatype', self.datatype)
@@ -84,6 +78,7 @@ class Parameter(NodeAbstract):
     def update(self):
         """
         update is called when value is updated
+        might be used to send it to network or other protocols
         """
         print('update ' + self.name + ' to value ' + str(self.value))
 
@@ -108,9 +103,6 @@ class Parameter(NodeAbstract):
     def value(self, value):
         self._value = value
         self.update()
-    @value.deleter
-    def value(self):
-        return False
 
     # ----------- DOMAIN -------------
     @property
@@ -122,9 +114,6 @@ class Parameter(NodeAbstract):
     @domain.setter
     def domain(self, domain):
         self._domain = domain
-    @domain.deleter
-    def domain(self):
-        return False
 
     # ----------- CLIPMODE -------------
     @property
@@ -136,9 +125,6 @@ class Parameter(NodeAbstract):
     @clipmode.setter
     def clipmode(self, clipmode):
         self._clipmode = clipmode
-    @clipmode.deleter
-    def clipmode(self):
-        return False
 
     # ----------- REPETITIONS -------------
     @property
@@ -150,9 +136,6 @@ class Parameter(NodeAbstract):
     @repetitions.setter
     def repetitions(self, repetitions):
         self._repetitions = repetitions
-    @repetitions.deleter
-    def repetitions(self):
-        return False
 
     # ----------- DATATYPE -------------
     @property
@@ -165,6 +148,3 @@ class Parameter(NodeAbstract):
     @datatype.setter
     def datatype(self, datatype):
         self._datatype = datatype
-    @datatype.deleter
-    def datatype(self):
-        return False

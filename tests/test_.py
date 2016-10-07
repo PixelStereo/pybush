@@ -56,7 +56,7 @@ class TestAll(unittest.TestCase):
         print('-------', my_device.children)
         print('-------')
         print('-------')
-        self.assertEqual(len(my_device.children), 5)
+        self.assertEqual(len(my_device.children), 2)
         self.assertEqual(len(node_1.children), 0)
         self.assertEqual(len(node_2.children), 1)
         node_1.name = 'lol'
@@ -137,21 +137,10 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(parameter.value, str), True)
         parameter.datatype = None
         self.assertEqual(isinstance(parameter.value, float), True)
-        del parameter.domain
-        del parameter.datatype
-        del parameter.repetitions
-        del parameter.clipmode
-        del parameter.value
-        del parameter.priority
-        del parameter.tags
-        del parameter.name
 
     def test_print(self):
         my_project = new_project('My Python project')
         zdevice = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        #print(zdevice)
-        del zdevice.author
-        del zdevice.version
         print('----------------------------')
         print(zdevice.name + " version " + zdevice.version + " by " + zdevice.author)
 

@@ -10,14 +10,13 @@ Bunch of functions usefull for types, or namespace assertions, conventions or co
 def m_bool(value):
     """Transform to a bool if it is not already"""
     if not isinstance(value, bool):
+        # check if it is a list
         try:
             value = value[0]
         except:
             pass
-        if value:
-            value = True
-        else:
-            value = False
+        # simplify to a boolean
+        value = bool(value)
     return value
 
 def m_int(value):
