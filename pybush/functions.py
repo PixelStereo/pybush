@@ -75,6 +75,8 @@ def prop_dict(the_class):
             pass
         elif prop == 'service':
             pass
+        elif prop == 'address':
+            pass
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict

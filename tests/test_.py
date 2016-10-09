@@ -17,6 +17,7 @@ from pybush.node_abstract import NodeAbstract
 
 my_project = new_project('My Python project')
 another_project = new_project('Another Python project')
+#len(projects())
 my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
 node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
 node_2 = node_1.new_child('node.2', tags=['lol', 'lal'], priority=-1)
@@ -63,8 +64,9 @@ class TestAll(unittest.TestCase):
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        self.assertEqual(len(prop_dict(node_1).keys()), 5)
-        self.assertEqual(len(prop_list(node_1)), 7)
+        self.assertEqual(len(prop_dict(node_1).keys()), 7)
+        self.assertEqual(len(prop_list(node_1)), 10)
+
 
     def test_parameter(self):
         self.assertEqual(my_device.make_parameter(['fake']), False)

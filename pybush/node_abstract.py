@@ -6,25 +6,25 @@ The Node is the Base class of all items in a namespace.
 Application and Parameter are based on the Node Class
 """
 
-import simplejson as json
 from pybush.constants import __dbug__, __file_extention__
-
+from pybush.file import File
 
 class NodeAbstract(object):
     """
     Abstract Base Class for all item in the namespace
     Need to be subclassed
     """
-    def __init__(self, parent=None, service=None, tags=None, priority=None):
+    def __init__(self, name=None, parent=None, service=None, tags=None, priority=None):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
+        self._name = name
         self._parent = parent
         self.service = service
         self._tags = tags
         self._priority = priority
 
     def __repr__(self):
-        printer = 'AbstractNode (priority:{priority}, tags:{tags})'
+        printer = 'NodeAbstract (priority:{priority}, tags:{tags})'
         return printer.format(priority=self.priority, tags=self.tags)
 
     def reset(self):
@@ -32,6 +32,37 @@ class NodeAbstract(object):
         Clear the content of the node
         """
         pass
+
+    # ----------- NAME -------------
+    @property
+    def name(self):
+        """
+        Current name of the node
+        """
+        return self._name
+    @name.setter
+    def name(self, name):
+        self._name = name
+
+    # ----------- ADDRESS -------------
+    @property
+    def address(self):
+        """
+        Current name of the node
+        """
+        address = self.name
+        if self.parent:
+            address = self.parent.name + address
+            if self.parent.parent:
+                address = self.parent.parent.name + address
+                if self.parent.parent.parent:
+                    address = self.parent.parent.parent.name + address
+                    if self.parent.parent.parent.parent:
+                        address = self.parent.parent.parent.parent.name + address
+        return address
+    @address.setter
+    def address(self, address):
+        print('come back later for setting a new address for a node')
 
     @property
     def service(self):
@@ -71,38 +102,3 @@ class NodeAbstract(object):
     @priority.setter
     def priority(self, priority):
         self._priority = priority
-
-    def write(self, savepath=None):
-        """
-        Write a node on the hard drive.
-        """
-        if savepath:
-            if savepath.endswith("/"):
-                savepath = savepath + self.name
-            # make sure we will write a file with json extension
-            if not savepath.endswith('.' + __file_extention__):
-                savepath = savepath + '.' + __file_extention__
-            try:
-                # create / open the file
-                out_file = open((savepath), "wb")
-            except IOError:
-                # path does not exists
-                print("ERROR 909 - path is not valid, could not save the node - " + savepath)
-                return False
-            try:
-                the_dump = json.dumps(self.export(), sort_keys=True, indent=4,\
-                                      ensure_ascii=False).encode("utf8")
-            except TypeError as error:
-                print('ERROR 98 ' + str(error))
-                return False
-            try:
-                out_file.write(the_dump)
-                print("file has been written in " + savepath)
-                out_file.close()
-                return True
-            except TypeError as error:
-                print('ERROR 99 ' + str(error))
-                return False
-        else:
-            print('no filepath. Where do you want I save the node?')
-            return False

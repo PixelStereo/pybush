@@ -5,14 +5,10 @@
 File Class is an abstract class to add read/write json files
 """
 import os
-
-from pybush.constants import __dbug__, __file_extention__
+import simplejson as json
+from pybush.constants import __dbug__,  __file_extention__
 from pybush.functions import load_json
 
-def file_extention():
-    """return the file extention"""
-    file_extention = '.' + __file_extention__
-    return file_extention
 
 class File(object):
     """
@@ -22,10 +18,9 @@ class File(object):
     Instance must have import / export / reset methods
     Instance must have name attribute
     """
-    def __init__(self, name, path=None):
-        super(File, self).__init__(name)
+    def __init__(self, name=None, path=None):
+        super(File, self).__init__()
         self._path = path
-        self.name = name
 
     @property
     def path(self):
@@ -34,6 +29,14 @@ class File(object):
     def path(self, path):
         self._path = path
 
+    @property
+    def file_extention(self):
+        """return the file extention"""
+        file_extention = '.' + __file_extention__
+        return file_extention
+    @file_extention.setter
+    def file_extention(self, new_f_e_):
+        __file_extention__ = new_f_e_
 
     def load(self, path):
         """
@@ -64,3 +67,47 @@ class File(object):
                 if __dbug__:
                     print("--- problem when loading JSON from " + path + ' - Maybe your file was empty ? ?')
                 return False
+
+    def write(self, savepath=None):
+        """
+        Write a node on the hard drive.
+        """
+        if savepath:
+            if savepath.endswith("/"):
+                savepath = savepath + self.name
+            # make sure we will write a file with json extension
+            if not savepath.endswith(self.file_extention):
+                savepath = savepath + self.file_extention
+            try:
+                # create / open the file
+                out_file = open((savepath), "wb")
+            except IOError:
+                # path does not exists
+                print("ERROR 909 - path is not valid, could not save the node - " + savepath)
+                return False
+            print('-----xxxxxxx-x--------')
+            print('-----xxxxxxx-x--------')
+            print('-----xxxxxxx-x--------')
+            print('-----xxxxxxx-x--------')
+            print(self.export())
+            print('-----xxxxxxx-x--------')
+            print('-----xxxxxxx-x--------')
+            print('-----xxxxxxx-x--------')
+            print('-----xxxxxxx-x--------')
+            try:
+                the_dump = json.dumps(self.export(), sort_keys=True, indent=4,\
+                                      ensure_ascii=False).encode("utf8")
+            except TypeError as error:
+                print('ERROR 98 ' + str(error))
+                return False
+            try:
+                out_file.write(the_dump)
+                print("file has been written in " + savepath)
+                out_file.close()
+                return True
+            except TypeError as error:
+                print('ERROR 99 ' + str(error))
+                return False
+        else:
+            print('no filepath. Where do you want I save the node?')
+            return False

@@ -9,23 +9,20 @@ Application and Parameter are based on the Node Class
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
 from pybush.parameter import Parameter
+from pybush.file import File
 
-
-class Node(NodeAbstract):
+class Node(NodeAbstract, File):
     """Base Class for all item in the namespace"""
     def __init__(self, name, parent=None, service=None, tags=None, priority=None, \
                     parameter=None, children=None):
         super(Node, self).__init__(parent, service, tags, priority)
         # initialise attributes/properties of this node
-        self._name = name
         self._parameter = parameter
         self._children = children
 
     def __repr__(self):
-        printer = 'Node (name:{name}, priority:{priority}, tags:{tags}, \
-                    parameter:{parameter}, children:{children})'
-        return printer.format(name=self.name, priority=self.priority, tags=self.tags, \
-                                parameter=self.parameter, children=self.children)
+        printer = 'Node (name:{name}, parameter:{parameter}, children:{children})'
+        return printer.format(name=self.name, parameter=self.parameter, children=self.children)
 
     def export(self):
         """
@@ -37,8 +34,8 @@ class Node(NodeAbstract):
             param = None
         filiation = []
         if self.children:
-            for child_0 in self.children:
-                filiation.append(child_0.export())
+            for chili in self.children:
+                filiation.append(chili.export())
         return {'name':self.name, 'tags':self.tags, 'priority':self.priority, \
                 'children':filiation, 'parameter':param}
 
@@ -55,17 +52,6 @@ class Node(NodeAbstract):
             self._children = [the_new_child]
         else:
             self._children.append(the_new_child)
-
-    # ----------- NAME -------------
-    @property
-    def name(self):
-        """
-        Current name of the node
-        """
-        return self._name
-    @name.setter
-    def name(self, name):
-        self._name = name
 
     # ----------- PARAMETER -------------
     @property

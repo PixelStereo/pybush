@@ -48,12 +48,12 @@ class Device(Node):
         """
         export Node to a json_string/python_dict with all its properties
         """
-        dev = {}
-        dev.update({'name':self.name, 'author':self.author, 'version':self.version, 'children':[]})
+        child_export = None
         if self.children:
+            child_export = []
             for child in self.children:
-                dev['children'].append(child.export())
-        return dev
+                child_export.append(child.export())
+        return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child.export}
 
     # ----------- AUTHOR -------------
     @property

@@ -11,9 +11,9 @@ But it might it use only with devices and active mappings between input devices 
 import os
 from pybush.device import Device
 from pybush.node import Node
-from pybush.constants import __dbug__, __projects__, __file_extention__
+from pybush.constants import __dbug__, __projects__
+from pybush.node_abstract import NodeAbstract
 from pybush.file import File
-
 
 def new_project(name=None):
     """
@@ -29,7 +29,7 @@ def projects():
     """
     return __projects__
 
-class Project(File, Node):
+class Project(NodeAbstract, File):
     """
     Project class, will host devices, scenario, mappings etc…
     """
@@ -49,6 +49,7 @@ class Project(File, Node):
         proj = {'devices':[]}
         for device in self.devices:
             proj['devices'].append(device.export())
+        print(proj)
         return proj
 
     def new_device(self, *args, **kwargs):
