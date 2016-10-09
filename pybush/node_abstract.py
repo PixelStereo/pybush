@@ -74,7 +74,7 @@ class NodeAbstract(object):
 
     def write(self, savepath=None):
         """
-        Write a project on the hard drive.
+        Write a node on the hard drive.
         """
         if savepath:
             if savepath.endswith("/"):
@@ -87,11 +87,10 @@ class NodeAbstract(object):
                 out_file = open((savepath), "wb")
             except IOError:
                 # path does not exists
-                print("ERROR 909 - path is not valid, could not save project - " + savepath)
+                print("ERROR 909 - path is not valid, could not save the node - " + savepath)
                 return False
-            project = self.export()
             try:
-                the_dump = json.dumps(project, sort_keys=True, indent=4,\
+                the_dump = json.dumps(self.export(), sort_keys=True, indent=4,\
                                       ensure_ascii=False).encode("utf8")
             except TypeError as error:
                 print('ERROR 98 ' + str(error))
@@ -105,5 +104,5 @@ class NodeAbstract(object):
                 print('ERROR 99 ' + str(error))
                 return False
         else:
-            print('no filepath. Where do you want I save the project?')
+            print('no filepath. Where do you want I save the node?')
             return False
