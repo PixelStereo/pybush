@@ -5,7 +5,7 @@
 Bunch of functions usefull for types, or namespace assertions, conventions or convertions
 """
 
-#from pybush.device import Device
+import simplejson as json
 
 def m_bool(value):
     """Transform to a bool if it is not already"""
@@ -78,3 +78,20 @@ def prop_dict(the_class):
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict
+
+def load_json(filepath):
+    """
+    Load a Json file from a file from hard drive
+    it will return the contant as a python dict 
+    """
+    content = False
+    try:
+        with open(filepath) as in_file:
+            # clear the node
+            content = json.load(in_file)
+    # catch error if file is not valid or if file is not a Node file
+    except (IOError, ValueError):
+        if __dbug__:
+            print("ERROR 906 - node not loaded, this is not a valid Node file")
+        return False
+    return content

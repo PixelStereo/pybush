@@ -9,10 +9,10 @@ But it might it use only with devices and active mappings between input devices 
 """
 
 import os
-import simplejson as json
 from pybush.device import Device
 from pybush.node import Node
 from pybush.constants import __dbug__, __projects__, __file_extention__
+from pybush.file import File
 
 
 def new_project(name=None):
@@ -29,12 +29,12 @@ def projects():
     """
     return __projects__
 
-class Project(Node):
+class Project(File, Node):
     """
     Project class, will host devices, scenario, mappings etc…
     """
     def __init__(self, name='no-name-project', path=None):
-        super(Project, self).__init__(name, 'no-parent-for-Project')
+        super(Project, self).__init__(name)
         self._path = path
         self._devices = []
 
@@ -80,7 +80,9 @@ class Project(Node):
         :returns: True if file formatting is correct, False otherwise
         :rtype: boolean
         """
-        file_content = load(filepath)
+        # self.load is a method from File Class
+        file_content = self.load(filepath)
+        # if valid python dict / json file
         if file_content:
             print('loading project called : ' + filepath)
         else:
@@ -108,58 +110,4 @@ class Project(Node):
         except (IOError, ValueError) as error:
             if __dbug__:
                 print(error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
-            return False
-
-
-
-
-
-
-
-
-def get_file_extention():
-    """return the file extention"""
-    file_extention = '.' + __file_extention__
-    return file_extention
-
-def load_json(path):
-    """
-    Load a Node from a file from hard drive
-    It will play the file after loading, according to autoplay attribute value
-
-        :arg: file to load. Filepath must be valid when provided, it must be checked before.
-
-        :rtype:True if the node has been correctly loaded, False otherwise
-    """
-    content = False
-    try:
-        with open(path) as in_file:
-            # clear the node
-            content = json.load(in_file)
-    # catch error if file is not valid or if file is not a Node file
-    except (IOError, ValueError):
-        print("ERROR 906 - node not loaded, this is not a valid Node file")
-        return False
-    return content
-
-def load(path):
-    """
-    Read a Node file from hard drive. Must be valid.
-    if valid it will be loaded and return True, otherwise, it will return False
-
-        :param path: Filepath to read from.
-        :type path: string
-        :returns: Boolean
-        :rtype: True if the node has been correctly loaded, False otherwise
-    """
-    path = os.path.abspath(path)# + get_file_extention()
-    if not os.path.exists(path):
-        print("ERROR 901 - THIS PATH IS NOT VALID " + path)
-        return False
-    else:
-        print("loading JSON from " + path)
-        loading = load_json(path)
-        if loading:
-            return loading
-        else:
             return False
