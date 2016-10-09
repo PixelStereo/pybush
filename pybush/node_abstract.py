@@ -48,8 +48,7 @@ class NodeAbstract(object):
         """
         Return the parent of the node
         """
-        print('ask for parent of ', self)
-        return self._parent.name
+        return self._parent
 
     # ----------- TAGS -------------
     @property
