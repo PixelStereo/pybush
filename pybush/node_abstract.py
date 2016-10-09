@@ -50,6 +50,9 @@ class NodeAbstract(object):
         Current name of the node
         """
         def get_address(self):
+        	"""
+        	recursive function to get into parent's hierarchy
+        	"""
             address = self.name
             if self.__class__.__name__ is not 'Device':
                 if self.parent:
@@ -62,6 +65,7 @@ class NodeAbstract(object):
     @address.setter
     def address(self, address):
         print('come back later for setting a new address for a node', address)
+        print(self.address)
 
     @property
     def service(self):
