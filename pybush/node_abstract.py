@@ -49,19 +49,19 @@ class NodeAbstract(object):
         """
         Current name of the node
         """
-        address = self.name
-        if self.parent:
-            address = self.parent.name + address
-            if self.parent.parent:
-                address = self.parent.parent.name + address
-                if self.parent.parent.parent:
-                    address = self.parent.parent.parent.name + address
-                    if self.parent.parent.parent.parent:
-                        address = self.parent.parent.parent.parent.name + address
-        return address
+        def get_address(self):
+            address = self.name
+            if self.__class__.__name__ is not 'Device':
+                if self.parent:
+                    if self.__class__.__name__ is 'Parameter':
+                        address = get_address(self.parent)
+                    else:
+                        address = get_address(self.parent) + '/' + address
+            return address
+        return get_address(self)
     @address.setter
     def address(self, address):
-        print('come back later for setting a new address for a node', self.address)
+        print('come back later for setting a new address for a node', address)
 
     @property
     def service(self):

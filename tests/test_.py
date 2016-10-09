@@ -26,7 +26,7 @@ param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
                          'priority':111, 'domain':[0,11], 'clipmode':'both', \
                          'repetitions':1})
-param_3 = node_2.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
+param3 = node_2.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
                          priority=323, domain=[-1,1], clipmode='low', \
                          repetitions=1)
 
@@ -148,6 +148,16 @@ class TestAll(unittest.TestCase):
         print(abstrakt)
         for key, val in param2.export().items():
             print(key, val)
+
+    def test_address(self):
+        print('----device-----', my_device.address, '--------------')
+        print('----node_1-----', node_1.address, '--------------')
+        print('----node_2-----', node_2.address, '--------------')
+        print('----node_3-----', node_3.address, '--------------')
+        print('----param1-----', param1.address, '--------------')
+        print('----param2-----', param2.address, '--------------')
+        print('----param3-----', param3.address, '--------------')
+        #self.assertEqual(param1.address, 'param1')
 
 
 if __name__ == '__main__':

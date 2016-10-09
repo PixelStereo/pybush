@@ -20,6 +20,7 @@ class File(object):
     """
     def __init__(self, path=None):
         super(File, self).__init__()
+        self._file_extention = __file_extention__
         self._path = path
 
     @property
@@ -35,10 +36,10 @@ class File(object):
     @property
     def file_extention(self):
         """return the file extention"""
-        return '.' + __file_extention__
+        return '.' + self._file_extention
     @file_extention.setter
     def file_extention(self, new_f_e_):
-        __file_extention__ = new_f_e_
+        self._file_extention = new_f_e_
 
     def read(self, path):
         """
