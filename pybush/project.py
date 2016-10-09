@@ -8,9 +8,7 @@ It might contains scenario, which is useful to drive devices
 But it might it use only with devices and active mappings between input devices and output devices
 """
 
-import os
 from pybush.device import Device
-from pybush.node import Node
 from pybush.constants import __dbug__, __projects__
 from pybush.node_abstract import NodeAbstract
 from pybush.file import File
@@ -71,7 +69,7 @@ class Project(NodeAbstract, File):
         """
         return self._devices
 
-    def read(self, filepath):
+    def load(self, filepath):
         """
         Fillin Bush with objects created from a json file
 
@@ -81,8 +79,9 @@ class Project(NodeAbstract, File):
         :returns: True if file formatting is correct, False otherwise
         :rtype: boolean
         """
-        # self.load is a method from File Class
-        file_content = self.load(filepath)
+        # self.read is a method from File Class
+        file_content = self.read(filepath)
+        # TODO : CHECK IF THIS IS A VALID PROJECT FILE
         # if valid python dict / json file
         if file_content:
             print('loading project called : ' + filepath)

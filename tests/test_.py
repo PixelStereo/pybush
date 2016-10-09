@@ -90,7 +90,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_project.write(), False)
         filepath = os.path.abspath('export-test_project.bush')
         project = new_project()
-        read = project.read(filepath)
+        read = project.load(filepath)
 
     def test_modular_functions(self):
         b = 2

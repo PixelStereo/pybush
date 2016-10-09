@@ -6,8 +6,7 @@ The Node is the Base class of all items in a namespace.
 Application and Parameter are based on the Node Class
 """
 
-from pybush.constants import __dbug__, __file_extention__
-from pybush.file import File
+from pybush.constants import __dbug__
 
 class NodeAbstract(object):
     """
@@ -62,7 +61,7 @@ class NodeAbstract(object):
         return address
     @address.setter
     def address(self, address):
-        print('come back later for setting a new address for a node')
+        print('come back later for setting a new address for a node', self.address)
 
     @property
     def service(self):

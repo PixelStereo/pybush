@@ -18,7 +18,7 @@ class File(object):
     Instance must have import / export / reset methods
     Instance must have name attribute
     """
-    def __init__(self, name=None, path=None):
+    def __init__(self, path=None):
         super(File, self).__init__()
         self._path = path
 
@@ -40,7 +40,7 @@ class File(object):
     def file_extention(self, new_f_e_):
         __file_extention__ = new_f_e_
 
-    def load(self, path):
+    def read(self, path):
         """
         Read a Node file from hard drive. Must be valid.
         if valid it will be loaded and return True, otherwise, it will return False
