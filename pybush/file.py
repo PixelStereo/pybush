@@ -4,6 +4,7 @@
 """
 File Class is an abstract class to add read/write json files
 """
+import os
 
 from pybush.constants import __dbug__, __file_extention__
 from pybush.functions import load_json
