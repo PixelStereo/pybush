@@ -77,12 +77,9 @@ class Node(NodeAbstract):
         """
         return self._parameter
     @parameter.setter
-    def parameter(self, parameter_object):
-        if self.parameter is None:
-            self._parameter = Parameter(self)
-        else:
-            print('WHY DO YOU WANT TO CHANGE THE PARAMETER OBJECT OF THIS NODE ????', self.name)
-        self._parameter = parameter_object
+    def parameter(self, anything):
+        print('ERROR - NEVER CHANGE A PARAMETER OBJECT FOR A NODE, AT LEAST FOR THE MOMENT')
+        
 
     # ----------- MAKE_PARAMETER METHOD -------------
     def make_parameter(self, *args, **kwargs):
