@@ -13,96 +13,82 @@ import datetime
 from pybush.constants import __dbug__
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
+from pybush.node_abstract import NodeAbstract
 
- 
+my_project = new_project('My Python project')
+another_project = new_project('Another Python project')
+my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
+node_2 = node_1.new_child('node.2', tags=['lol', 'lal'], priority=-1)
+node_3 = node_2.new_child("node_ 3's parent is node_2")
+param1 = my_device.make_parameter()
+param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
+                         'priority':-1, 'domain':[0,11], 'clipmode':'both', \
+                         'repetitions':1})
+param_3 = node_2.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
+                         priority=-1, domain=[-1,1], clipmode='low', \
+                         repetitions=1)
+
 class TestAll(unittest.TestCase):
 
     def test_a_project(self):
-        my_project = new_project('My Python project')
         self.assertEqual(my_project.name, 'My Python project')
-        another_project = new_project('Another Python project')
         self.assertEqual(another_project.name, 'Another Python project')
         self.assertEqual(len(projects()), 2)
 
     def test_device(self):
-        my_project = new_project('My Python project')
-        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        author = my_device.author
-        name = my_device.name
-        version = my_device.version
-        self.assertEqual(isinstance(author, str), True)
-        self.assertEqual(author, 'Pixel Stereo')
-        self.assertEqual(isinstance(version, str), True)
-        self.assertEqual(version, '0.1.0')
-        self.assertEqual(type(name), str)
-        self.assertEqual(name, 'My Python device')
-        another_device = my_project.new_device('Another Py device')
-        self.assertEqual(len(my_project.devices), 2)
+        self.assertEqual(isinstance(my_device.author, str), True)
+        self.assertEqual(my_device.author, 'Pixel Stereo')
+        self.assertEqual(isinstance(my_device.version, str), True)
+        self.assertEqual(my_device.version, '0.1.0')
+        self.assertEqual(type(my_device.name), str)
+        self.assertEqual(my_device.name, 'My Python device')
+        self.assertEqual(len(my_project.devices), 1)
 
     def test_nodes(self):
-        my_project = new_project('My Python project')
-        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
-        node_2 = my_device.new_child('node.2', tags=['lol', 'lal'], priority=-1)
-        node_2_bis = node_2.new_child('node.2.bis')
         self.assertEqual(node_2.priority, None)
         node_2.priority = 10
         self.assertEqual(node_2.priority, 10)
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        print('-------')
-        print('-------')
-        print('-------')
-        print('-------', my_device.children)
-        print('-------')
-        print('-------')
-        self.assertEqual(len(my_device.children), 2)
-        self.assertEqual(len(node_1.children), 0)
+        self.assertEqual(len(my_device.children), 1)
+        self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
         node_1.name = 'lol'
 
     def test_device_export(self):
-        my_project = new_project('My Python project')
-        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
-        node_2 = my_device.new_child('node.2', tags=['lol', 'lal'], priority=-1)
-        node_2_bis = node_2.new_child('node.2.bis')
-        node = my_device.new_child('node')
         xprt = my_project.export()
         self.assertEqual(isinstance(xprt, dict), True)
         xprt_name = xprt['devices'][0]['author']
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        my_project = new_project('My Python project')
-        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
         self.assertEqual(len(prop_dict(node_1).keys()), 5)
         self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
-        my_project = new_project('My Python project')
-        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        param1 = my_device.make_parameter()
+        self.assertEqual(my_device.make_parameter(['fake']), False)
         self.assertEqual(param1.name, 'My Python device')
 
     def test_writing_files(self):
-        my_project = new_project('My Python project')
-        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        node_1 = my_project.new_child('node 1', priority=22, tags=['a ', 'new'])
-        param1 = node_1.make_parameter()
-        node_2 = node_1.new_child('node 2', priority=44, tags=['another ', 'old'])
-        param2 = node_2.make_parameter()
+        self.assertEqual(node_1.parameter, param2)
+        self.assertNotEqual(node_1.parameter, param1)
+        setattr(node_1, 'parameter', param2)
         write_path = os.path.abspath('./')
         write_path = write_path + '/'
         node1_write_path = write_path + 'export-test_node_1'
         self.assertEqual(node_1.write(node1_write_path), True)
         node2_write_path = write_path + 'export-test_node_2'
         self.assertEqual(node_2.write(node2_write_path), True)
-        device_write_path = write_path + 'export-test_device'
-        self.assertEqual(my_device.write(device_write_path), True)
+        my_device.name = 'export-device filename from device.name attribute'
+        self.assertEqual(my_device.write(write_path), True)
         project_write_path = write_path + 'export-test_project'
         self.assertEqual(my_project.write(project_write_path), True)
+        self.assertEqual(my_project.write('/no/fake/BOGUS'), False)
+        self.assertEqual(my_project.write(), False)
+        filepath = os.path.abspath('export-test_project.bush')
+        project = new_project()
+        read = project.read(filepath)
 
     def test_modular_functions(self):
         b = 2
@@ -129,9 +115,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(s, list), True)
         s = m_string(s)
         self.assertEqual(isinstance(s, str), True)
-        my_project = new_project('My Python project')
-        zop = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-        parameter = zop.make_parameter()
+        parameter = my_device.make_parameter()
         parameter.value = 3.2
         parameter.datatype = 'decimal'
         parameter.tags = ['uno','dos']
@@ -139,9 +123,8 @@ class TestAll(unittest.TestCase):
         parameter.domain = [0,1]
         parameter.clipmode = 'both'
         parameter.repetitions = 1
-        print(parameter)
         # create two parameters with the same name must be raised
-        same = zop.make_parameter()
+        same = my_device.make_parameter()
         # here, we just assign the parameter as False
         self.assertEqual(same, same)
         self.assertEqual(parameter.value, 1)
@@ -157,10 +140,12 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(parameter.value, float), True)
 
     def test_print(self):
-        my_project = new_project('My Python project')
-        zdevice = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
         print('----------------------------')
-        print(zdevice.name + " version " + zdevice.version + " by " + zdevice.author)
+        print(my_device.name + " version " + my_device.version + " by " + my_device.author)
+        abstrakt = NodeAbstract()
+        print(abstrakt)
+        for key, val in param2.export().items():
+            print(key, val)
 
 
 if __name__ == '__main__':
