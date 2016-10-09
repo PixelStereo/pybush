@@ -24,6 +24,9 @@ class File(object):
 
     @property
     def path(self):
+        """
+        the path on the hard drive where this file has been loaded
+        """
         return self._path
     @path.setter
     def path(self, path):
@@ -32,8 +35,7 @@ class File(object):
     @property
     def file_extention(self):
         """return the file extention"""
-        file_extention = '.' + __file_extention__
-        return file_extention
+        return '.' + __file_extention__
     @file_extention.setter
     def file_extention(self, new_f_e_):
         __file_extention__ = new_f_e_
@@ -85,15 +87,6 @@ class File(object):
                 # path does not exists
                 print("ERROR 909 - path is not valid, could not save the node - " + savepath)
                 return False
-            print('-----xxxxxxx-x--------')
-            print('-----xxxxxxx-x--------')
-            print('-----xxxxxxx-x--------')
-            print('-----xxxxxxx-x--------')
-            print(self.export())
-            print('-----xxxxxxx-x--------')
-            print('-----xxxxxxx-x--------')
-            print('-----xxxxxxx-x--------')
-            print('-----xxxxxxx-x--------')
             try:
                 the_dump = json.dumps(self.export(), sort_keys=True, indent=4,\
                                       ensure_ascii=False).encode("utf8")

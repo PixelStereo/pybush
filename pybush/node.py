@@ -15,7 +15,7 @@ class Node(NodeAbstract, File):
     """Base Class for all item in the namespace"""
     def __init__(self, name, parent=None, service=None, tags=None, priority=None, \
                     parameter=None, children=None):
-        super(Node, self).__init__(parent, service, tags, priority)
+        super(Node, self).__init__(name=name, parent=parent, service=service, tags=tags, priority=priority)
         # initialise attributes/properties of this node
         self._parameter = parameter
         self._children = children
@@ -63,9 +63,11 @@ class Node(NodeAbstract, File):
         """
         return self._parameter
     @parameter.setter
-    def parameter(self, anything):
-        print('ERROR - NEVER CHANGE A PARAMETER OBJECT FOR A NODE, AT LEAST FOR THE MOMENT')
-        
+    def parameter(self, *args, **kwargs):
+        if args:
+            print('why to do with that')
+        elif kwargs:
+            self._parameter.set(kwargs)
 
     # ----------- MAKE_PARAMETER METHOD -------------
     def make_parameter(self, *args, **kwargs):
@@ -101,8 +103,9 @@ class Node(NodeAbstract, File):
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            the_new_child = Node(child['name'], self, tags=child['tags'], \
+            the_new_child = Node(name=child['name'], parent=self, tags=child['tags'], \
                                 priority=child['priority'], children=[])
+            # this will append this children as a child in the self.children list
             self.children = the_new_child
             # maybe the new_child contains children itself?
             if len(child['children']) > 0:
@@ -117,6 +120,6 @@ class Node(NodeAbstract, File):
 
         else:
             # if the child argument is only a string, this is the name of the new_child to create
-            the_new_child = Node(child, self, children=[])
+            the_new_child = Node(child, self, priority=priority, tags=tags, children=[])
             self.children = the_new_child
         return the_new_child

@@ -16,9 +16,9 @@ class Parameter(NodeAbstract):
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its parent's node
     """
-    def __init__(self, parent, raw=None, value=None, datatype='generic', tags=['uno', 'dos'], \
-                    priority=-1, domain=[-999999999, 999999999], clipmode=None, repetitions=0):
-        super(Parameter, self).__init__('no-name-for-a-parameter', parent)
+    def __init__(self, parent=None, raw=None, value=None, datatype=None, tags=None, \
+                    priority=None, domain=None, clipmode=None, repetitions=True):
+        super(Parameter, self).__init__(parent=parent)
         self._value = value
         self._clipmode = clipmode
         self._domain = domain
@@ -54,6 +54,13 @@ class Parameter(NodeAbstract):
         param.setdefault('clipmode', self.clipmode)
         param.setdefault('repetitions', self.repetitions)
         return param
+
+    def set(self, state_dict):
+        """
+        Set a parameter to a state
+        """
+        for prop, val in state_dict:
+            setattr(self, prop, val)
 
     def clip(self, value):
         """

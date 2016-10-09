@@ -20,14 +20,14 @@ another_project = new_project('Another Python project')
 #len(projects())
 my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
 node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
-node_2 = node_1.new_child('node.2', tags=['lol', 'lal'], priority=-1)
+node_2 = node_1.new_child('node.2', tags=['lol', 'lal'])
 node_3 = node_2.new_child("node_ 3's parent is node_2")
 param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
-                         'priority':-1, 'domain':[0,11], 'clipmode':'both', \
+                         'priority':111, 'domain':[0,11], 'clipmode':'both', \
                          'repetitions':1})
 param_3 = node_2.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
-                         priority=-1, domain=[-1,1], clipmode='low', \
+                         priority=323, domain=[-1,1], clipmode='low', \
                          repetitions=1)
 
 class TestAll(unittest.TestCase):
@@ -121,7 +121,7 @@ class TestAll(unittest.TestCase):
         parameter.value = 3.2
         parameter.datatype = 'decimal'
         parameter.tags = ['uno','dos']
-        parameter.priority = -1
+        parameter.priority = 10
         parameter.domain = [0,1]
         parameter.clipmode = 'both'
         parameter.repetitions = 1

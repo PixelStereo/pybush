@@ -53,7 +53,7 @@ class Device(Node):
             child_export = []
             for child in self.children:
                 child_export.append(child.export())
-        return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child.export}
+        return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child_export}
 
     # ----------- AUTHOR -------------
     @property

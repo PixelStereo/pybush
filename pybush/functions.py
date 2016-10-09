@@ -13,7 +13,7 @@ def m_bool(value):
         # check if it is a list
         try:
             value = value[0]
-        except:
+        except TypeError:
             pass
         # simplify to a boolean
         value = bool(value)
@@ -84,7 +84,7 @@ def prop_dict(the_class):
 def load_json(filepath):
     """
     Load a Json file from a file from hard drive
-    it will return the contant as a python dict 
+    it will return the contant as a python dict
     """
     content = False
     try:
