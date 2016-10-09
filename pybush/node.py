@@ -13,15 +13,11 @@ from pybush.parameter import Parameter
 
 class Node(NodeAbstract):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, parent, service='no', tags=None, priority=None, \
+    def __init__(self, name, parent=None, service=None, tags=None, priority=None, \
                     parameter=None, children=None):
-        super(Node, self).__init__(parent, service='no', tags=None, priority=None)
+        super(Node, self).__init__(parent, service, tags, priority)
         # initialise attributes/properties of this node
         self._name = name
-        self._parent = parent
-        self.service = service
-        self._tags = tags
-        self._priority = priority
         self._parameter = parameter
         self._children = children
 

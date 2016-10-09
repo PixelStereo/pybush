@@ -86,6 +86,24 @@ class TestAll(unittest.TestCase):
         param1 = my_device.make_parameter()
         self.assertEqual(param1.name, 'My Python device')
 
+    def test_writing_files(self):
+        my_project = new_project('My Python project')
+        my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
+        node_1 = my_project.new_child('node 1', priority=22, tags=['a ', 'new'])
+        param1 = node_1.make_parameter()
+        node_2 = node_1.new_child('node 2', priority=44, tags=['another ', 'old'])
+        param2 = node_2.make_parameter()
+        write_path = os.path.abspath('./')
+        write_path = write_path + '/'
+        node1_write_path = write_path + 'export-test_node_1'
+        self.assertEqual(node_1.write(node1_write_path), True)
+        node2_write_path = write_path + 'export-test_node_2'
+        self.assertEqual(node_2.write(node2_write_path), True)
+        device_write_path = write_path + 'export-test_device'
+        self.assertEqual(my_device.write(device_write_path), True)
+        project_write_path = write_path + 'export-test_project'
+        self.assertEqual(my_project.write(project_write_path), True)
+
     def test_modular_functions(self):
         b = 2
         self.assertEqual(isinstance(b, int), True)

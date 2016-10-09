@@ -19,7 +19,7 @@ install:
 # check the tests coverage
 - pip install coverage
 # install codacy tools
-#- pip install codacy-coverage
+- pip install codacy-coverage
 # install code-climate tools
 - pip install codeclimate-test-reporter
 # install to publish documentation from push or tag
@@ -28,9 +28,9 @@ script:
 - cd tests
 # codacy
 - coverage run --omit ../pybush/_version.py --omit ../versioneer.py  --include=../pybush/"*" test_.py
-#- coverage xml
-#- coverage report -m
-#- python-codacy-coverage -r coverage.xml
+- coverage xml
+- coverage report -m
+- python-codacy-coverage -r coverage.xml
 # code climate
 - codeclimate-test-reporter
 # build the documentation

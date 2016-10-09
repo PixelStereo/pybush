@@ -27,12 +27,6 @@ headerprint('create a node')
 node_1 = device.new_child('node.1')
 node_1.tags = ['tag', 'for', 'node_1']
 
-print(node_1.children)
-
-print('ON EN EST LA ---------- ', node_1)
-
-
-
 pprint(node_1.export())
 
 headerprint('THE PROJECT')
@@ -87,9 +81,4 @@ print('------------------ END OF EXPORT NODE 1 -------------------------------')
 print('------------------ EXPORT A PROJECT -------------------------------')
 pprint(project.export())
 print('------------------ END OF A PROJECT -------------------------------')
-#print(device.write())
-#print(device.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_device'))
-print(node_1.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_1'))
-print(node_2.write('/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_node_2'))
-the_path = '/Volumes/work/Users/reno/Documents/GITs/pybush/examples/export-test_project'
-print(project.write(the_path))
+

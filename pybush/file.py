@@ -19,12 +19,20 @@ class File(object):
     Implements read and write methods
     Implements path attribute
     Instance must have import / export / reset methods
+    Instance must have name attribute
     """
-    def __init__(self, name, parent, path=None):
-        super(File, self).__init__(1, 2)
+    def __init__(self, name, path=None):
+        super(File, self).__init__(name)
+        self._path = path
         self.name = name
-        self.parent = parent
-        self.path = path
+
+    @property
+    def path(self):
+        return self._path
+    @path.setter
+    def path(self, path):
+        self._path = path
+
 
     def load(self, path):
         """

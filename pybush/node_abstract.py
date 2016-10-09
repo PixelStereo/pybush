@@ -15,7 +15,7 @@ class NodeAbstract(object):
     Abstract Base Class for all item in the namespace
     Need to be subclassed
     """
-    def __init__(self, parent, service='no-service-for-NodeAbstract', tags=None, priority=None):
+    def __init__(self, parent=None, service=None, tags=None, priority=None):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
         self._parent = parent
