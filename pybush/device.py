@@ -14,35 +14,22 @@ from pybush.constants import __dbug__
 class Device(Node):
     """
     Device Class represent a device
+    Device inherit froù Node
+    Device Class creates author and version attributes
     """
-    def __init__(self, name='no-name-device', path=None):
-        super(Device, self).__init__(name, None)
+    def __init__(self, name='no-name-device', parent=None):
+        super(Device, self).__init__(name=name, parent=None)
         self._author = 'unknown'
         self._version = 'unknown'
-        self._path = path
         self._name = name
         # device is a root node of a device/fixture file. So it has no parent
         # to simplify I use self, in order to always have a valid parent.name
-        self._parent = self
+        self._parent = None
 
     def __repr__(self):
         printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
         return printer.format(name=self.name, author=self.author, \
                                 version=self.version, children=self.children)
-
-    @property
-    def path(self):
-        """
-        This is the filepath where to save the file or where it is located.
-        It's initialised at None when created, and can be set to any valid path.
-
-        :param path: valid filepath. Return True if valid, False otherwise.
-        :type path: string
-        """
-        return self._path
-    @path.setter
-    def path(self, value):
-        self._path = value
 
     def export(self):
         """

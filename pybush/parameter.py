@@ -7,6 +7,8 @@
 A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
+import liblo
+
 
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
@@ -90,6 +92,23 @@ class Parameter(NodeAbstract):
         update is called when value is updated
         might be used to send it to network or other protocols
         """
+        ip = 'localhost'
+        udp = 1234
+        try:
+            target = liblo.Address(ip, int(udp))
+            if __dbug__ >= 3:
+                print('connect to : ' + ip + ':' + str(udp))
+        except liblo.AddressError as err:
+            print('liblo.AddressError' + str(err))
+        msg = liblo.Message(self.address)
+        if isinstance(self._value, list):
+            # this is just a list of values to send
+            for arg in self._value:
+                arg = checkType(arg)
+                msg.add(arg)
+        else:
+            msg.add(self._value)
+        liblo.send(target, msg)
         print('update ' + self.name + ' to value ' + str(self.value))
 
     # ----------- VALUE -------------

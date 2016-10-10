@@ -31,9 +31,8 @@ class Project(NodeAbstract, File):
     """
     Project class, will host devices, scenario, mappings etc…
     """
-    def __init__(self, name='no-name-project', parent=None, path=None):
+    def __init__(self, name='no-name-project', parent=None):
         super(Project, self).__init__(name=name, parent=parent)
-        self._path = path
         self._devices = []
 
     def __repr__(self):
@@ -57,7 +56,7 @@ class Project(NodeAbstract, File):
             :return False if name is not valid (already exists or is not provided)
         """
         size = len(self._devices)
-        self._devices.append(Device(args[0], self))
+        self._devices.append(Device(name=args[0], parent=self))
         for key, value in kwargs.items():
             setattr(self._devices[size], key, value)
         return self._devices[size]
@@ -84,13 +83,16 @@ class Project(NodeAbstract, File):
         # TODO : CHECK IF THIS IS A VALID PROJECT FILE
         # if valid python dict / json file
         if file_content:
-            print('loading project called : ' + filepath)
+            if __dbug__:
+                print('loading project called : ' + filepath)
         else:
-            print('ERROR 901 - file provided is not a valid file' + str(filepath))
+            if __dbug__:
+                print('ERROR 901 - file provided is not a valid file' + str(filepath))
         try:
             for device_dict in file_content['devices']:
                 # create a device object for all devices
-                print('------- new-device : ' + device_dict['name'] + ' ------ ')
+                if __dbug__:
+                    print('------- new-device : ' + device_dict['name'] + ' ------ ')
                 device = self.new_device(device_dict['name'])
                 # iterate each attributes of the selected device
                 for prop, value in device_dict.items():
@@ -99,12 +101,14 @@ class Project(NodeAbstract, File):
                         for child in value:
                             device.new_child(child)
                     elif prop == 'parameter':
-                        print('no parameter for device')
+                        if __dbug__:
+                            print('no parameter for device')
                         #device.make_parameter(value)
                     else:
                         # register value of the given attribute for the device
                         setattr(device, prop, value)
-                print('device loaded : ' + device.name)
+                if __dbug__:
+                    print('device loaded : ' + device.name)
             return True
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as error:
