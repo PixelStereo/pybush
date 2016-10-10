@@ -5,6 +5,7 @@
 Bunch of functions usefull for types, or namespace assertions, conventions or convertions
 """
 
+import re
 import simplejson as json
 
 def m_bool(value):
@@ -97,3 +98,19 @@ def load_json(filepath):
             print("ERROR 906 - node not loaded, this is not a valid Node file")
         return False
     return content
+
+def spacelessify(name):
+    if name is not None:
+        # Remove all non-word characters (everything except numbers and letters)
+        newname = re.sub(r"[^\w\s]", '', name)
+        # Replace all runs of whitespace with '_'
+        newname = re.sub(r"\s+", '_', newname)
+        if not name.startswith('_'):
+         	if newname.startswith('_'):
+         		newname = newname[1:]
+        if not name.endswith('_'):
+            if newname.endswith('_'):
+                newname = newname[:-1]
+        return newname
+    else:
+        return name

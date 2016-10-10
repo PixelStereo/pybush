@@ -7,6 +7,7 @@ Application and Parameter are based on the Node Class
 """
 
 from pybush.constants import __dbug__
+from pybush.functions import spacelessify
 
 class NodeAbstract(object):
     """
@@ -16,6 +17,8 @@ class NodeAbstract(object):
     def __init__(self, name=None, parent=None, service=None, tags=None, priority=None):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
+        if name is not None:
+            spacelessify(name)
         self._name = name
         self._parent = parent
         self.service = service
