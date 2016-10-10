@@ -143,13 +143,22 @@ class TestAll(unittest.TestCase):
         parameter.datatype = None
         self.assertEqual(isinstance(parameter.value, float), True)
 
-    """def test_print(self):
+    def test_print(self):
         print('----------------------------')
         print(my_device.name + " version " + my_device.version + " by " + my_device.author)
-        abstrakt = NodeAbstract()
-        print(abstrakt)
         for key, val in param2.export().items():
-            print(key, val)"""
+            print(key, val)
+
+    def test_abstract_node(self):
+        abstrakt = NodeAbstract()
+        self.assertEqual(abstrakt.parent, None)
+        self.assertEqual(abstrakt.priority, None)
+        self.assertEqual(abstrakt.name, None)
+        abstrakt_2 = NodeAbstract(parent=abstrakt, priority=20, name='toto')
+        self.assertEqual(abstrakt_2.parent, abstrakt)
+        self.assertEqual(abstrakt_2.priority, 20)
+        self.assertEqual(abstrakt_2.name, 'toto')
+        print(abstrakt)
 
     def test_address(self):
         self.assertEqual(my_device.address, 'My Python device')
