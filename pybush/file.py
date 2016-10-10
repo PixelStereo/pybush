@@ -85,23 +85,28 @@ class File(object):
                 # create / open the file
                 out_file = open((savepath), "wb")
             except IOError:
-                # path does not exists
-                print("ERROR 909 - path is not valid, could not save the node - " + savepath)
+                if __dbug__:
+                    # path does not exists
+                    print("ERROR 909 - path is not valid, could not save the node - " + savepath)
                 return False
             try:
                 the_dump = json.dumps(self.export(), sort_keys=True, indent=4,\
                                       ensure_ascii=False).encode("utf8")
             except TypeError as error:
-                print('ERROR 98 ' + str(error))
+                if __dbug__:
+                    print('ERROR 98 ' + str(error))
                 return False
             try:
                 out_file.write(the_dump)
-                print("file has been written in " + savepath)
+                if __dbug__:
+                    print("file has been written in " + savepath)
                 out_file.close()
                 return True
             except TypeError as error:
-                print('ERROR 99 ' + str(error))
+                if __dbug__:
+                    print('ERROR 99 ' + str(error))
                 return False
         else:
-            print('no filepath. Where do you want I save the node?')
+            if __dbug__:
+                print('no filepath. Where do you want I save the node?')
             return False

@@ -65,7 +65,8 @@ class Node(NodeAbstract, File):
     @parameter.setter
     def parameter(self, *args, **kwargs):
         if args:
-            print('why to do with that')
+            if __dbug__:
+                print('why to do with that')
         elif kwargs:
             self._parameter.set(kwargs)
 

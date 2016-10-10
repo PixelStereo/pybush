@@ -64,32 +64,9 @@ class NodeAbstract(object):
         return get_address(self)
     @address.setter
     def address(self, address):
-        print('come back later for setting a new address for a node', address)
-        print(self.address)
-
-    """
-    @property
-    def address(self):
-        if self.parent:
-            name = self.name
-            if self.__class__.__name__ != 'Parameter':
-                name = self.parent.name + '/' + name
-                again = None
-                if self.parent.parent.__class__.__name__ != 'Device':
-                    again = self.parent.parent.address()
-                if again:
-                    name = again.name + '/' + name
-            else:
-                name = self.parent.parent.name + '/' + name
-                again = None
-                if self.parent.parent.parent.__class__.__name__ != 'Device':
-                    again = self.parent.parent.parent.address()
-                if again:
-                    name = again.name + '/' + name
-            return name
-        else:
-            return False
-    """
+        if __dbug__:
+            print('come back later for setting a new address for a node', address)
+            print(self.address)
 
     @property
     def service(self):

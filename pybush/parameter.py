@@ -99,7 +99,8 @@ class Parameter(NodeAbstract):
             if __dbug__ >= 3:
                 print('connect to : ' + ip + ':' + str(udp))
         except liblo.AddressError as err:
-            print('liblo.AddressError' + str(err))
+            if __dbug__ >= 3:
+                print('liblo.AddressError' + str(err))
         msg = liblo.Message(self.address)
         if isinstance(self._value, list):
             # this is just a list of values to send
@@ -109,7 +110,8 @@ class Parameter(NodeAbstract):
         else:
             msg.add(self._value)
         liblo.send(target, msg)
-        print('update ' + self.name + ' to value ' + str(self.value))
+        if __dbug__ >= 3:
+            print('update ' + self.name + ' to value ' + str(self.value))
 
     # ----------- VALUE -------------
     @property

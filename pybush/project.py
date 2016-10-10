@@ -46,7 +46,6 @@ class Project(NodeAbstract, File):
         proj = {'devices':[]}
         for device in self.devices:
             proj['devices'].append(device.export())
-        print(proj)
         return proj
 
     def new_device(self, *args, **kwargs):

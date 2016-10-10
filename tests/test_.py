@@ -7,6 +7,8 @@ from time import sleep
 
 sys.path.append(os.path.abspath('./../'))
 
+__dbug__ = True
+
 import time
 import liblo
 import datetime
@@ -21,7 +23,7 @@ another_project = new_project('Another Python project')
 my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
 node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
 node_2 = node_1.new_child('node.2', tags=['lol', 'lal'])
-node_3 = node_2.new_child("node_ 3's parent is node_2")
+node_3 = node_2.new_child("node.3")
 param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
                          'priority':111, 'domain':[0,11], 'clipmode':'both', \
@@ -141,23 +143,22 @@ class TestAll(unittest.TestCase):
         parameter.datatype = None
         self.assertEqual(isinstance(parameter.value, float), True)
 
-    def test_print(self):
+    """def test_print(self):
         print('----------------------------')
         print(my_device.name + " version " + my_device.version + " by " + my_device.author)
         abstrakt = NodeAbstract()
         print(abstrakt)
         for key, val in param2.export().items():
-            print(key, val)
+            print(key, val)"""
 
     def test_address(self):
-        print('----device-----', my_device.address, '--------------')
-        print('----node_1-----', node_1.address, '--------------')
-        print('----node_2-----', node_2.address, '--------------')
-        print('----node_3-----', node_3.address, '--------------')
-        print('----param1-----', param1.address, '--------------')
-        print('----param2-----', param2.address, '--------------')
-        print('----param3-----', param3.address, '--------------')
-        #self.assertEqual(param1.address, 'param1')
+        self.assertEqual(my_device.address, 'My Python device')
+        self.assertEqual(node_1.address, 'My Python device/node.1')
+        self.assertEqual(node_2.address, 'My Python device/node.1/node.2')
+        self.assertEqual(node_3.address, 'My Python device/node.1/node.2/node.3')
+        self.assertEqual(param1.address, 'My Python device')
+        self.assertEqual(param2.address, 'My Python device/node.1')
+        self.assertEqual(param3.address, 'My Python device/node.1/node.2')
 
 
 if __name__ == '__main__':
