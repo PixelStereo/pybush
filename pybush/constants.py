@@ -5,6 +5,6 @@
 Contains constants for the package, accessible from any module
 """
 
-__dbug__ = False
+__dbug__ = True
 __projects__ = []
 __file_extention__ = 'bush'
