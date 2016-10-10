@@ -33,3 +33,4 @@ exclude_paths:
 - examples/
 - versioneer.py
 - pybush/_version.py
+- README.md
