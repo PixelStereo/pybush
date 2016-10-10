@@ -54,13 +54,13 @@ class NodeAbstract(object):
             recursive function to get into parent's hierarchy
             """
             address = self.name
-           	if self.__class__.__name__ is not 'Device':
+            if self.__class__.__name__ is not 'Device':
                 if self.parent:
                     if self.__class__.__name__ is 'Parameter':
                         address = get_address(self.parent)
                     else:
                         address = get_address(self.parent) + '/' + address
-           	return address
+            return address
         return get_address(self)
     @address.setter
     def address(self, address):
