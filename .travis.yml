@@ -16,8 +16,6 @@ install:
 - pip install coverage
 # install codacy tools
 - pip install codacy-coverage
-# install code-climate tools
-- pip install codeclimate-test-reporter
 # install to publish documentation from push or tag
 - pip install travis-sphinx
 script:
@@ -27,8 +25,6 @@ script:
 - coverage xml
 - coverage report -m
 - python-codacy-coverage -r coverage.xml
-# code climate
-- codeclimate-test-reporter
 # build the documentation
 - cd ../
 - travis-sphinx build
