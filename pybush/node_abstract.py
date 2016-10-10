@@ -50,16 +50,16 @@ class NodeAbstract(object):
         Current name of the node
         """
         def get_address(self):
-        	"""
-        	recursive function to get into parent's hierarchy
-        	"""
-        	address = self.name
+            """
+            recursive function to get into parent's hierarchy
+            """
+            address = self.name
            	if self.__class__.__name__ is not 'Device':
-           		if self.parent:
-           			if self.__class__.__name__ is 'Parameter':
-           				address = get_address(self.parent)
-           			else:
-           				address = get_address(self.parent) + '/' + address
+                if self.parent:
+                    if self.__class__.__name__ is 'Parameter':
+                        address = get_address(self.parent)
+                    else:
+                        address = get_address(self.parent) + '/' + address
            	return address
         return get_address(self)
     @address.setter
