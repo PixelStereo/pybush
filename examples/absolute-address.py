@@ -26,13 +26,13 @@ node_3 = node_2.new_child('node.3')
 print(node_3.write('/Volumes/worK/Users/reno/Desktop/node_3'))
 
 # create a few parameters for app
-param_0 = my_device.make_parameter('param.0',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-print(param_0.write('/Volumes/worK/Users/reno/Desktop/param_0'))
+param_0 = my_device.make_parameter('param.0',value=-1,datatype='decimal',tags=['uno','dos'],domain=[0,1],clipmode='both',repetitions=1)
+print(my_device.write('/Volumes/work/Users/reno/Desktop/param_0'))
 
 # create a few parameters for node_1, node_2 and node_3
-param_1 = node_1.make_parameter('param.1',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-param_2 = node_2.make_parameter('param.3',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-param_3 = node_3.make_parameter('param.5',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
+param_1 = node_1.make_parameter('param.1',value=-1,datatype='decimal',tags=['uno','dos'],domain=[0,1],clipmode='both',repetitions=1)
+param_2 = node_2.make_parameter('param.3',value=-1,datatype='decimal',tags=['uno','dos'],domain=[0,1],clipmode='both',repetitions=1)
+param_3 = node_3.make_parameter('param.5',value=-1,datatype='decimal',tags=['uno','dos'],domain=[0,1],clipmode='both',repetitions=1)
 
 param_1.value = 12
 print(my_project.name)

@@ -23,6 +23,9 @@ headerprint('create a device')
 device = project.new_device('My Device')
 pprint(device.export())
 
+output = device.new_output(name='My Output', protocol='OSC')
+pprint(output.export())
+
 headerprint('create a node')
 node_1 = device.new_child('node.1')
 node_1.tags = ['tag', 'for', 'node_1']
@@ -41,7 +44,6 @@ print(param_1)
 param_1.value = -1
 param_1.datatype = 'decimal'
 param_1.tags = ['one','two']
-param_1.priority = -1
 param_1.domain = [0,1]
 param_1.clipmode = 'both'
 param_1.repetitions = 1
@@ -55,7 +57,6 @@ param_2 = node_2.make_parameter()
 param_2.value = 2
 param_2.datatype = 'integer'
 param_2.tags = ['uno','dos']
-param_2.priority = -1
 param_2.domain = [0,100]
 param_2.clipmode = 'low'
 param_2.repetitions=1
@@ -69,7 +70,6 @@ param_0 = device.make_parameter()
 param_0.value = -1
 param_0.datatype = 'decimal'
 param_0.tags = ['uno','dos']
-param_0.priority = -1
 param_0.domain = [0,1]
 param_0.clipmode = 'both'
 param_0.repetitions = 1

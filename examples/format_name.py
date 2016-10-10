@@ -8,7 +8,7 @@ sys.path.append(lib_path)
 from pybush.functions import spacelessify
 
 
-name = ' no na )- ) à î Ö ^ me '
+name = ' no na )- ) à    î Ö ^ me '
 other_name = " I can't get no satisfaction! "
 print(spacelessify(name))
 print(spacelessify(other_name))

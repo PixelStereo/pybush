@@ -24,7 +24,7 @@ node_2 = device.new_child('node.2')
 
 headerprint('create a parameter for node.1')
 param_1 = node_1.make_parameter('param.1', value=-1, datatype='decimal', tags=['uno','dos'], \
-                                 priority=-1, domain=[0,1], clipmode='both', \
+                                domain=[0,1], clipmode='both', \
                                  repetitions=1)
 
 headerprint('list device, nodes and parameters')
@@ -58,11 +58,6 @@ headerprint('repetitions')
 print (param_1.repetitions)
 param_1.repetitions = 0
 print (param_1.repetitions)
-
-headerprint('try priority function')
-print (param_1.priority)
-param_1.priority = 0
-print (param_1.priority)
 
 headerprint('tags')
 print (param_1.tags)

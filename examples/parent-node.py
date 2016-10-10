@@ -25,16 +25,16 @@ node_2 = node_1.new_child('node.2')
 headerprint('create a parameter for node.1')
 # you can do it with a dictionary
 param_1 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
-                                 'priority':-1, 'domain':[0,11], 'clipmode':'both', \
+                                 'domain':[0,11], 'clipmode':'both', \
                                  'repetitions':1})
 headerprint('create a root parameter')
 # or just with all the args with keywords
 param_0 = device.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
-                                 priority=-1, domain=[-1,1], clipmode='low', \
+                                 domain=[-1,1], clipmode='low', \
                                  repetitions=1)
 headerprint('create a param parameter')
 param_2 = node_2.make_parameter('param.2', value=20, datatype='integer', tags=['uno','dos'], \
-                                 priority=-1, domain=[0,200], clipmode='high', \
+                                 domain=[0,200], clipmode='high', \
                                  repetitions=0)
 headerprint('----- Print parents ------')
 import pprint

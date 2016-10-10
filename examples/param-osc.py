@@ -20,8 +20,8 @@ node_1 = my_device.new_child('node.1')
 node_2 = node_1.new_child('node.2')
 
 # create a few parameters for node_1 and node_2
-param_1 = node_1.make_parameter('param.1',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-param_2 = node_2.make_parameter('param.2',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
+param_1 = node_1.make_parameter('param.1',value=-1,datatype='decimal',tags=['uno','dos'],domain=[0,1],clipmode='both',repetitions=1)
+param_2 = node_2.make_parameter('param.2',value=-1,datatype='decimal',tags=['uno','dos'],domain=[0,1],clipmode='both',repetitions=1)
 
 param_1.value = 12
 param_2.value = 21

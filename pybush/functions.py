@@ -8,6 +8,34 @@ Bunch of functions usefull for types, or namespace assertions, conventions or co
 import re
 import simplejson as json
 
+
+def checkType(data):
+    """
+    Transform an unicode into its original type
+
+    data:
+        an integer or float encoded as a string
+
+    Returns:
+        an integer or a float
+    """
+    try:
+        if len(data) == 1 and isinstance(data, list):
+            data = data[0]
+    except TypeError:
+        pass
+    try:
+        if data.isdigit():
+            data = int(data)
+        else:
+            try:
+                data = float(data)
+            except ValueError:
+                pass
+    except AttributeError:
+        pass
+    return data
+
 def m_bool(value):
     """Transform to a bool if it is not already"""
     if not isinstance(value, bool):
@@ -78,6 +106,11 @@ def prop_dict(the_class):
             pass
         elif prop == 'address':
             pass
+        elif prop == 'output':
+            newprop = '_' + prop
+            newprop = getattr(the_class, newprop)
+            #newprop = newprop
+            pdict.setdefault(prop, newprop)
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict
@@ -111,6 +144,7 @@ def spacelessify(name):
         if not name.endswith('_'):
             if newname.endswith('_'):
                 newname = newname[:-1]
+        print(name, newname)
         return newname
     else:
         return name
