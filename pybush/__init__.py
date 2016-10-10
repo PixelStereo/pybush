@@ -31,9 +31,7 @@ Leaves are used for parameters, messages and returns.
 - Message : It is a message is as a parameter but without a state.
 - Return : It is a return is a result of a computation made by an algorythm or a controller.
 
-There is others optionnals properties for each nodes, which are
-- a priority : priority is a positiv integer which will allow to classify nodes.
-if there is several nodes with the same priority, they will be ordered alphabetically.
+There is others optionnals properties for each nodes, which are :
 - tags : tags are un unordered list of strings.
 
 
@@ -52,9 +50,16 @@ Changelog:
 
 """
 
-import os
-import sys
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 __release__ = __version__
+
+try:
+    str = unicode
+    def is_string(test):
+        return isinstance(test, basestring)
+except NameError:
+    def is_string(test):
+        return isinstance(test, str)
+
