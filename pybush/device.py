@@ -9,6 +9,7 @@ A device has some protocol/plugin for input/output
 
 from pybush.node import Node
 from pybush.constants import __dbug__
+from pybush.output import OutputOSC, OutputMIDI
 
 
 class Device(Node):
@@ -17,19 +18,40 @@ class Device(Node):
     Device inherit froù Node
     Device Class creates author and version attributes
     """
-    def __init__(self, name='no-name-device', parent=None):
-        super(Device, self).__init__(name=name, parent=None)
+    def __init__(self, description=None, name='no-name-device', parent=None):
+        super(Device, self).__init__(name=name, description=None, parent=None)
         self._author = 'unknown'
         self._version = 'unknown'
         self._name = name
         # device is a root node of a device/fixture file. So it has no parent
         # to simplify I use self, in order to always have a valid parent.name
         self._parent = None
+        self._outputs = None
 
     def __repr__(self):
         printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
         return printer.format(name=self.name, author=self.author, \
                                 version=self.version, children=self.children)
+
+    @property
+    def output(self):
+        """
+        The port to output this project
+        Initialised to the first output
+        """
+        if self._output:
+            return self._output
+        else:
+            if self._outputs:
+                return self._outputs[0]
+            else:
+                raise NoOutputError()
+    @output.setter
+    def output(self, out):
+        if out.__class__.__name__ == 'OutputUdp' or out.__class__.__name__ == 'OutputMidi':
+            self._output = out
+        else:
+            raise LektureTypeError('Wait for an Output but receive a', out.__class__)
 
     def export(self):
         """
@@ -40,7 +62,12 @@ class Device(Node):
             child_export = []
             for child in self.children:
                 child_export.append(child.export())
-        return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child_export}
+        out_export = None
+        if self.outputs:
+            out_export = []
+            for out in self.outputs:
+                out_export.append(out.export())
+        return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child_export, 'outputs':out_export}
 
     # ----------- AUTHOR -------------
     @property
@@ -63,3 +90,72 @@ class Device(Node):
     @version.setter
     def version(self, version):
         self._version = version
+
+    @property
+    def outputs(self):
+        """
+        return a list of outputs of this project
+        """
+        return self._outputs
+
+    def getoutputs(self, protocol):
+        """
+        return a list of available output for this protocol
+        """
+        if self.outputs:
+            outputs = []
+            for out in self.outputs:
+                if protocol == out.__class__.__name__:
+                    outputs.append(out)
+            return outputs
+        else:
+            return None
+
+    def getprotocols(self):
+        """return the protocols available for this project"""
+        protocols = []
+        for out in self.outputs:
+            proto = out.__class__.__name__
+            if not proto in protocols:
+                protocols.append(proto)
+        if protocols == []:
+            return None
+        else:
+            return protocols
+
+    def new_output(self, protocol="OSC", **kwargs):
+        """
+        Create a new output for this project
+        args:Mandatory argument is the protocol that you want to use for this output
+        (OSC, MIDI, serial, ArtNet)
+        rtype:Output object
+        """
+        if not self._outputs:
+            self._outputs = []
+        taille = len(self._outputs)
+        if protocol == "OSC":
+            output = OutputOSC(parent=self)
+        elif protocol == "MIDI":
+            output = OutputMIDI(parent=self)
+        else:
+            output = None
+        if output:
+            for key, value in kwargs.items():
+                setattr(output, key, value)
+            self._outputs.append(output)
+            return self._outputs[taille]
+        else:
+            return False
+            
+    def del_output(self, output):
+        """
+        delete an output of this project
+        This function will delete  of the scenario
+        """
+        if output in self.outputs:
+            # delete the output
+            self._outputs.remove(output)
+        else:
+            if debug:
+                print("ERROR - trying to delete an output which not exists \
+                      in self._outputs", output)
