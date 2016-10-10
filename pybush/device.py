@@ -16,7 +16,7 @@ class Device(Node):
     Device Class represent a device
     """
     def __init__(self, name='no-name-device', path=None):
-        super(Device, self).__init__(name, 'no-parent-for-a-Device')
+        super(Device, self).__init__(name, None)
         self._author = 'unknown'
         self._version = 'unknown'
         self._path = path
