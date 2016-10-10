@@ -33,6 +33,32 @@ class NodeAbstract(object):
         """
         pass
 
+    # ----------- children -------------
+    @property
+    def address(self):
+        """
+        Return the list of the children registered to this node
+        """
+        if self.parent:
+            name = self.name
+            if self.__class__.__name__ != 'Parameter':
+                name = self.parent.name + '/' + name
+                again = None
+                if self.parent.parent.__class__.__name__ != 'Device':
+                    again = self.parent.parent.address()
+                if again:
+                    name = again.name + '/' + name
+            else:
+                name = self.parent.parent.name + '/' + name
+                again = None
+                if self.parent.parent.parent.__class__.__name__ != 'Device':
+                    again = self.parent.parent.parent.address()
+                if again:
+                    name = again.name + '/' + name
+            return name
+        else:
+            return False
+
     @property
     def service(self):
         """
@@ -48,8 +74,7 @@ class NodeAbstract(object):
         """
         Return the parent of the node
         """
-        print('ask for parent of ', self)
-        return self._parent.name
+        return self._parent
 
     # ----------- TAGS -------------
     @property

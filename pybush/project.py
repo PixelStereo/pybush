@@ -34,7 +34,7 @@ class Project(Node):
     Project class, will host devices, scenario, mappings etc…
     """
     def __init__(self, name='no-name-project', path=None):
-        super(Project, self).__init__(name, 'no-parent-for-Project')
+        super(Project, self).__init__(name, None)
         self._path = path
         self._devices = []
 

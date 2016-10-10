@@ -17,22 +17,16 @@ my_project = new_project('project_test')
 my_device = my_project.new_device('device_test',author='Pixel Stereo',version='0.0.1',project='my first device')
 # create two nodes
 node_1 = my_device.new_child('node.1')
-print('Exporting ' + my_device.name)
-node_2 = my_device.new_child('node.2')
-print(node_2.write('/Volumes/worK/Users/reno/Desktop/node_2'))
-node_3 = node_2.new_child('node.3')
-print(node_3.write('/Volumes/worK/Users/reno/Desktop/node_3'))
-
-# create a few parameters for app
-param_0 = my_device.make_parameter('param.0',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-print(param_0.write('/Volumes/worK/Users/reno/Desktop/param_0'))
+node_2 = node_1.new_child('node.2')
 
 # create a few parameters for node_1 and node_2
 param_1 = node_1.make_parameter('param.1',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-param_2 = node_2.make_parameter('param.3',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
-param_3 = node_3.make_parameter('param.5',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
+param_2 = node_2.make_parameter('param.2',value=-1,datatype='decimal',tags=['uno','dos'],priority=-1,domain=[0,1],clipmode='both',repetitions=1)
 
 param_1.value = 12
-print(param_1.name)
-print(param_2.name)
-print(param_3.name)
+param_2.value = 21
+
+print('parent of param_1 is ' + param_1.parent.name)
+print('parent of node_1 is ' + param_1.parent.parent.name + ' / ' + param_1.parent.parent.__class__.__name__)
+print('parent of param_2 is ' + param_2.parent.name)
+print('parent of node_2 is ' + param_2.parent.parent.name + ' / ' + param_2.parent.parent.__class__.__name__)
