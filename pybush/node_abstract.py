@@ -8,26 +8,26 @@ Application and Parameter are based on the Node Class
 
 from pybush.constants import __dbug__
 from pybush.functions import spacelessify
+from pybush import is_string
+
 
 class NodeAbstract(object):
     """
     Abstract Base Class for all item in the namespace
     Need to be subclassed
     """
-    def __init__(self, name=None, parent=None, service=None, tags=None, priority=None):
+    def __init__(self, name='Untitled abstract Node', description="I'm an abstract node", \
+                    parent=None, tags=None):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
-        if name is not None:
-            spacelessify(name)
         self._name = name
+        self._description = description
         self._parent = parent
-        self.service = service
         self._tags = tags
-        self._priority = priority
 
     def __repr__(self):
-        printer = 'NodeAbstract (priority:{priority}, tags:{tags})'
-        return printer.format(priority=self.priority, tags=self.tags)
+        printer = 'NodeAbstract (name:{name}, description:{description}, tags:{tags})'
+        return printer.format(name=self.name, description=self.description, tags=self.tags)
 
     def reset(self):
         """
@@ -99,13 +99,15 @@ class NodeAbstract(object):
     def tags(self, tags):
         self._tags = tags
 
-    # ----------- PRIORITY -------------
-    @property
-    def priority(self):
-        """
-        Current priority of the node
-        """
-        return self._priority
-    @priority.setter
-    def priority(self, priority):
-        self._priority = priority
+    def add_tag(self, tag):
+        if tag in self._tags:
+            if debug >= 3:
+                print('already in')
+        else:
+            self._tags.append(tag)
+    def del_tag(self, tag):
+        if tag in self._tags:
+            self._tags.remove(tag)
+        else:
+            if debug >= 3:
+                print('not in')

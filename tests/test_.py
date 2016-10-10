@@ -21,15 +21,15 @@ my_project = new_project('My Python project')
 another_project = new_project('Another Python project')
 #len(projects())
 my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-node_1 = my_device.new_child('node.1', priority=2, tags=['init', 'video'])
+node_1 = my_device.new_child('node.1', tags=['init', 'video'])
 node_2 = node_1.new_child('node.2', tags=['lol', 'lal'])
 node_3 = node_2.new_child("node.3")
 param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
-                         'priority':111, 'domain':[0,11], 'clipmode':'both', \
+                         'domain':[0,11], 'clipmode':'both', \
                          'repetitions':1})
 param3 = node_2.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
-                         priority=323, domain=[-1,1], clipmode='low', \
+                         domain=[-1,1], clipmode='low', \
                          repetitions=1)
 
 class TestAll(unittest.TestCase):
@@ -49,9 +49,6 @@ class TestAll(unittest.TestCase):
         self.assertEqual(len(my_project.devices), 1)
 
     def test_nodes(self):
-        self.assertEqual(node_2.priority, None)
-        node_2.priority = 10
-        self.assertEqual(node_2.priority, 10)
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
         self.assertEqual(len(my_device.children), 1)
@@ -123,7 +120,6 @@ class TestAll(unittest.TestCase):
         parameter.value = 3.2
         parameter.datatype = 'decimal'
         parameter.tags = ['uno','dos']
-        parameter.priority = 10
         parameter.domain = [0,1]
         parameter.clipmode = 'both'
         parameter.repetitions = 1
@@ -152,22 +148,20 @@ class TestAll(unittest.TestCase):
     def test_abstract_node(self):
         abstrakt = NodeAbstract()
         self.assertEqual(abstrakt.parent, None)
-        self.assertEqual(abstrakt.priority, None)
-        self.assertEqual(abstrakt.name, None)
-        abstrakt_2 = NodeAbstract(parent=abstrakt, priority=20, name='toto')
+        self.assertEqual(abstrakt.name, 'Untitled abstract Node')
+        abstrakt_2 = NodeAbstract(parent=abstrakt, name='toto')
         self.assertEqual(abstrakt_2.parent, abstrakt)
-        self.assertEqual(abstrakt_2.priority, 20)
         self.assertEqual(abstrakt_2.name, 'toto')
         print(abstrakt)
 
     def test_address(self):
-        self.assertEqual(my_device.address, 'My Python device')
-        self.assertEqual(node_1.address, 'My Python device/node.1')
-        self.assertEqual(node_2.address, 'My Python device/node.1/node.2')
-        self.assertEqual(node_3.address, 'My Python device/node.1/node.2/node.3')
-        self.assertEqual(param1.address, 'My Python device')
-        self.assertEqual(param2.address, 'My Python device/node.1')
-        self.assertEqual(param3.address, 'My Python device/node.1/node.2')
+        self.assertEqual(my_device.address, 'My_Python_device')
+        self.assertEqual(node_1.address, 'My_Python_device/node.1')
+        self.assertEqual(node_2.address, 'My_Python_device/node.1/node.2')
+        self.assertEqual(node_3.address, 'My_Python_device/node.1/node.2/node.3')
+        self.assertEqual(param1.address, 'My_Python_device')
+        self.assertEqual(param2.address, 'My_Python_device/node.1')
+        self.assertEqual(param3.address, 'My_Python_device/node.1/node.2')
 
 
 if __name__ == '__main__':

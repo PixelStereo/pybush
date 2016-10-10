@@ -19,7 +19,7 @@ class Parameter(NodeAbstract):
     It will provide value and value's attributes to its parent's node
     """
     def __init__(self, parent=None, raw=None, value=None, datatype=None, tags=None, \
-                    priority=None, domain=None, clipmode=None, repetitions=True):
+                    domain=None, clipmode=None, repetitions=True):
         super(Parameter, self).__init__(parent=parent)
         self._value = value
         self._clipmode = clipmode
@@ -30,7 +30,6 @@ class Parameter(NodeAbstract):
         self._raw = raw
         # herited from the parent's node
         self.name = parent.name
-        self.priority = parent.priority
         self.tags = parent.tags
 
     def __repr__(self):
@@ -39,10 +38,10 @@ class Parameter(NodeAbstract):
         """
         printer = 'Parameter (raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
-                                repetitions:{repetitions}, priority:{priority}, tags:{tags})'
+                                repetitions:{repetitions}, tags:{tags})'
         return printer.format(raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
-                              repetitions=self.repetitions, priority=self.priority, tags=self.tags)
+                              repetitions=self.repetitions, tags=self.tags)
 
     def export(self):
         """
