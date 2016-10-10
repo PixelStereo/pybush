@@ -13,9 +13,9 @@ from pybush.file import File
 
 class Node(NodeAbstract, File):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, parent=None, service=None, tags=None, priority=None, \
-                    parameter=None, children=None):
-        super(Node, self).__init__(name=name, parent=parent, service=service, tags=tags, priority=priority)
+    def __init__(self, name, parent=None, tags=None, \
+                    description=None, parameter=None, children=None):
+        super(Node, self).__init__(name=name, description=description, parent=parent, tags=tags)
         # initialise attributes/properties of this node
         self._parameter = parameter
         self._children = children
@@ -36,8 +36,7 @@ class Node(NodeAbstract, File):
         if self.children:
             for chili in self.children:
                 filiation.append(chili.export())
-        return {'name':self.name, 'tags':self.tags, 'priority':self.priority, \
-                'children':filiation, 'parameter':param}
+        return {'name':self.name, 'tags':self.tags, 'children':filiation, 'parameter':param}
 
     # ----------- children -------------
     @property
@@ -92,7 +91,7 @@ class Node(NodeAbstract, File):
             return self._parameter
 
   # ----------- NEW CHILD METHOD -------------
-    def new_child(self, child, priority=None, tags=None):
+    def new_child(self, dict_import=None, name=None, tags=None):
         """
         Create a new Node in its parent
 
@@ -100,27 +99,27 @@ class Node(NodeAbstract, File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
-        if isinstance(child, dict):
+        if isinstance(dict_import, dict):
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            the_new_child = Node(name=child['name'], parent=self, tags=child['tags'], \
-                                priority=child['priority'], children=[])
+            the_new_child = Node(name=dict_import['name'], parent=self, tags=dict_import['tags'], children=[])
             # this will append this children as a child in the self.children list
             self.children = the_new_child
             # maybe the new_child contains children itself?
-            if len(child['children']) > 0:
-                for little_child in child['children']:
-                    # create a new child for each of the new_child.children item recursivly
-                    the_new_child.new_child(little_child)
+            if dict_import['children']:
+                if len(dict_import['children']) > 0:
+                    for little_child in dict_import['children']:
+                        # create a new child for each of the new_child.children item recursivly
+                        the_new_child.new_child(little_child)
             # if the new_child have a parameter, create it please
-            if child['parameter']:
+            if dict_import['parameter']:
                 # we give the parameter dict to the make_parameter method
                 # it will create the parameter with values from the dict
-                the_new_child.make_parameter(child['parameter'])
+                the_new_child.make_parameter(dict_import['parameter'])
 
         else:
             # if the child argument is only a string, this is the name of the new_child to create
-            the_new_child = Node(child, self, priority=priority, tags=tags, children=[])
+            the_new_child = Node(name=name, parent=self, tags=tags, children=[])
             self.children = the_new_child
         return the_new_child

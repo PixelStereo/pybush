@@ -20,15 +20,18 @@ from pybush.node_abstract import NodeAbstract
 my_project = new_project('My Python project')
 another_project = new_project('Another Python project')
 #len(projects())
-my_device = my_project.new_device('My Python device', author='Pixel Stereo', version='0.1.0')
-node_1 = my_device.new_child('node.1', tags=['init', 'video'])
-node_2 = node_1.new_child('node.2', tags=['lol', 'lal'])
-node_3 = node_2.new_child("node.3")
+my_device = my_project.new_device(name='My Python device', author='Pixel Stereo', version='0.1.0')
+another_device = my_project.new_device(name='My Other Python device', author='Stereo Pixel', version='0.1.1')
+output = my_device.new_output(protocol='OSC', port='127.0.0.1:2345')
+output = my_device.new_output(protocol='MIDI')
+node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
+node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
+node_3 = node_2.new_child(name="node.3")
 param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
                          'domain':[0,11], 'clipmode':'both', \
                          'repetitions':1})
-param3 = node_2.make_parameter('param.0', value=-0.5, datatype='decimal', tags=['uno','dos'], \
+param3 = node_2.make_parameter(value=-0.5, datatype='decimal', tags=['uno','dos'], \
                          domain=[-1,1], clipmode='low', \
                          repetitions=1)
 
@@ -46,7 +49,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_device.version, '0.1.0')
         self.assertEqual(type(my_device.name), str)
         self.assertEqual(my_device.name, 'My Python device')
-        self.assertEqual(len(my_project.devices), 1)
+        self.assertEqual(len(my_project.devices), 2)
 
     def test_nodes(self):
         xprt_node2 = node_2.export()
@@ -157,11 +160,11 @@ class TestAll(unittest.TestCase):
     def test_address(self):
         self.assertEqual(my_device.address, 'My_Python_device')
         self.assertEqual(node_1.address, 'My_Python_device/node.1')
-        self.assertEqual(node_2.address, 'My_Python_device/node.1/node.2')
-        self.assertEqual(node_3.address, 'My_Python_device/node.1/node.2/node.3')
+        self.assertEqual(node_2.address, 'My_Python_device/node.1/node_.2')
+        self.assertEqual(node_3.address, 'My_Python_device/node.1/node_.2/node.3')
         self.assertEqual(param1.address, 'My_Python_device')
         self.assertEqual(param2.address, 'My_Python_device/node.1')
-        self.assertEqual(param3.address, 'My_Python_device/node.1/node.2')
+        self.assertEqual(param3.address, 'My_Python_device/node.1/node_.2')
 
 
 if __name__ == '__main__':

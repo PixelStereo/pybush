@@ -41,11 +41,32 @@ class OutputMIDI(Output):
     Creates an output port for Midi Device.
     A Midi Device can handle all type of Midi messages
     """
-    def __init__(self, name=None, parent=None, port=None):
+    def __init__(self, name='Midi Output', parent=None, port=None, channel=1, message='CC'):
         super(OutputMIDI, self).__init__(name=name, parent=parent, port=port)
-        if not self.name:
-            self.name = 'Untitled Midi Output'
         self._protocol = 'MIDI'
+        self._channel = channel
+
+    @property
+    def channel(self):
+        return self._channel
+    @channel.setter
+    def channel(self, value):
+        flag = False
+        if isinstance(value, int):
+            if value > 0 and value < 17:
+                flag = True
+        if flag:
+            self._channel = value
+            return True
+        else:
+            return False
+
+
+    def export(self):
+        """
+        export Node to a json_string/python_dict with all its properties
+        """
+        return {'name':self.name, 'port':self.port,'channel':self.channel}
 
 class OutputOSC(Output):
     """
@@ -56,8 +77,8 @@ class OutputOSC(Output):
     We might create a new class : OutputOsc as a subclass of OutputUdp.
     It should be used to double check that you send a correct OSC format message/bundle.
     """
-    def __init__(self, name=None, parent=None, port='127.0.0.1:1234'):
-        super(OutputOSC, self).__init__(parent=parent, port=port)
+    def __init__(self, name='OSC Output', parent=None, port='127.0.0.1:1234'):
+        super(OutputOSC, self).__init__(name=name, parent=parent, port=port)
         if not self.name:
             self.name = 'Untitled Udp Output'
         self._protocol = 'OSC'
@@ -70,4 +91,4 @@ class OutputOSC(Output):
         """
         export Node to a json_string/python_dict with all its properties
         """
-        return {'name':self.name, 'protocol':self.protocol, 'port':self.port}
+        return {'name':self.name, 'port':self.port}

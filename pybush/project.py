@@ -142,16 +142,24 @@ class Project(Device, File):
         return export
     """
 
-    def new_device(self, *args, **kwargs):
+    def new_device(self, dict_import=None, name=None, tags=None, version=None, author=None):
         """
         Create a new device
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
         size = len(self._devices)
-        kwargs.setdefault('parent', self)
-        self._devices.append(Device(kwargs))
-        return self._devices[size]
+        if isinstance(dict_import, dict):
+            # we import a python dict to create the child
+            # be careful about children and parameter
+            # which needs to instanciate Classes Node and Parameter
+            the_new_device = Device(name=dict_import['name'], parent=self, version=dict_import['version'], author=dict_import['author'], tags=dict_import['tags'], children=[])
+            self.devices = the_new_device
+        else:
+            # if the child argument is only a string, this is the name of the new_child to create
+            the_new_device = Device(name=name, parent=self, tags=tags, version=version, author=author)
+            self.devices = the_new_device
+        return the_new_device
 
     @property
     def devices(self):
@@ -159,6 +167,12 @@ class Project(Device, File):
         return a list of devices
         """
         return self._devices
+    @devices.setter
+    def devices(self, the_new_device):
+        if self._devices is None:
+            self._devices = [the_new_device]
+        else:
+            self._devices.append(the_new_device)
 
     @property
     def lastopened(self):

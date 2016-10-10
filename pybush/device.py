@@ -18,10 +18,10 @@ class Device(Node):
     Device inherit froù Node
     Device Class creates author and version attributes
     """
-    def __init__(self, description=None, name='no-name-device', parent=None):
-        super(Device, self).__init__(name=name, description=None, parent=None)
-        self._author = 'unknown'
-        self._version = 'unknown'
+    def __init__(self, description=None, name=None, tags=None, parent=None, author=None, version=None):
+        super(Device, self).__init__(name=name, description=description, tags=tags, parent=parent)
+        self._author = author
+        self._version = version
         self._name = name
         # device is a root node of a device/fixture file. So it has no parent
         # to simplify I use self, in order to always have a valid parent.name
@@ -64,9 +64,11 @@ class Device(Node):
                 child_export.append(child.export())
         out_export = None
         if self.outputs:
-            out_export = []
-            for out in self.outputs:
-                out_export.append(out.export())
+            out_export = {}
+            for proto in self.getprotocols():
+                out_export.setdefault(proto, [])
+                for out in self.getoutputs(proto):
+                    out_export[proto].append(out.export())
         return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child_export, 'outputs':out_export}
 
     # ----------- AUTHOR -------------
@@ -105,7 +107,7 @@ class Device(Node):
         if self.outputs:
             outputs = []
             for out in self.outputs:
-                if protocol == out.__class__.__name__:
+                if protocol == out.protocol:
                     outputs.append(out)
             return outputs
         else:
@@ -115,7 +117,7 @@ class Device(Node):
         """return the protocols available for this project"""
         protocols = []
         for out in self.outputs:
-            proto = out.__class__.__name__
+            proto = out.protocol
             if not proto in protocols:
                 protocols.append(proto)
         if protocols == []:

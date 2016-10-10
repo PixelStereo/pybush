@@ -39,12 +39,34 @@ class NodeAbstract(object):
     @property
     def name(self):
         """
-        Current name of the node
+        It acts as a nick name.
+        You can have several nodes with the same name
+        Read-Only
+
+        :Returns:String
         """
+        # be sure to return a string
+        if not is_string(self._name):
+            self._name = str(self._name)
         return self._name
     @name.setter
     def name(self, name):
         self._name = name
+
+    # ----------- DESCRIPTION -------------
+    @property
+    def description(self):
+        """
+        Description of this node
+        You could here send a few words explainig this node.
+
+        :Args:String
+        :Returns:String
+        """
+        return str(self._description)
+    @description.setter
+    def description(self, description):
+        self._description = description
 
     # ----------- ADDRESS -------------
     @property
@@ -56,13 +78,14 @@ class NodeAbstract(object):
             """
             recursive function to get into parent's hierarchy
             """
-            address = self.name
+            address = spacelessify(self.name)
             if self.__class__.__name__ is not 'Device':
                 if self.parent:
+                    parent_address = (get_address(self.parent))
                     if self.__class__.__name__ is 'Parameter':
-                        address = get_address(self.parent)
+                        address = parent_address
                     else:
-                        address = get_address(self.parent) + '/' + address
+                        address = parent_address + '/' + address
             return address
         return get_address(self)
     @address.setter
@@ -77,9 +100,6 @@ class NodeAbstract(object):
         Return the service of the node
         """
         return self.__class__.__name__
-    @service.setter
-    def service(self, service):
-        pass
 
     @property
     def parent(self):

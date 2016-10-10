@@ -135,7 +135,7 @@ def load_json(filepath):
 def spacelessify(name):
     if name is not None:
         # Remove all non-word characters (everything except numbers and letters)
-        newname = re.sub(r"[^\w\s]", '', name)
+        newname = re.sub(r"[^\w\s\.]", '', name)
         # Replace all runs of whitespace with '_'
         newname = re.sub(r"\s+", '_', newname)
         if not name.startswith('_'):
