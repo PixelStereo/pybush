@@ -64,3 +64,4 @@ docs/source/_build
 examples/.tempfiles
 tests/export-*.bush
 tests/BOGUS.bush
+pylint*
