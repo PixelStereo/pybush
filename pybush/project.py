@@ -11,7 +11,6 @@ But it might it use only with devices and active mappings between input devices 
 import datetime
 from pybush import __version__
 from pybush.device import Device
-from pybush.scenario import Scenario
 from pybush.constants import __dbug__, __projects__
 
 def new_project(name=None):
