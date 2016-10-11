@@ -3,11 +3,8 @@
 
 import unittest
 import os, sys
-from time import sleep
 
 sys.path.append(os.path.abspath('./../'))
-
-__dbug__ = True
 
 import time
 import liblo
@@ -40,7 +37,7 @@ snap_device = my_device.new_snapshot()
 snap_project = my_project.new_snapshot()
 print(snap_device)
 print(snap_project)
-#quit()
+
 
 class TestAll(unittest.TestCase):
 

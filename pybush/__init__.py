@@ -50,21 +50,8 @@ Changelog:
 
 """
 from __future__ import print_function
+from __future__ import unicode_literals
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 __release__ = __version__
-
-try:
-    str = unicode
-    def is_string(test):
-        """
-    	Fonction used for both python 2 and 3
-    	"""
-        return isinstance(test, basestring)
-except NameError:
-    def is_string(test):
-        """
-    	Fonction used for both python 2 and 3
-    	"""
-        return isinstance(test, str)

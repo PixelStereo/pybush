@@ -8,7 +8,6 @@ Application and Parameter are based on the Node Class
 
 from pybush.constants import __dbug__
 from pybush.functions import spacelessify
-from pybush import is_string
 
 
 class NodeAbstract(object):
@@ -45,9 +44,6 @@ class NodeAbstract(object):
 
         :Returns:String
         """
-        # be sure to return a string
-        if not is_string(self._name):
-            self._name = str(self._name)
         return self._name
     @name.setter
     def name(self, name):
