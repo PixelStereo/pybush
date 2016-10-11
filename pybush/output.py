@@ -16,20 +16,22 @@ class Output(NodeAbstract):
     Create a new output for a device
 
     """
-    def __init__(self, name=None, description=None, parent=None, port=None):
+    def __init__(self, name='Untitled Output', description='Description of a Untitled Output', parent=None, port=None):
         super(Output, self).__init__(name=name, description=description, parent=parent)
         self._port = port
-        if not self.name:
-            self.name = 'Untitled Output'
-        if not self.description:
-            self.description = "I'm an output"
 
     @property
     def protocol(self):
+        """
+        Protocol property is used to navigate between outputs
+        """
         return self._protocol
 
     @property
     def port(self):
+        """
+        A port contains all informations need to sent a message to this output
+        """
         return self._port
     @port.setter
     def port(self, port):
@@ -45,9 +47,13 @@ class OutputMIDI(Output):
         super(OutputMIDI, self).__init__(name=name, parent=parent, port=port)
         self._protocol = 'MIDI'
         self._channel = channel
+        self._message = message
 
     @property
     def channel(self):
+        """
+        The MIDI Channel used to send out the message
+        """
         return self._channel
     @channel.setter
     def channel(self, value):

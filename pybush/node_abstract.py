@@ -120,12 +120,18 @@ class NodeAbstract(object):
         self._tags = tags
 
     def add_tag(self, tag):
+        """
+        add a tag to this node
+        """
         if tag in self._tags:
             if debug >= 3:
                 print('already in')
         else:
             self._tags.append(tag)
     def del_tag(self, tag):
+        """
+        del a tag for this node
+        """
         if tag in self._tags:
             self._tags.remove(tag)
         else:

@@ -91,12 +91,12 @@ class Parameter(NodeAbstract):
         update is called when value is updated
         might be used to send it to network or other protocols
         """
-        ip = 'localhost'
+        ip_add = 'localhost'
         udp = 1234
         try:
-            target = liblo.Address(ip, int(udp))
+            target = liblo.Address(ip_add, int(udp))
             if __dbug__ >= 3:
-                print('connect to : ' + ip + ':' + str(udp))
+                print('connect to : ' + ip_add + ':' + str(udp))
         except liblo.AddressError as err:
             if __dbug__ >= 3:
                 print('liblo.AddressError' + str(err))
@@ -104,7 +104,7 @@ class Parameter(NodeAbstract):
         if isinstance(self._value, list):
             # this is just a list of values to send
             for arg in self._value:
-                arg = checkType(arg)
+                arg = check_type(arg)
                 msg.add(arg)
         else:
             msg.add(self._value)

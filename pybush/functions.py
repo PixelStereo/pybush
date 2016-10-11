@@ -9,7 +9,7 @@ import re
 import simplejson as json
 
 
-def checkType(data):
+def check_type(data):
     """
     Transform an unicode into its original type
 
@@ -133,14 +133,19 @@ def load_json(filepath):
     return content
 
 def spacelessify(name):
+    """
+    remove all special signs
+    you can have letters, numbers and dot
+    replace space by underscores
+    """
     if name is not None:
         # Remove all non-word characters (everything except numbers and letters)
         newname = re.sub(r"[^\w\s\.]", '', name)
         # Replace all runs of whitespace with '_'
         newname = re.sub(r"\s+", '_', newname)
         if not name.startswith('_'):
-         	if newname.startswith('_'):
-         		newname = newname[1:]
+            if newname.startswith('_'):
+                newname = newname[1:]
         if not name.endswith('_'):
             if newname.endswith('_'):
                 newname = newname[:-1]

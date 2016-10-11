@@ -148,18 +148,17 @@ class Project(Device, File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
-        size = len(self._devices)
         if isinstance(dict_import, dict):
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            the_new_device = Device(name=dict_import['name'], parent=self, version=dict_import['version'], author=dict_import['author'], tags=dict_import['tags'], children=[])
-            self.devices = the_new_device
+            self.devices = Device(name=dict_import['name'], parent=self, \
+                                    version=dict_import['version'], author=dict_import['author'], \
+                                    tags=dict_import['tags'])
         else:
             # if the child argument is only a string, this is the name of the new_child to create
-            the_new_device = Device(name=name, parent=self, tags=tags, version=version, author=author)
-            self.devices = the_new_device
-        return the_new_device
+            self.devices = Device(name=name, parent=self, tags=tags, version=version, author=author)
+        return self.devices[-1]
 
     @property
     def devices(self):

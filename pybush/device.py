@@ -48,10 +48,11 @@ class Device(Node):
                 raise NoOutputError()
     @output.setter
     def output(self, out):
-        if out.__class__.__name__ == 'OutputUdp' or out.__class__.__name__ == 'OutputMidi':
+        if out.__class__.protocol == self.protocol:
             self._output = out
         else:
-            raise LektureTypeError('Wait for an Output but receive a', out.__class__)
+            print('DO YOU WANT TO CHANGE THE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
+            raise LektureTypeError('Wait for an Output but receive a', out.protocol)
 
     def export(self):
         """
@@ -69,7 +70,8 @@ class Device(Node):
                 out_export.setdefault(proto, [])
                 for out in self.getoutputs(proto):
                     out_export[proto].append(out.export())
-        return {'name':self.name, 'author':self.author, 'version':self.version, 'children':child_export, 'outputs':out_export}
+        return {'name':self.name, 'author':self.author, 'version':self.version, \
+                'children':child_export, 'outputs':out_export}
 
     # ----------- AUTHOR -------------
     @property
@@ -148,7 +150,7 @@ class Device(Node):
             return self._outputs[taille]
         else:
             return False
-            
+
     def del_output(self, output):
         """
         delete an output of this project
