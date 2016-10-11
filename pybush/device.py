@@ -18,14 +18,15 @@ class Device(Node):
     Device inherit froù Node
     Device Class creates author and version attributes
     """
-    def __init__(self, description=None, name=None, tags=None, parent=None, author=None, version=None):
+    def __init__(self, description=None, name=None, tags=None, output=None, parent=None, author=None, version=None):
         super(Device, self).__init__(name=name, description=description, tags=tags, parent=parent)
         self._author = author
         self._version = version
         self._name = name
+        self._output = output
         # device is a root node of a device/fixture file. So it has no parent
-        # to simplify I use self, in order to always have a valid parent.name
         self._parent = None
+        # list of all outputs for this device
         self._outputs = None
 
     def __repr__(self):

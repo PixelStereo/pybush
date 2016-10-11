@@ -58,13 +58,13 @@ __release__ = __version__
 try:
     str = unicode
     def is_string(test):
-    	"""
+        """
     	Fonction used for both python 2 and 3
     	"""
         return isinstance(test, basestring)
 except NameError:
     def is_string(test):
-    	"""
+        """
     	Fonction used for both python 2 and 3
     	"""
         return isinstance(test, str)

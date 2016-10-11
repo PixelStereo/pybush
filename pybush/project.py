@@ -12,8 +12,6 @@ import datetime
 from pybush import __version__
 from pybush.device import Device
 from pybush.constants import __dbug__, __projects__
-from pybush.node_abstract import NodeAbstract
-from pybush.file import File
 
 def new_project(name=None):
     """
@@ -29,7 +27,7 @@ def projects():
     """
     return __projects__
 
-class Project(Device, File):
+class Project(Device):
     """
     Project class, will host devices, scenario, mappings etc…
     """
