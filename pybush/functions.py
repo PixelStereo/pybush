@@ -7,6 +7,7 @@ Bunch of functions usefull for types, or namespace assertions, conventions or co
 
 import re
 import simplejson as json
+from pybush.constants import __dbug__
 
 
 def check_type(data):
