@@ -2,7 +2,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/f17bbb174ef24686824a4f9142b36e83)](https://www.codacy.com/app/contact_37/pybush)
 [![Codacy Badge](https://api.codacy.com/project/badge/coverage/f17bbb174ef24686824a4f9142b36e83)](https://www.codacy.com/app/contact_37/pybush)
 [![Code Climate](https://codeclimate.com/github/PixelStereo/pybush/badges/gpa.svg)](https://codeclimate.com/github/PixelStereo/pybush)
-[![Test Coverage](https://codeclimate.com/github/PixelStereo/pybush/badges/coverage.svg)](https://codeclimate.com/github/PixelStereo/pybush/coverage)
 [![Issue Count](https://codeclimate.com/github/PixelStereo/pybush/badges/issue_count.svg)](https://codeclimate.com/github/PixelStereo/pybush)
 [![Build Status](https://travis-ci.org/PixelStereo/pybush.svg?branch=master)](https://travis-ci.org/PixelStereo/pybush)
 
