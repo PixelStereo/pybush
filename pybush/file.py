@@ -6,13 +6,14 @@ File Class is an abstract class to add read/write json files
 """
 import os
 import simplejson as json
-from pybush.constants import __dbug__,  __file_extention__
+from pybush.constants import __dbug__, __file_extention__
 from pybush.functions import load_json
 
 
 class File(object):
     """
     Abstract class
+
     Implements read and write methods
     Implements path attribute
     Instance must have import / export / reset methods
@@ -68,7 +69,7 @@ class File(object):
                 return loading
             else:
                 if __dbug__:
-                    print("--- problem when loading JSON from " + path + ' - Maybe your file was empty ? ?')
+                    print("problem when loading JSON from " + path + ' - empty file ? ?')
                 return False
 
     def write(self, savepath=None):

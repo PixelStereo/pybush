@@ -9,6 +9,7 @@ A device has some protocol/plugin for input/output
 
 from pybush.node import Node
 from pybush.constants import __dbug__
+from pybush.errors import NoOutputError, LektureTypeError
 from pybush.output import OutputOSC, OutputMIDI
 
 
@@ -18,8 +19,9 @@ class Device(Node):
     Device inherit froù Node
     Device Class creates author and version attributes
     """
-    def __init__(self, description=None, name=None, tags=None, output=None, parent=None, author=None, version=None):
-        super(Device, self).__init__(name=name, description=description, tags=tags, parent=parent)
+    def __init__(self, name=None, description=None, parent=None, tags=None, parameter=None, \
+                    children=None, output=None, author=None, version=None):
+        super(Device, self).__init__(name, description, parent, tags, parameter, children)
         self._author = author
         self._version = version
         self._name = name
@@ -49,7 +51,7 @@ class Device(Node):
                 raise NoOutputError()
     @output.setter
     def output(self, out):
-        if out.__class__.protocol == self.protocol:
+        if out.protocol == self.protocol:
             self._output = out
         else:
             print('DO YOU WANT TO CHANGE THE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
@@ -161,6 +163,6 @@ class Device(Node):
             # delete the output
             self._outputs.remove(output)
         else:
-            if debug:
+            if __dbug__:
                 print("ERROR - trying to delete an output which not exists \
                       in self._outputs", output)

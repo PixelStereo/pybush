@@ -37,6 +37,12 @@ class Output(NodeAbstract):
     def port(self, port):
         self._port = port
 
+    def export(self):
+        """
+        export Node to a json_string/python_dict with all its properties
+        """
+        # must be sub-classed
+        pass
 
 class OutputMIDI(Output):
     """
@@ -69,9 +75,6 @@ class OutputMIDI(Output):
 
 
     def export(self):
-        """
-        export Node to a json_string/python_dict with all its properties
-        """
         return {'name':self.name, 'port':self.port,'channel':self.channel}
 
 class OutputOSC(Output):
@@ -94,7 +97,4 @@ class OutputOSC(Output):
         return printer.format(name=self.name, port=self.port)
 
     def export(self):
-        """
-        export Node to a json_string/python_dict with all its properties
-        """
         return {'name':self.name, 'port':self.port}

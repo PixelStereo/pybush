@@ -13,9 +13,9 @@ from pybush.file import File
 
 class Node(NodeAbstract, File):
     """Base Class for all item in the namespace"""
-    def __init__(self, name, parent=None, tags=None, \
+    def __init__(self, name=None, parent=None, tags=None, \
                     description=None, parameter=None, children=None):
-        super(Node, self).__init__(name=name, description=description, parent=parent, tags=tags)
+        super(Node, self).__init__(name, description, parent, tags)
         # initialise attributes/properties of this node
         self._parameter = parameter
         self._children = children
@@ -44,7 +44,10 @@ class Node(NodeAbstract, File):
         """
         Return the list of the children registered to this node
         """
-        return self._children
+        if self._children:
+            return self._children
+        else:
+            return []
     @children.setter
     def children(self, the_new_child):
         if self._children is None:
@@ -80,14 +83,14 @@ class Node(NodeAbstract, File):
             if self._parameter is None:
                 if isinstance(args[0], dict):
                     child = args[0]
-                    self._parameter = Parameter(self, **child)
+                    self._parameter = Parameter(parent=self, **child)
                 else:
-                    self._parameter = Parameter(self, **kwargs)
+                    self._parameter = Parameter(parent=self, **kwargs)
                 return self._parameter
             else:
                 return False
         else:
-            self._parameter = Parameter(self)
+            self._parameter = Parameter(parent=self)
             return self._parameter
 
   # ----------- NEW CHILD METHOD -------------

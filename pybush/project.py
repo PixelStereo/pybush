@@ -32,8 +32,9 @@ class Project(Device):
     Project class, will host devices, scenario, mappings etc…
     """
     def __init__(self, name='no name project', description='Project without name', \
-                    parent=None):
-        super(Project, self).__init__(name=name, parent=parent, description=description)
+                    parent=None, tags=None, parameter=None, children=None, output=None, \
+                    author=None, version=None):
+        super(Project, self).__init__(name, description, parent, tags, parameter, children, output, author, version)
         self._devices = []
         # from pylekture
         self._lastopened = None
@@ -66,8 +67,7 @@ class Project(Device):
                         autoplay=self.autoplay,
                         loop=self.loop,
                         scenarios=len(self.scenarios),
-                        events=len(self.events))
-    """
+                        events=len(self.events))"""
 
     def export(self):
         """

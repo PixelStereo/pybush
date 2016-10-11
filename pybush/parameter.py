@@ -18,9 +18,10 @@ class Parameter(NodeAbstract):
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its parent's node
     """
-    def __init__(self, parent=None, raw=None, value=None, datatype=None, tags=None, \
+    def __init__(self, name='No name Parameter', description='Parameter without description', \
+                    parent=None, tags=None, raw=None, value=None, datatype=None, \
                     domain=None, clipmode=None, repetitions=True):
-        super(Parameter, self).__init__(parent=parent)
+        super(Parameter, self).__init__(name, description, parent, tags)
         self._value = value
         self._clipmode = clipmode
         self._domain = domain

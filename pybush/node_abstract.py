@@ -124,7 +124,7 @@ class NodeAbstract(object):
         add a tag to this node
         """
         if tag in self._tags:
-            if debug >= 3:
+            if __dbug__ >= 3:
                 print('already in')
         else:
             self._tags.append(tag)
@@ -135,5 +135,5 @@ class NodeAbstract(object):
         if tag in self._tags:
             self._tags.remove(tag)
         else:
-            if debug >= 3:
+            if __dbug__ >= 3:
                 print('not in')
