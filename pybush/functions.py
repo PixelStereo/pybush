@@ -150,7 +150,6 @@ def spacelessify(name):
         if not name.endswith('_'):
             if newname.endswith('_'):
                 newname = newname[:-1]
-        print(name, newname)
         return newname
     else:
         return name

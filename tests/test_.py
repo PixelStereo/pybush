@@ -34,8 +34,22 @@ param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','
 param3 = node_2.make_parameter(value=-0.5, datatype='decimal', tags=['uno','dos'], \
                          domain=[-1,1], clipmode='low', \
                          repetitions=1)
+# now create scenario and events
+#scenario = my_project.new_scenario(output=output)
+snap_device = my_device.new_snapshot()
+snap_project = my_project.new_snapshot()
+print(snap_device)
+print(snap_project)
+#quit()
 
 class TestAll(unittest.TestCase):
+
+    def test_a_snapshot(self):
+        snap_1 = node_1.new_snapshot()
+        node_1.parameter.value = 2
+        snap_2 = node_1.new_snapshot()
+        node_1.recall(snap_1)
+        self.assertEqual(node_1.parameter.value, 1)
 
     def test_a_project(self):
         self.assertEqual(my_project.name, 'My Python project')
@@ -66,8 +80,8 @@ class TestAll(unittest.TestCase):
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        self.assertEqual(len(prop_dict(node_1).keys()), 7)
-        self.assertEqual(len(prop_list(node_1)), 10)
+        self.assertEqual(len(prop_dict(node_1).keys()), 8)
+        self.assertEqual(len(prop_list(node_1)), 11)
 
 
     def test_parameter(self):

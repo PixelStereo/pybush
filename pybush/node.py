@@ -24,6 +24,26 @@ class Node(NodeAbstract, File):
         printer = 'Node (name:{name}, parameter:{parameter}, children:{children})'
         return printer.format(name=self.name, parameter=self.parameter, children=self.children)
 
+    def new_snapshot(self, **kwargs):
+        if self.parameter:
+            return self.parameter.new_snapshot(**kwargs)
+        else:
+            return False
+
+    def recall(self, *args, **kwargs):
+        if self.parameter:
+            return self.parameter.recall(*args, **kwargs)
+        else:
+            return False
+
+
+    @property
+    def snapshots(self):
+        if self.parameter:
+            return self.parameter.snapshots
+        else:
+            return False
+
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties

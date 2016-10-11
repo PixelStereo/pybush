@@ -16,8 +16,8 @@ class LektureTypeError(Exception):
         print(dbg.format(expected=expected, received=received.__class__))
 
 class NoOutputError(Exception):
-	"""
-	There is no output in this project
-	"""
-	def __init__(self):
-		super(NoOutputError, self).__init__()
+    """
+    There is no output in this project
+    """
+    def __init__(self):
+        super(NoOutputError, self).__init__()

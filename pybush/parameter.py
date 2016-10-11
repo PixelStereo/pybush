@@ -20,7 +20,7 @@ class Parameter(NodeAbstract):
     """
     def __init__(self, name='No name Parameter', description='Parameter without description', \
                     parent=None, tags=None, raw=None, value=None, datatype=None, \
-                    domain=None, clipmode=None, repetitions=True):
+                    domain=None, clipmode=None, repetitions=True, snapshots=None):
         super(Parameter, self).__init__(name, description, parent, tags)
         self._value = value
         self._clipmode = clipmode
@@ -29,6 +29,10 @@ class Parameter(NodeAbstract):
         self._datatype = datatype
         self._service = 'xXx'
         self._raw = raw
+        # collection of snapshots
+        self._snapshots = snapshots
+        if not self._snapshots:
+            self._snapshots = []
         # herited from the parent's node
         self.name = parent.name
         self.tags = parent.tags
@@ -44,6 +48,19 @@ class Parameter(NodeAbstract):
                               domain=self.domain, clipmode=self.clipmode, \
                               repetitions=self.repetitions, tags=self.tags)
 
+    def get_state(self):
+        """
+        export the Parameter to a json_string/python_dict with all its properties
+        """
+        param = {}
+        param.setdefault('raw', self.value)
+        param.setdefault('value', self.value)
+        param.setdefault('domain', self.domain)
+        param.setdefault('datatype', self.datatype)
+        param.setdefault('clipmode', self.clipmode)
+        param.setdefault('repetitions', self.repetitions)      
+        return param
+
     def export(self):
         """
         export the Parameter to a json_string/python_dict with all its properties
@@ -55,7 +72,26 @@ class Parameter(NodeAbstract):
         param.setdefault('datatype', self.datatype)
         param.setdefault('clipmode', self.clipmode)
         param.setdefault('repetitions', self.repetitions)
+        param.setdefault('snapshots', self.snapshots)        
         return param
+
+    @property
+    def snapshots(self):
+        """
+        All the events of this scenario
+        """
+        return self._snapshots
+
+    def new_snapshot(self, **kwargs):
+        """
+        create a new event for this scenario
+        """
+        the_snap = self.get_state()
+        if the_snap:
+            self._snapshots.append(the_snap)
+            return the_snap
+        else:
+            return None
 
     def set(self, state_dict):
         """
@@ -86,6 +122,9 @@ class Parameter(NodeAbstract):
         raw value without rangeClipmode or rangeBoundsneither than datatype
         """
         return self._value
+    @raw.setter
+    def raw(self, value):
+        pass
 
     def update(self):
         """
@@ -112,6 +151,13 @@ class Parameter(NodeAbstract):
         liblo.send(target, msg)
         if __dbug__ >= 3:
             print('update ' + self.name + ' to value ' + str(self.value))
+
+    def recall(self, snap):
+        """
+        recall a snapshot
+        """
+        for prop, val in snap.items():
+            setattr(self, prop, val)
 
     # ----------- VALUE -------------
     @property

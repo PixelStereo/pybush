@@ -47,8 +47,6 @@ class Device(Node):
         else:
             if self._outputs:
                 return self._outputs[0]
-            else:
-                raise NoOutputError()
     @output.setter
     def output(self, out):
         if out.protocol == self.protocol:
