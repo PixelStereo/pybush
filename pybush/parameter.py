@@ -58,7 +58,7 @@ class Parameter(NodeAbstract):
         param.setdefault('domain', self.domain)
         param.setdefault('datatype', self.datatype)
         param.setdefault('clipmode', self.clipmode)
-        param.setdefault('repetitions', self.repetitions)      
+        param.setdefault('repetitions', self.repetitions)
         return param
 
     def export(self):
@@ -72,7 +72,7 @@ class Parameter(NodeAbstract):
         param.setdefault('datatype', self.datatype)
         param.setdefault('clipmode', self.clipmode)
         param.setdefault('repetitions', self.repetitions)
-        param.setdefault('snapshots', self.snapshots)        
+        param.setdefault('snapshots', self.snapshots)
         return param
 
     @property
@@ -82,7 +82,7 @@ class Parameter(NodeAbstract):
         """
         return self._snapshots
 
-    def new_snapshot(self, **kwargs):
+    def new_snapshot(self):
         """
         create a new event for this scenario
         """

@@ -9,7 +9,7 @@ A device has some protocol/plugin for input/output
 
 from pybush.node import Node
 from pybush.constants import __dbug__
-from pybush.errors import NoOutputError, LektureTypeError
+from pybush.errors import LektureTypeError
 from pybush.output import OutputOSC, OutputMIDI
 
 

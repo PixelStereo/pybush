@@ -58,18 +58,6 @@ class Project(Device):
         printer = 'Project (name:{name})'
         return printer.format(name=self.name)
 
-    """def __repr__(self):
-        s = "Project (name={name}, path={path}, description={description}, tags={tags}, autoplay={autoplay}, loop={loop}, " \
-            "scenario={scenario}, events={events})"
-        return s.format(name=self.name,
-                        path=self.path,
-                        description=self.description,
-                        tags=self.tags,
-                        autoplay=self.autoplay,
-                        loop=self.loop,
-                        scenario=len(self.scenario),
-                        events=len(self.events))"""
-
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties
@@ -80,68 +68,6 @@ class Project(Device):
         for scenar in self.scenario:
             proj['scenario'].append(scenar.export())
         return proj
-
-    """def export(self):
-
-        export = {}
-        export.setdefault('attributes', {})
-        for key, value in prop_dict(self).items():
-            if key == 'events':
-                events = []
-                for event in value:
-                    events.append(event.export())
-                export.setdefault('events', events)
-            elif key == 'scenario':
-                scenario = []
-                for scenario in value:
-                    scenario.append(scenario.export())
-                export.setdefault('scenario', scenario)
-            else:
-                export['attributes'].setdefault(key, value)
-        export['attributes'].pop('parent')
-        return export
-
-
-
-        # create a dict to export the content of the node
-        export = {}
-        # this is the dictionary of all props (output is already processed)
-        props = prop_dict(self)
-        # just the keys please
-        keys = props.keys()
-        for key in keys:
-            # for an output, we just need the index, not the output object
-            if key == 'output':
-                if props['output']:
-                    if props['output'] in self.parent.outputs:
-                        export.setdefault('output', self.parent.outputs.index(props['output']) + 1)
-                else:
-                    export.setdefault('output', 0)
-            elif key == 'events':
-                # for an event, we just need the index, not the event object
-                export.setdefault('events', [])
-                if props['events']:
-                    for event in props['events']:
-                        if event.__class__.__name__ == "ScenarioPlay":
-                            export.setdefault('events', [])
-                        else:
-                            export['events'].append(self.parent.events.index(event))
-                else:
-                    export.setdefault('events', [])
-            else:
-                # this is just a property, dump them all !!
-                export.setdefault(key, props[key])
-        # Itarate a second time to link ScenarioPlay obkects with Scenario
-        for key in keys:
-            if key == 'events':
-                if props['events']:
-                    for event in props['events']:
-                        if event.__class__.__name__ == "ScenarioPlay":
-                            export['events'].append(self.parent.events.index(event))
-        # we don't need parent in an export, because the JSON/dict export format do that
-        export.pop('parent')
-        return export
-    """
 
     def new_device(self, dict_import=None, name=None, tags=None, version=None, author=None):
         """

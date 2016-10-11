@@ -25,12 +25,18 @@ class Node(NodeAbstract, File):
         return printer.format(name=self.name, parameter=self.parameter, children=self.children)
 
     def new_snapshot(self, **kwargs):
+        """
+        method to call parameter's snapshot
+        """
         if self.parameter:
             return self.parameter.new_snapshot(**kwargs)
         else:
             return False
 
     def recall(self, *args, **kwargs):
+        """
+        Method to recall a snapshot of a parameter
+        """
         if self.parameter:
             return self.parameter.recall(*args, **kwargs)
         else:
@@ -39,6 +45,9 @@ class Node(NodeAbstract, File):
 
     @property
     def snapshots(self):
+        """
+        Ordered list of snapshots
+        """
         if self.parameter:
             return self.parameter.snapshots
         else:
