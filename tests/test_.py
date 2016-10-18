@@ -14,28 +14,27 @@ from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
 from pybush.node_abstract import NodeAbstract
 
-my_project = new_project('My Python project')
+my_project = new_project(name='My Python project')
+
 another_project = new_project('Another Python project')
 #len(projects())
-my_device = my_project.new_device(name='My Python device', author='Pixel Stereo', version='0.1.0')
-another_device = my_project.new_device(name='My Other Python device', author='Stereo Pixel', version='0.1.1')
-output = my_device.new_output(protocol='OSC', port='127.0.0.1:2345')
-output = my_device.new_output(protocol='MIDI')
-node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
+my_application = my_project.new_application(name='My Python application', author='Pixel Stereo', version='0.1.0')
+another_application = my_project.new_application(name='My Other Python application', author='Stereo Pixel', version='0.1.1')
+output = my_application.new_output(protocol='OSC', port='127.0.0.1:2345')
+output = my_application.new_output(protocol='MIDI')
+node_1 = my_application.new_child(name='node.1', tags=['init', 'video'])
 node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
-param1 = my_device.make_parameter()
-param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'tags':['uno','dos'], \
-                         'domain':[0,11], 'clipmode':'both', \
-                         'repetitions':1})
-param3 = node_2.make_parameter(value=-0.5, datatype='decimal', tags=['uno','dos'], \
-                         domain=[-1,1], clipmode='low', \
-                         repetitions=1)
+param1 = my_application.make_parameter()
+param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
+                                'clipmode':'both', 'repetitions':True})
+param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
+                                domain=[-1,1], clipmode='low', repetitions=True)
 # now create scenario and events
 #scenario = my_project.new_scenario(output=output)
-snap_device = my_device.new_snapshot()
+snap_application = my_application.new_snapshot()
 snap_project = my_project.new_snapshot()
-print(snap_device)
+print(snap_application)
 print(snap_project)
 
 
@@ -53,27 +52,27 @@ class TestAll(unittest.TestCase):
         self.assertEqual(another_project.name, 'Another Python project')
         self.assertEqual(len(projects()), 2)
 
-    def test_device(self):
-        self.assertEqual(isinstance(my_device.author, str), True)
-        self.assertEqual(my_device.author, 'Pixel Stereo')
-        self.assertEqual(isinstance(my_device.version, str), True)
-        self.assertEqual(my_device.version, '0.1.0')
-        self.assertEqual(type(my_device.name), str)
-        self.assertEqual(my_device.name, 'My Python device')
-        self.assertEqual(len(my_project.devices), 2)
+    def test_application(self):
+        self.assertEqual(isinstance(my_application.author, str), True)
+        self.assertEqual(my_application.author, 'Pixel Stereo')
+        self.assertEqual(isinstance(my_application.version, str), True)
+        self.assertEqual(my_application.version, '0.1.0')
+        self.assertEqual(type(my_application.name), str)
+        self.assertEqual(my_application.name, 'My Python application')
+        self.assertEqual(len(my_project.applications), 2)
 
     def test_nodes(self):
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 1)
+        self.assertEqual(len(my_application.children), 1)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
-        node_1.name = 'lol'
+        node_1.name = 'node 1 namee'
 
-    def test_device_export(self):
+    def test_application_export(self):
         xprt = my_project.export()
         self.assertEqual(isinstance(xprt, dict), True)
-        xprt_name = xprt['devices'][0]['author']
+        xprt_name = xprt['applications'][0]['author']
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
@@ -82,8 +81,7 @@ class TestAll(unittest.TestCase):
 
 
     def test_parameter(self):
-        self.assertEqual(my_device.make_parameter(['fake']), False)
-        self.assertEqual(param1.name, 'My Python device')
+        self.assertEqual(my_application.make_parameter(['fake']), False)
 
     def test_writing_files(self):
         self.assertEqual(node_1.parameter, param2)
@@ -95,8 +93,8 @@ class TestAll(unittest.TestCase):
         self.assertEqual(node_1.write(node1_write_path), True)
         node2_write_path = write_path + 'export-test_node_2'
         self.assertEqual(node_2.write(node2_write_path), True)
-        my_device.name = 'export-device filename from device.name attribute'
-        self.assertEqual(my_device.write(write_path), True)
+        my_application.name = 'export-application filename from application.name attribute'
+        self.assertEqual(my_application.write(write_path), True)
         project_write_path = write_path + 'export-test_project'
         self.assertEqual(my_project.write(project_write_path), True)
         self.assertEqual(my_project.write('/no/fake/BOGUS'), False)
@@ -130,7 +128,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(s, list), True)
         s = m_string(s)
         self.assertEqual(isinstance(s, str), True)
-        parameter = my_device.make_parameter()
+        parameter = my_application.make_parameter()
         parameter.value = 3.2
         parameter.datatype = 'decimal'
         parameter.tags = ['uno','dos']
@@ -138,7 +136,7 @@ class TestAll(unittest.TestCase):
         parameter.clipmode = 'both'
         parameter.repetitions = 1
         # create two parameters with the same name must be raised
-        same = my_device.make_parameter()
+        same = my_application.make_parameter()
         # here, we just assign the parameter as False
         self.assertEqual(same, same)
         self.assertEqual(parameter.value, 1)
@@ -155,27 +153,25 @@ class TestAll(unittest.TestCase):
 
     def test_print(self):
         print('----------------------------')
-        print(my_device.name + " version " + my_device.version + " by " + my_device.author)
+        print(my_application.name + " version " + my_application.version + " by " + my_application.author)
         for key, val in param2.export().items():
             print(key, val)
 
     def test_abstract_node(self):
-        abstrakt = NodeAbstract()
-        self.assertEqual(abstrakt.parent, None)
+        abstrakt = NodeAbstract(name='Untitled abstract Node')
         self.assertEqual(abstrakt.name, 'Untitled abstract Node')
-        abstrakt_2 = NodeAbstract(parent=abstrakt, name='toto')
-        self.assertEqual(abstrakt_2.parent, abstrakt)
+        abstrakt_2 = NodeAbstract(name='toto')
         self.assertEqual(abstrakt_2.name, 'toto')
         print(abstrakt)
 
     def test_address(self):
-        self.assertEqual(my_device.address, 'My_Python_device')
-        self.assertEqual(node_1.address, 'My_Python_device/node.1')
-        self.assertEqual(node_2.address, 'My_Python_device/node.1/node_.2')
-        self.assertEqual(node_3.address, 'My_Python_device/node.1/node_.2/node.3')
-        self.assertEqual(param1.address, 'My_Python_device')
-        self.assertEqual(param2.address, 'My_Python_device/node.1')
-        self.assertEqual(param3.address, 'My_Python_device/node.1/node_.2')
+        self.assertEqual(my_application.address, 'My_Python_application')
+        self.assertEqual(node_1.address, 'My_Python_application/node.1')
+        self.assertEqual(node_2.address, 'My_Python_application/node.1/node_.2')
+        self.assertEqual(node_3.address, 'My_Python_application/node.1/node_.2/node.3')
+        self.assertEqual(param1.address, 'My_Python_application')
+        self.assertEqual(param2.address, 'My_Python_application/node.1')
+        self.assertEqual(param3.address, 'My_Python_application/node.1/node_.2')
 
 
 if __name__ == '__main__':

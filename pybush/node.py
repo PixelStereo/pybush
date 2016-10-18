@@ -66,6 +66,7 @@ class Node(NodeAbstract, File):
         filiation = []
         if self.children:
             for chili in self.children:
+                # TODO UNCOMMENT AND DEBUG
                 filiation.append(chili.export())
         return {'name':self.name, 'tags':self.tags, 'children':filiation, 'parameter':param}
 
@@ -81,10 +82,11 @@ class Node(NodeAbstract, File):
             return []
     @children.setter
     def children(self, the_new_child):
-        if not self._children:
-            self._children = [the_new_child]
-        else:
-            self._children.append(the_new_child)
+        if the_new_child:
+            if not self._children:
+                self._children = [the_new_child]
+            else:
+                self._children.append(the_new_child)
 
     # ----------- PARAMETER -------------
     @property

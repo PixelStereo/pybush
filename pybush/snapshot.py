@@ -13,7 +13,7 @@ import liblo
 from pybush.constants import __dbug__
 from pybush.parameter import Parameter
 
-class Snapshot(Parameter):
+class Snapshot(Node):
     """
     A Snapshot is always attached to a parameter.
     It will provide different memory of value's attributes to its parent's parameter
@@ -49,9 +49,7 @@ class Snapshot(Parameter):
         """
         export the Parameter to a json_string/python_dict with all its properties
         """
-        param = self.get_state()
-        param.setdefault('snapshots', self.snapshots)
-        return param
+        return {'snapshots': self.snapshots}
 
     @property
     def snapshots(self):
