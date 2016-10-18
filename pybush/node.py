@@ -66,7 +66,6 @@ class Node(NodeAbstract, File):
         filiation = []
         if self.children:
             for chili in self.children:
-                # TODO UNCOMMENT AND DEBUG
                 filiation.append(chili.export())
         return {'name':self.name, 'tags':self.tags, 'children':filiation, 'parameter':param}
 
@@ -116,9 +115,11 @@ class Node(NodeAbstract, File):
             if self._parameter is None:
                 if isinstance(args[0], dict):
                     child = args[0]
-                    self._parameter = Parameter(parent=self, **child)
+                    child.setdefault('parent', self)
+                    self._parameter = Parameter(**child)
                 else:
-                    self._parameter = Parameter(parent=self, **kwargs)
+                    kwargs.setdefault('parent', self)
+                    self._parameter = Parameter(**kwargs)
                 return self._parameter
             else:
                 return False

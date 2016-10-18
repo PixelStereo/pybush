@@ -29,7 +29,7 @@ param1 = my_application.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
                                 'clipmode':'both', 'repetitions':True})
 param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
-                                domain=[-1,1], clipmode='low', repetitions=True)
+                                domain=[-1,1], clipmode='low', repetitions=False)
 # now create scenario and events
 #scenario = my_project.new_scenario(output=output)
 snap_application = my_application.new_snapshot()

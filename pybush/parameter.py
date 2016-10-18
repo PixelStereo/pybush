@@ -19,6 +19,9 @@ class Parameter(NodeAbstract):
     """
     def __init__(self, **kwargs):
         super(Parameter, self).__init__()
+        # IMPORTANT to register parent first
+        # Because it is mandatory and used to determine address for parameter
+        self._parent = kwargs['parent']
         self._value = None
         self._clipmode = None
         self._domain = None
@@ -28,7 +31,6 @@ class Parameter(NodeAbstract):
         # collection of snapshots
         self._snapshots = []
         for att, val in kwargs.items():
-            print(att, val)
             setattr(self, att, val)
 
     def __repr__(self):
