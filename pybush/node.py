@@ -13,12 +13,14 @@ from pybush.file import File
 
 class Node(NodeAbstract, File):
     """Base Class for all item in the namespace"""
-    def __init__(self, name=None, parent=None, tags=None, \
-                    description=None, parameter=None, children=None):
-        super(Node, self).__init__(name, description, parent, tags)
+    def __init__(self, **kwargs):
+        super(Node, self).__init__()
         # initialise attributes/properties of this node
-        self._parameter = parameter
-        self._children = children
+        self._parameter = None
+        self._children = []
+        # kwargs setup attributes
+        for att, val in kwargs.items():
+            setattr(self, att, val)
 
     def __repr__(self):
         printer = 'Node (name:{name}, parameter:{parameter}, children:{children})'
@@ -79,7 +81,7 @@ class Node(NodeAbstract, File):
             return []
     @children.setter
     def children(self, the_new_child):
-        if self._children is None:
+        if not self._children:
             self._children = [the_new_child]
         else:
             self._children.append(the_new_child)
@@ -135,7 +137,7 @@ class Node(NodeAbstract, File):
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            the_new_child = Node(name=dict_import['name'], parent=self, tags=dict_import['tags'], children=[])
+            the_new_child = Node(parent=self, name=dict_import['name'], tags=dict_import['tags'], children=[])
             # this will append this children as a child in the self.children list
             self.children = the_new_child
             # maybe the new_child contains children itself?
@@ -152,6 +154,6 @@ class Node(NodeAbstract, File):
 
         else:
             # if the child argument is only a string, this is the name of the new_child to create
-            the_new_child = Node(name=name, parent=self, tags=tags, children=[])
+            the_new_child = Node(parent=self, name=name, tags=tags, children=[])
             self.children = the_new_child
         return the_new_child

@@ -4,32 +4,22 @@
 #
 
 """
-A Parameter is a node, with a value
+A Snapshot is a parameter, with a few attributes
 So a Parameter inherit from Node Class and just add attributes about value
 """
 import liblo
 
-from pybush.constants import __dbug__
-from pybush.node_abstract import NodeAbstract
 
-class Parameter(NodeAbstract):
+from pybush.constants import __dbug__
+from pybush.parameter import Parameter
+
+class Snapshot(Parameter):
     """
-    A Parameter is always attached to a node.
-    It will provide value and value's attributes to its node
+    A Snapshot is always attached to a parameter.
+    It will provide different memory of value's attributes to its parent's parameter
     """
     def __init__(self, **kwargs):
-        super(Parameter, self).__init__()
-        self._value = None
-        self._clipmode = None
-        self._domain = None
-        self._repetitions = None
-        self._datatype = None
-        self._raw = None
-        # collection of snapshots
-        self._snapshots = []
-        for att, val in kwargs.items():
-            print(att, val)
-            setattr(self, att, val)
+        super(Snapshot, self).__init__(**kwargs)
 
     def __repr__(self):
         """
@@ -64,26 +54,17 @@ class Parameter(NodeAbstract):
         return param
 
     @property
-    def name(self):
-        return self.parent.name
-
-    @property
     def snapshots(self):
         """
         All the events of this scenario
         """
         return self._snapshots
-    @snapshots.setter
-    def snapshots(self, snaps):
-        for snap in snaps:
-            self.new_snapshot(snap)
 
-    def new_snapshot(self, the_snap=None):
+    def new_snapshot(self):
         """
         create a new event for this scenario
         """
-        if not the_snap:
-            the_snap = self.get_state()
+        the_snap = self.get_state()
         if the_snap:
             self._snapshots.append(the_snap)
             return the_snap

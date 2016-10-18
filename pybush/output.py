@@ -13,12 +13,14 @@ from pybush.node_abstract import NodeAbstract
 class Output(NodeAbstract):
     """
     Abstract class
-    Create a new output for a device
+    Create a new output for a application
 
     """
-    def __init__(self, name='Untitled Output', description='Description of a Untitled Output', parent=None, port=None):
-        super(Output, self).__init__(name=name, description=description, parent=parent)
-        self._port = port
+    def __init__(self, **kwargs):
+        super(Output, self).__init__()
+        self._port = None
+        for att, val in kwargs.items():
+            setattr(self, att, val)
 
     @property
     def protocol(self):
@@ -46,14 +48,14 @@ class Output(NodeAbstract):
 
 class OutputMIDI(Output):
     """
-    Creates an output port for Midi Device.
-    A Midi Device can handle all type of Midi messages
+    Creates an output port for Midi Application.
+    A Midi Application can handle all type of Midi messages
     """
-    def __init__(self, name='Midi Output', parent=None, port=None, channel=1, message='CC'):
-        super(OutputMIDI, self).__init__(name=name, parent=parent, port=port)
+    def __init__(self, **kwargs):
+        super(OutputMIDI, self).__init__()
         self._protocol = 'MIDI'
-        self._channel = channel
-        self._message = message
+        self._channel = 1
+        self._message = 'CC'
 
     @property
     def channel(self):
@@ -86,11 +88,14 @@ class OutputOSC(Output):
     We might create a new class : OutputOsc as a subclass of OutputUdp.
     It should be used to double check that you send a correct OSC format message/bundle.
     """
-    def __init__(self, name='OSC Output', parent=None, port='127.0.0.1:1234'):
-        super(OutputOSC, self).__init__(name=name, parent=parent, port=port)
-        if not self.name:
-            self.name = 'Untitled Udp Output'
+    def __init__(self, **kwargs):
+        super(OutputOSC, self).__init__()
         self._protocol = 'OSC'
+        self._name = 'OSC Output'
+        self._port='127.0.0.1:1234'
+        for att, val in kwargs.items():
+            setattr(self, att, val)
+
 
     def __repr__(self):
         printer = 'OSC Output (name:{name}, port:{port})'

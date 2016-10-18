@@ -17,7 +17,7 @@ def new_project(name=None):
     """
     Create a new project
     """
-    new_proj = Project(name)
+    new_proj = Project(name=name)
     __projects__.append(new_proj)
     return new_proj
 

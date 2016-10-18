@@ -15,14 +15,18 @@ class NodeAbstract(object):
     Abstract Base Class for all item in the namespace
     Need to be subclassed
     """
-    def __init__(self, name='Untitled abstract Node', description="I'm an abstract node", \
-                    parent=None, tags=None):
+    def __init__(self, **kwargs):
         super(NodeAbstract, self).__init__()
         # initialise attributes/properties of this node
-        self._name = name
-        self._description = description
-        self._parent = parent
-        self._tags = tags
+        self._parent=None
+        self._address=None
+        self._name = None
+        self._description = None
+        self._tags = []
+        # kwargs setup attributes
+        for att, val in kwargs.items():
+            print(att, val)
+            setattr(self, att, val)
 
     def __repr__(self):
         printer = 'NodeAbstract (name:{name}, description:{description}, tags:{tags})'
@@ -33,6 +37,18 @@ class NodeAbstract(object):
         Clear the content of the node
         """
         pass
+
+
+    # ----------- PARENT -------------
+    @property
+    def parent(self):
+        """
+        parent of the node
+        """
+        return self._parent
+    @parent.setter
+    def parent(self, parent):
+        self._parent = parent
 
     # ----------- NAME -------------
     @property
@@ -75,6 +91,8 @@ class NodeAbstract(object):
             recursive function to get into parent's hierarchy
             """
             address = spacelessify(self.name)
+            if not address:
+                address = 'no_address'
             if self.__class__.__name__ is not 'Device':
                 if self.parent:
                     parent_address = (get_address(self.parent))
@@ -84,6 +102,8 @@ class NodeAbstract(object):
                         address = parent_address + '/' + address
             return address
         return get_address(self)
+
+        #return self._address
     @address.setter
     def address(self, address):
         if __dbug__:
@@ -96,13 +116,6 @@ class NodeAbstract(object):
         Return the service of the node
         """
         return self.__class__.__name__
-
-    @property
-    def parent(self):
-        """
-        Return the parent of the node
-        """
-        return self._parent
 
     # ----------- TAGS -------------
     @property
