@@ -11,6 +11,7 @@ But it might it use only with applications and active mappings between input app
 import datetime
 from pybush import __version__
 from pybush.application import Application
+#from pybush.scenario import Scenario
 from pybush.constants import __dbug__, __projects__
 
 def new_project(name=None):
