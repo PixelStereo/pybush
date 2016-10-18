@@ -8,7 +8,8 @@ It works as a project manager for writing inter/multi-media scenario.
 
 As a bush, pybush model is a tree graph, with branches and leaves.
 
-Here everything is based on the Node base Class.
+Here everything is based on a Node concept
+We have an abstract base Class : NodeAbstract
 
 The 'root' Node is a class called Application.
 The application is an entry to acces its children or its sibling through different protocols
