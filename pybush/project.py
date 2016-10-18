@@ -77,7 +77,7 @@ class Project(Application):
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            self.applications = Application(parent=None, name=dict_import['name'], 
+            self.applications = Application(parent=None, name=dict_import['name'],
                                     version=dict_import['version'], author=dict_import['author'], \
                                     tags=dict_import['tags'])
         else:
