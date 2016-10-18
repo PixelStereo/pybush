@@ -3,14 +3,14 @@
 
 """
 Project Class is the root class
-A project must contains devices
-It might contains scenario, which is useful to drive devices
-But it might it use only with devices and active mappings between input devices and output devices
+A project must contains applications
+It might contains scenario, which is useful to drive applications
+But it might it use only with applications and active mappings between input applications and output applications
 """
 
 import datetime
 from pybush import __version__
-from pybush.device import Device
+from pybush.application import Application
 from pybush.constants import __dbug__, __projects__
 
 def new_project(name=None):
@@ -27,15 +27,13 @@ def projects():
     """
     return __projects__
 
-class Project(Device):
+class Project(Application):
     """
-    Project class, will host devices, scenario, mappings etc…
+    Project class, will host applications, scenario, mappings etc…
     """
-    def __init__(self, name='no name project', description='Project without name', \
-                    parent=None, tags=None, parameter=None, children=None, output=None, \
-                    author=None, version=None):
-        super(Project, self).__init__(name, description, parent, tags, parameter, children, output, author, version)
-        self._devices = []
+    def __init__(self, **kwargs):
+        super(Project, self).__init__(**kwargs)
+        self._applications = []
         # from pylekture
         self._lastopened = None
         self._created = str(datetime.datetime.now())
@@ -61,16 +59,16 @@ class Project(Device):
         """
         export Node to a json_string/python_dict with all its properties
         """
-        proj = {'devices':[], 'scenario':[]}
-        for device in self.devices:
-            proj['devices'].append(device.export())
+        proj = {'applications':[], 'scenario':[]}
+        for application in self.applications:
+            proj['applications'].append(application.export())
         for scenar in self.scenario:
             proj['scenario'].append(scenar.export())
         return proj
 
-    def new_device(self, dict_import=None, name=None, tags=None, version=None, author=None):
+    def new_application(self, dict_import=None, name=None, tags=None, version=None, author=None):
         """
-        Create a new device
+        Create a new application
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
@@ -78,26 +76,26 @@ class Project(Device):
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            self.devices = Device(name=dict_import['name'], parent=self, \
+            self.applications = Application(parent=None, name=dict_import['name'], 
                                     version=dict_import['version'], author=dict_import['author'], \
                                     tags=dict_import['tags'])
         else:
             # if the child argument is only a string, this is the name of the new_child to create
-            self.devices = Device(name=name, parent=self, tags=tags, version=version, author=author)
-        return self.devices[-1]
+            self.applications = Application(name=name, tags=tags, version=version, author=author)
+        return self.applications[-1]
 
     @property
-    def devices(self):
+    def applications(self):
         """
-        return a list of devices
+        return a list of applications
         """
-        return self._devices
-    @devices.setter
-    def devices(self, the_new_device):
-        if self._devices is None:
-            self._devices = [the_new_device]
+        return self._applications
+    @applications.setter
+    def applications(self, the_new_application):
+        if self._applications is None:
+            self._applications = [the_new_application]
         else:
-            self._devices.append(the_new_device)
+            self._applications.append(the_new_application)
 
     def scenario_set(self, old, new):
         """Change order of a scenario in the scenario list of the project"""
@@ -186,34 +184,34 @@ class Project(Device):
             if __dbug__:
                 print('ERROR 901 - file provided is not a valid file' + str(filepath))
         try:
-            for device_dict in file_content['devices']:
-                # create a device object for all devices
+            for application_dict in file_content['applications']:
+                # create a application object for all applications
                 if __dbug__:
-                    print('------- new-device : ' + device_dict['name'] + ' ------ ')
-                device = self.new_device(device_dict['name'])
-                # iterate each attributes of the selected device
-                for prop, value in device_dict.items():
+                    print('------- new-application : ' + application_dict['name'] + ' ------ ')
+                application = self.new_application(application_dict['name'])
+                # iterate each attributes of the selected application
+                for prop, value in application_dict.items():
                     if value:
                         if prop == 'children':
-                            # the device has children
+                            # the application has children
                             for child in value:
-                                device.new_child(child)
+                                application.new_child(child)
                         elif prop == 'parameter':
                             if __dbug__:
-                                print('no parameter for device')
-                                #device.make_parameter(value)
+                                print('no parameter for application')
+                                #application.make_parameter(value)
                         elif prop == 'outputs':
                             if __dbug__:
                                 print('import will create an output')
-                                device.new_output(value)
+                                application.new_output(value)
                         else:
-                            # register value of the given attribute for the device
-                            setattr(device, prop, value)
+                            # register value of the given attribute for the application
+                            setattr(application, prop, value)
                 if __dbug__:
-                    print('device loaded : ' + device.name)
+                    print('application loaded : ' + application.name)
             return True
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as error:
             if __dbug__:
-                print(error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
+                print(error, "ERROR 902 - application cannot be loaded, this is not a valid Application")
             return False

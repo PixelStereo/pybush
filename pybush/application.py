@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-device Class is the root class
-A device has some parameters and/or nodes
-A device has some protocol/plugin for input/output
+application Class is the root class
+A application has some parameters and/or nodes
+A application has some protocol/plugin for input/output
 """
 
 from pybush.node import Node
@@ -13,26 +13,25 @@ from pybush.errors import LektureTypeError
 from pybush.output import OutputOSC, OutputMIDI
 
 
-class Device(Node):
+class Application(Node):
     """
-    Device Class represent a device
-    Device inherit froù Node
-    Device Class creates author and version attributes
+    Application Class represent a application
+    Application inherit froù Node
+    Application Class creates author and version attributes
     """
-    def __init__(self, name=None, description=None, parent=None, tags=None, parameter=None, \
-                    children=None, output=None, author=None, version=None):
-        super(Device, self).__init__(name, description, parent, tags, parameter, children)
-        self._author = author
-        self._version = version
-        self._name = name
-        self._output = output
-        # device is a root node of a device/fixture file. So it has no parent
-        self._parent = None
-        # list of all outputs for this device
+    def __init__(self, **kwargs):
+        super(Application, self).__init__(**kwargs)
+        self._author = None
+        self._version = None
+        self._output = None
+        # list of all outputs for this application
         self._outputs = None
+        # kwargs setup attributes
+        for att, val in kwargs.items():
+            setattr(self, att, val)
 
     def __repr__(self):
-        printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
+        printer = 'Application (name:{name}, author:{author}, version:{version}, children:{children})'
         return printer.format(name=self.name, author=self.author, \
                                 version=self.version, children=self.children)
 
@@ -78,7 +77,7 @@ class Device(Node):
     @property
     def author(self):
         """
-        Current author of the device
+        Current author of the application
         """
         return self._author
     @author.setter
@@ -89,7 +88,7 @@ class Device(Node):
     @property
     def version(self):
         """
-        Current version of the device
+        Current version of the application
         """
         return self._version
     @version.setter
@@ -139,9 +138,9 @@ class Device(Node):
             self._outputs = []
         taille = len(self._outputs)
         if protocol == "OSC":
-            output = OutputOSC(parent=self)
+            output = OutputOSC()
         elif protocol == "MIDI":
-            output = OutputMIDI(parent=self)
+            output = OutputMIDI()
         else:
             output = None
         if output:
@@ -155,7 +154,6 @@ class Device(Node):
     def del_output(self, output):
         """
         delete an output of this project
-        This function will delete  of the scenario
         """
         if output in self.outputs:
             # delete the output

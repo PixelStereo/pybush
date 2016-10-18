@@ -16,7 +16,7 @@ setup(
   packages = ['pybush'],
   version=versioneer.get_version(),
   cmdclass=versioneer.get_cmdclass(),
-  description = 'a lightweight API to interact with your device/software with based on a tree graph',
+  description = 'a lightweight API to interact with your application/software with based on a tree graph',
   author = 'Pixel Stereo',
   url='https://github.com/PixelStereo/pybush',
   download_url = 'https://github.com/PixelStereo/pybush/tarball/' + __version__,

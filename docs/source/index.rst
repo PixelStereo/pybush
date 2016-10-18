@@ -22,10 +22,10 @@ pybush.constants
     :show-inheritance:
 
 
-pybush.device
+pybush.application
 --------------------------
 
-.. automodule:: pybush.device
+.. automodule:: pybush.application
     :members:
     :undoc-members:
     :show-inheritance:
