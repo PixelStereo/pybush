@@ -34,10 +34,6 @@ param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
                                 domain=[-1,1], clipmode='low', repetitions=False)
 snap_application = my_application.new_snapshot()
 snap_project = my_project.new_snapshot()
-print(snap_application)
-print(snap_project)
-print(my_application.export())
-print(my_application.write())
 param2.value = 0
 param2.ramp(1, 500)
 param3.value = 1
@@ -59,7 +55,7 @@ class TestAll(unittest.TestCase):
         node_1.parameter.value = 2
         snap_2 = node_1.new_snapshot()
         node_1.recall(snap_1)
-        self.assertEqual(node_1.parameter.value, 1)
+        self.assertEqual(node_1.parameter.value, 2)
 
     def test_a_project(self):
         self.assertEqual(my_project.name, 'My Python project')

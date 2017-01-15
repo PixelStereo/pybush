@@ -199,7 +199,10 @@ class Parameter(NodeAbstract):
         recall a snapshot
         """
         for prop, val in snap.items():
-            setattr(self, prop, val)
+            if prop == 'name':
+                pass
+            else:
+                setattr(self, prop, val)
 
     # ----------- VALUE -------------
     @property
