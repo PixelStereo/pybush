@@ -11,7 +11,7 @@ As a bush, pybush model is a tree graph, with branches and leaves.
 Here everything is based on a Node concept
 We have an abstract base Class : NodeAbstract
 
-The 'root' Node is a class called Application.
+The 'root' Node is a class called Application. This is the first thing to create.
 The application is an entry to acces its children or its sibling through different protocols
 In your application, you can create any nodes or directly any parameters you want.
 
@@ -27,10 +27,10 @@ Name must be unique in the namespace.
 When you create a name, it will raise an error if there is already the same name.
 
 Nodes are used to organize your namespace.
-Leaves are used for parameters, messages and returns.
+Leaves are used for parameters and controlers.
 - Parameter : It is a string, integer, boolean, float or list with a state.
-- Message : It is a message is as a parameter but without a state.
-- Return : It is a return is a result of a computation made by an algorythm or a controller.
+- Controler : It is the result of a computation made by an algorythm
+				or an external remote or controler.
 
 There is others optionnals properties for each nodes, which are :
 - tags : tags are un unordered list of strings.
@@ -38,13 +38,16 @@ There is others optionnals properties for each nodes, which are :
 
 -------------------------------------------------------------------------------
 
-    Copyright (c) 2015 - 2016 Pixel Stereo
+    Copyright (c) 2015 - 2017 Pixel Stereo
 
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
 Changelog:
 -------------------------------------------------------------------------------
+
+- v0.1.2 - Jan. 15th 2017
+    - Add two animations for parameters (ramp and random)
 
 - v0.1.1 - Apr. 6th 2016
     - First draft
