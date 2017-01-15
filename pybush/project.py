@@ -204,7 +204,7 @@ class Project(Application):
                         elif prop == 'outputs':
                             if __dbug__:
                                 print('import will create an output')
-                                application.new_output(value)
+                            application.new_output(value)
                         else:
                             # register value of the given attribute for the application
                             setattr(application, prop, value)

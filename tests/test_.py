@@ -10,17 +10,19 @@ import time
 import liblo
 import datetime
 from pybush.constants import __dbug__
+from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
 from pybush.node_abstract import NodeAbstract
 
+__dbug__ = 4
 my_project = new_project(name='My Python project')
 
 another_project = new_project('Another Python project')
 #len(projects())
 my_application = my_project.new_application(name='My Python application', author='Pixel Stereo', version='0.1.0')
 another_application = my_project.new_application(name='My Other Python application', author='Stereo Pixel', version='0.1.1')
-output = my_application.new_output(protocol='OSC', port='127.0.0.1:2345')
+output = my_application.new_output(protocol='OSC', port='127.0.0.1:1234')
 output = my_application.new_output(protocol='MIDI')
 node_1 = my_application.new_child(name='node.1', tags=['init', 'video'])
 node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
@@ -34,6 +36,20 @@ snap_application = my_application.new_snapshot()
 snap_project = my_project.new_snapshot()
 print(snap_application)
 print(snap_project)
+print(my_application.export())
+print(my_application.write())
+param2.value = 0
+param2.ramp(1, 500)
+param3.value = 1
+param3.datatype = 'decimal'
+param3.ramp(0, 500)
+sleep(0.5)
+param3.domain = [0.4, 0.6]
+param3.random(destination=1, duration=700)
+param3.value = 0.5
+param2.ramp(0, 500)
+sleep(0.7)
+param2.value = 1
 
 
 class TestAll(unittest.TestCase):
@@ -58,6 +74,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(type(my_application.name), str)
         self.assertEqual(my_application.name, 'My Python application')
         self.assertEqual(len(my_project.applications), 2)
+
 
     def test_nodes(self):
         xprt_node2 = node_2.export()
@@ -170,7 +187,6 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param1.address, 'My_Python_application')
         self.assertEqual(param2.address, 'My_Python_application/node.1')
         self.assertEqual(param3.address, 'My_Python_application/node.1/node_.2')
-
 
 if __name__ == '__main__':
     unittest.main()

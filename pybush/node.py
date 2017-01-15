@@ -30,10 +30,7 @@ class Node(NodeAbstract, File):
         """
         method to call parameter's snapshot
         """
-        if self.parameter:
-            return self.parameter.new_snapshot(**kwargs)
-        else:
-            return False
+        return self.export()
 
     def recall(self, *args, **kwargs):
         """

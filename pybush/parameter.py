@@ -8,9 +8,12 @@ A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
 import liblo
+import threading
 
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
+from pybush.animations import RampPlayer, RandomPlayer, Ramp, Random
+
 
 class Parameter(NodeAbstract):
     """
@@ -20,9 +23,8 @@ class Parameter(NodeAbstract):
     def __init__(self, **kwargs):
         super(Parameter, self).__init__()
         # IMPORTANT to register parent first
-        # Because it is mandatory and used to determine address for parameter
         self._parent = kwargs['parent']
-        self._value = None
+        self._value = 0.
         self._clipmode = None
         self._domain = None
         self._repetitions = None
@@ -30,17 +32,39 @@ class Parameter(NodeAbstract):
         self._raw = None
         # collection of snapshots
         self._snapshots = []
+        # Because it is mandatory and used to determine address for parameter
+        if 'parent' in kwargs.keys():
+            self._parent = kwargs['parent']
+        if 'value' in kwargs.keys():
+            self._value = kwargs['value']
+        if 'clipmode' in kwargs.keys():
+            self._clipmode = kwargs['clipmode']
+        if 'domain' in kwargs.keys():
+            self._domain = kwargs['domain']
+        if 'repetitions' in kwargs.keys():
+            self._repetitions = kwargs['repetitions']
+        if 'datatype' in kwargs.keys():
+            self._datatype = kwargs['datatype']
+        if 'raw' in kwargs.keys():
+            self._raw = kwargs['raw']
+        # collection of snapshots
+        #if 'snapshots' in kwargs.keys():
+        #    self._snapshots = kwargs['snapshots']
         for att, val in kwargs.items():
-            setattr(self, att, val)
+            if att == 'snapshots':
+                for snap in kwargs['snapshots']:
+                    self.new_snapshot(snap)
+            else:
+                setattr(self, att, val)
 
     def __repr__(self):
         """
         represents the parameter class
         """
-        printer = 'Parameter (raw:{raw}, value:{value}, datatype:{datatype}, \
+        printer = 'Parameter (address:{address}, raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
                                 repetitions:{repetitions}, tags:{tags})'
-        return printer.format(raw=self.raw, value=self.value, datatype=self.datatype, \
+        return printer.format(address=self.address, raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
                               repetitions=self.repetitions, tags=self.tags)
 
@@ -140,16 +164,35 @@ class Parameter(NodeAbstract):
             if __dbug__ >= 3:
                 print('liblo.AddressError' + str(err))
         msg = liblo.Message(self.address)
-        if isinstance(self._value, list):
+        if isinstance(self.value, list):
             # this is just a list of values to send
-            for arg in self._value:
+            for arg in self.value:
                 arg = check_type(arg)
                 msg.add(arg)
         else:
-            msg.add(self._value)
+            msg.add(self.value)
         liblo.send(target, msg)
         if __dbug__ >= 3:
             print('update ' + self.name + ' to value ' + str(self.value))
+
+    def ramp(self, destination=1, duration=1000, grain=10):
+        """
+        ramp is an animation that drive from the current value to another in a certain time
+        destination : value to reach
+        duration : duration of the ramp
+        grain : time between each grain
+        """
+        self.current_player = RampPlayer(self, self.value, destination, duration, grain)
+        return self.current_player
+
+    def random(self, domain=None, destination=1, duration=1000, grain=10):
+        """
+        random is an animation that generate pseudo random valuesin a certain time
+        duration : duration of the ramp
+        grain : time between each grain
+        """
+        self.current_player = RandomPlayer(self, self.value, destination, duration, grain)
+        return self.current_player
 
     def recall(self, snap):
         """
