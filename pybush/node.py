@@ -154,7 +154,6 @@ class Node(NodeAbstract, File):
                 # we give the parameter dict to the make_parameter method
                 # it will create the parameter with values from the dict
                 the_new_child.make_parameter(dict_import['parameter'])
-
         else:
             # if the child argument is only a string, this is the name of the new_child to create
             the_new_child = Node(parent=self, name=name, tags=tags, children=[])
