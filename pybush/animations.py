@@ -38,7 +38,7 @@ class RandomPlayer(threading.Thread):
             random.join()
 
     def stop(self):
-        self._stop.set()
+        pass
 
 class RampPlayer(threading.Thread):
     """
@@ -59,7 +59,7 @@ class RampPlayer(threading.Thread):
             ramp.join()
 
     def stop(self):
-        self._stop.set()
+        pass
 
 
 class Ramp(threading.Thread):

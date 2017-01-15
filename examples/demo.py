@@ -42,3 +42,10 @@ param3.value = 0.5
 param2.ramp(0, 500)
 sleep(0.7)
 param2.value = 1
+print('ramp start')
+my_ramp = param2.ramp(0, 1000)
+sleep(0.2)
+my_ramp.stop()
+while my_ramp.is_alive():
+	pass
+print('ramping is over')
