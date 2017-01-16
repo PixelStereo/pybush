@@ -73,7 +73,6 @@ class Parameter(NodeAbstract):
         export the Parameter to a json_string/python_dict with all its properties
         """
         param = {}
-        param.setdefault('raw', self.value)
         param.setdefault('value', self.value)
         param.setdefault('domain', self.domain)
         param.setdefault('datatype', self.datatype)
