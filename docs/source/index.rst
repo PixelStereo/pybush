@@ -1,5 +1,5 @@
 pybush
-=======
+======
 
 .. automodule:: pybush
     :members:
@@ -7,14 +7,14 @@ pybush
     :show-inheritance:
 
 Index
-==================
+=====
 * :ref:`genindex`
 
 Modules
 =======
 
 pybush.constants
---------------------------
+----------------
 
 .. automodule:: pybush.constants
     :members:
@@ -22,7 +22,7 @@ pybush.constants
     :show-inheritance:
 
 pybush.project
-------------------------
+--------------
 
 .. automodule:: pybush.project
     :members:
@@ -30,15 +30,14 @@ pybush.project
     :show-inheritance:
 
 pybush.output
-------------------------
-
+-------------
 .. automodule:: pybush.output
     :members:
     :undoc-members:
     :show-inheritance:
 
 pybush.device
---------------------------
+-------------
 
 .. automodule:: pybush.device
     :members:
@@ -46,7 +45,7 @@ pybush.device
     :show-inheritance:
 
 pybush.file
--------------------
+-----------
 
 .. automodule:: pybush.file
     :members:
@@ -54,7 +53,7 @@ pybush.file
     :show-inheritance:
 
 pybush.node_abstract
--------------------
+--------------------
 
 .. automodule:: pybush.node_abstract
     :members:
@@ -62,7 +61,7 @@ pybush.node_abstract
     :show-inheritance:
 
 pybush.node
--------------------
+-----------
 
 .. automodule:: pybush.node
     :members:

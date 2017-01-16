@@ -48,6 +48,9 @@ There is others optionnals properties for each nodes, which are :
 Changelog:
 -------------------------------------------------------------------------------
 
+- v0.1.3 - Jan. 16th 2017
+    - Parameters are into a Device, and no more an application
+
 - v0.1.2 - Jan. 15th 2017
     - Add two animations for parameters (ramp and random)
 
