@@ -27,7 +27,7 @@ class Parameter(NodeAbstract):
         self._value = 0.
         self._clipmode = None
         self._domain = None
-        self._repetitions = None
+        self._unique = None
         self._datatype = None
         self._raw = None
         # collection of snapshots
@@ -41,8 +41,8 @@ class Parameter(NodeAbstract):
             self._clipmode = kwargs['clipmode']
         if 'domain' in kwargs.keys():
             self._domain = kwargs['domain']
-        if 'repetitions' in kwargs.keys():
-            self._repetitions = kwargs['repetitions']
+        if 'unique' in kwargs.keys():
+            self.unique = kwargs['unique']
         if 'datatype' in kwargs.keys():
             self._datatype = kwargs['datatype']
         if 'raw' in kwargs.keys():
@@ -63,10 +63,10 @@ class Parameter(NodeAbstract):
         """
         printer = 'Parameter (address:{address}, raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
-                                repetitions:{repetitions}, tags:{tags})'
+                                unique:{unique}, tags:{tags})'
         return printer.format(address=self.address, raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
-                              repetitions=self.repetitions, tags=self.tags)
+                              unique=self.unique, tags=self.tags)
 
     def get_state(self):
         """
@@ -78,7 +78,7 @@ class Parameter(NodeAbstract):
         param.setdefault('domain', self.domain)
         param.setdefault('datatype', self.datatype)
         param.setdefault('clipmode', self.clipmode)
-        param.setdefault('repetitions', self.repetitions)
+        param.setdefault('unique', self.unique)
         return param
 
     def export(self):
@@ -145,9 +145,6 @@ class Parameter(NodeAbstract):
         raw value without rangeClipmode or rangeBoundsneither than datatype
         """
         return self._value
-    @raw.setter
-    def raw(self, value):
-        pass
 
     def update(self):
         """
@@ -199,7 +196,7 @@ class Parameter(NodeAbstract):
         recall a snapshot
         """
         for prop, val in snap.items():
-            if prop == 'name':
+            if prop == 'name' or prop == 'raw':
                 pass
             else:
                 setattr(self, prop, val)
@@ -248,16 +245,16 @@ class Parameter(NodeAbstract):
     def clipmode(self, clipmode):
         self._clipmode = clipmode
 
-    # ----------- REPETITIONS -------------
+    # ----------- UNIQUE -------------
     @property
-    def repetitions(self):
+    def unique(self):
         """
-        Current repetitions of the parameter
+        Filter repetitions of the parameter
         """
-        return self._repetitions
-    @repetitions.setter
-    def repetitions(self, repetitions):
-        self._repetitions = repetitions
+        return self._unique
+    @unique.setter
+    def unique(self, unique):
+        self._unique = unique
 
     # ----------- DATATYPE -------------
     @property
