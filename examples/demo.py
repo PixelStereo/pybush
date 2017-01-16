@@ -23,7 +23,24 @@ param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
                                 domain=[-1,1], clipmode='low', repetitions=False)
 
 snap_param3 = param3.new_snapshot()
-print(snap_param3)
+#print(snap_param3)
+param3.clipmode = "both"
+param3.domain = [-1, 1]
+param3.datatype = "decimal"
+param3.unique = True
+param3.value = 0.5
+snap2_param3 = param3.new_snapshot()
+#print(snap2_param3)
+param3.recall(snap_param3)
+#print(param3)
+param3.recall(snap2_param3)
+#print(param3)
+for snap in param3.snapshots:
+	print(param3.snapshots.index(snap), snap['value'])
+	print(type(snap))
+quit()
+
+
 snap_application = my_application.new_snapshot()
 print('APPLCATION SNAPSHOT ', snap_application)
 snap_project = my_project.new_snapshot()
