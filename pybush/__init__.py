@@ -11,20 +11,24 @@ As a bush, pybush model is a tree graph, with branches and leaves.
 Here everything is based on a Node concept
 We have an abstract base Class : NodeAbstract
 
-The 'root' Node is a class called Application. This is the first thing to create.
-The application is an entry to acces its children or its sibling through different protocols
-In your application, you can create any nodes or directly any parameters you want.
+The 'root' Node is a class called Application.
+This is the first thing to create.
+The application is an entry to acces its children or its sibling through
+different protocols. In your application, you can create any nodes or directly
+any parameters you want.
 
 In each Node, you can create another nodes.
 Each Node can contain a value. If it does, it is a Parameter.
 It is just a Node with a value (and attributes relative to the value)
-When you create a parameter, it automatically creates a node, as it is bassed on the Node Class.
+When you create a parameter, it automatically creates a node, as it is bassed
+on the Node Class.
 So you can even create another node or another parameter under a node
 
 Node base class has at least 1 property which is a name.
 
 Name must be unique in the namespace.
-When you create a name, it will raise an error if there is already the same name.
+When you create a name, it will raise an error if there is already
+the same name.
 
 Nodes are used to organize your namespace.
 Leaves are used for parameters and controlers.
