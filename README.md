@@ -37,5 +37,5 @@ The tests.py contains a nice exemple to understand what you can do with pybush p
 
 ####Development
 ---
-Development is made on OSX with python 2.7.11    
-Continious integration is made on linux for python 2 and 3.
+Development is made on OSX with python 2.7.13    
+Continious integration is made on linux for python 2.7 and 3.5
