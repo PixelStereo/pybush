@@ -8,11 +8,11 @@ A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
 import liblo
-import threading
+
 
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
-from pybush.animations import RampPlayer, RandomPlayer, Ramp, Random
+from pybush.animations import RampPlayer, RandomPlayer
 
 
 class Parameter(NodeAbstract):
@@ -56,6 +56,8 @@ class Parameter(NodeAbstract):
                     self.new_snapshot(snap)
             else:
                 setattr(self, att, val)
+        # there is no animation on the param
+        self.current_player = None
 
     def __repr__(self):
         """
@@ -181,7 +183,7 @@ class Parameter(NodeAbstract):
         self.current_player = RampPlayer(self, self.value, destination, duration, grain)
         return self.current_player
 
-    def random(self, domain=None, destination=1, duration=1000, grain=10):
+    def random(self, destination=1, duration=1000, grain=10):
         """
         random is an animation that generate pseudo random valuesin a certain time
         duration : duration of the ramp
