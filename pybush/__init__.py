@@ -11,11 +11,11 @@ As a bush, pybush model is a tree graph, with branches and leaves.
 Here everything is based on a Node concept
 We have an abstract base Class : NodeAbstract
 
-The 'root' Node is a class called Application.
+The 'root' Node is a class called Device.
 This is the first thing to create.
-The application is an entry to acces its children or its sibling through
-different protocols. In your application, you can create any nodes or directly
-any parameters you want.
+The device is an entry to acces its children or its sibling (both parameters)
+through different protocols. In your application, you can create any nodes
+or directly any parameters you want.
 
 In each Node, you can create another nodes.
 Each Node can contain a value. If it does, it is a Parameter.
