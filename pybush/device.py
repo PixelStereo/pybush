@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-application Class is the root class
-A application has some parameters and/or nodes
-A application has some protocol/plugin for input/output
+Device Class might also be called Fixture Class.
+It describe a device, an instrument, a pixel, a bunch of parameters.
+A Device has some parameters and/or nodes
+A Device has some protocol/plugin for input/output
+(you can override device.input/output by provinding parameter.input/output)
 """
 
 from pybush.node import Node
@@ -13,25 +15,28 @@ from pybush.errors import LektureTypeError
 from pybush.output import OutputOSC, OutputMIDI
 
 
-class Application(Node):
+class Device(Node):
     """
-    Application Class represent a application
-    Application inherit froù Node
-    Application Class creates author and version attributes
+    Device Class represent a fixture, a unit
+    Device inherit from Node
+    Device Class creates author and version attributes
     """
     def __init__(self, **kwargs):
-        super(Application, self).__init__(**kwargs)
+        super(Device, self).__init__(**kwargs)
         self._author = None
         self._version = None
+        self._input = None
         self._output = None
-        # list of all outputs for this application
+        # list of all outputs for this device
         self._outputs = None
+        # list of all inputs for this device
+        self._inputs = None
         # kwargs setup attributes
         for att, val in kwargs.items():
             setattr(self, att, val)
 
     def __repr__(self):
-        printer = 'Application (name:{name}, author:{author}, version:{version}, children:{children})'
+        printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
         return printer.format(name=self.name, author=self.author, \
                                 version=self.version, children=self.children)
 
@@ -77,7 +82,7 @@ class Application(Node):
     @property
     def author(self):
         """
-        Current author of the application
+        Current author of the device
         """
         return self._author
     @author.setter
@@ -88,7 +93,7 @@ class Application(Node):
     @property
     def version(self):
         """
-        Current version of the application
+        Current version of the device
         """
         return self._version
     @version.setter

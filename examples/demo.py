@@ -8,15 +8,15 @@ from time import sleep
 from pybush.project import new_project, projects
 
 my_project = new_project(name='My Python project')
-my_application = my_project.new_application(name='My Python application', author='Pixel Stereo', version='0.1.0')
+my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 
-another_application = my_project.new_application(name='My Other Python application', author='Stereo Pixel', version='0.1.1')
-output = my_application.new_output(protocol='OSC', port='127.0.0.1:1234')
-output = my_application.new_output(protocol='MIDI')
-node_1 = my_application.new_child(name='node.1', tags=['init', 'video'])
+another_device = my_project.new_device(name='My Other device', author='Stereo Pixel', version='0.1.1')
+output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
+output = my_device.new_output(protocol='MIDI')
+node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
 node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
-param1 = my_application.make_parameter()
+param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
                                 'clipmode':'both', 'repetitions':True})
 param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
@@ -36,17 +36,13 @@ param3.recall(snap_param3)
 param3.recall(snap2_param3)
 #print(param3)
 for snap in param3.snapshots:
-	print(param3.snapshots.index(snap), snap['value'])
-	print(type(snap))
-quit()
-
-
-snap_application = my_application.new_snapshot()
-print('APPLCATION SNAPSHOT ', snap_application)
+	print(param3.snapshots.index(snap), snap)
+snap_device = my_device.new_snapshot()
+print('DEVICE SNAPSHOT ', snap_device)
 snap_project = my_project.new_snapshot()
 print('PROJECT SNAPSHOT', snap_project)
-print(my_application.export())
-print(my_application.write())
+print(my_device.export())
+print(my_device.write())
 param2.value = 0
 param2.ramp(1, 500)
 param3.value = 1

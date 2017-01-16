@@ -3,7 +3,7 @@
 
 """
 The Node is the Base class of all items in a namespace.
-Application and Parameter are based on the Node Class
+Device and Parameter are based on the Node Class
 """
 
 from pybush.constants import __dbug__

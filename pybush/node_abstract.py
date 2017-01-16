@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-The Node is the Base class of all items in a namespace.
-Application and Parameter are based on the Node Class
+Abstract Node must always be subclassed
 """
 
 from pybush.constants import __dbug__

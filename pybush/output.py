@@ -13,7 +13,7 @@ from pybush.node_abstract import NodeAbstract
 class Output(NodeAbstract):
     """
     Abstract class
-    Create a new output for a application
+    Create a new output for a device
 
     """
     def __init__(self, **kwargs):
@@ -48,8 +48,8 @@ class Output(NodeAbstract):
 
 class OutputMIDI(Output):
     """
-    Creates an output port for Midi Application.
-    A Midi Application can handle all type of Midi messages
+    Creates an output port for Midi Device.
+    A Midi Device can handle all type of Midi messages
     """
     def __init__(self, **kwargs):
         super(OutputMIDI, self).__init__()
