@@ -15,6 +15,7 @@ from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
 from pybush.node_abstract import NodeAbstract
 from pybush.errors import BushTypeError, NoOutputError
+from pybush.animations import Ramp
 
 __dbug__ = 4
 my_project = new_project(name='My Python project')
@@ -33,7 +34,7 @@ param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11]
                                 'clipmode':'both', 'repetitions':True})
 param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
                                 domain=[-1,1], clipmode='low', repetitions=False)
-snap_device = my_device.new_snapshot()
+"""snap_device = my_device.new_snapshot()
 snap_project = my_project.new_snapshot()
 param2.value = 0
 param2.ramp(1, 500)
@@ -46,7 +47,7 @@ param3.random(destination=1, duration=700)
 param3.value = 0.5
 param2.ramp(0, 500)
 sleep(0.7)
-param2.value = 1
+param2.value = 1"""
 
 
 class TestAll(unittest.TestCase):
@@ -79,7 +80,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(len(my_device.children), 1)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
-        node_1.name = 'node 1 namee'
+        node_1.name = 'node 1 renamed'
 
     def test_device_export(self):
         xprt = my_project.export()
@@ -91,9 +92,14 @@ class TestAll(unittest.TestCase):
         self.assertEqual(len(prop_dict(node_1).keys()), 8)
         self.assertEqual(len(prop_list(node_1)), 11)
 
-
     def test_parameter(self):
         self.assertEqual(my_device.make_parameter(['fake']), False)
+
+    def test_ramp(self):
+        a_ramp = param2.ramp(3, 2000)
+        self.assertEqual(isinstance(a_ramp, Ramp), True)
+        while a_ramp.is_alive():
+            pass
 
     def test_writing_files(self):
         self.assertEqual(node_1.parameter, param2)
