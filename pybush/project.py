@@ -5,7 +5,7 @@
 Project Class is the root class
 A project must contains devices
 It might contains scenario, which is useful to drive devices
-But it might it use only with devices and active mappings between 
+But it might it use only with devices and active mappings between
 input devices and output device
 """
 
