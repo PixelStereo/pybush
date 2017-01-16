@@ -5,15 +5,8 @@
 Animation's library
 """
 
-import datetime
 import threading
-from threading import Timer
-from pybush.functions import check_type
-
-import liblo
-from time import sleep
 from time import time
-
 from random import uniform
 
 current_milli_time = lambda: time() * 1000
@@ -38,6 +31,9 @@ class RandomPlayer(threading.Thread):
             random.join()
 
     def stop(self):
+        """
+        Stop the current aanimation
+        """
         pass
 
 class RampPlayer(threading.Thread):
@@ -59,6 +55,9 @@ class RampPlayer(threading.Thread):
             ramp.join()
 
     def stop(self):
+        """
+        Stop the current aanimation
+        """
         pass
 
 
@@ -83,6 +82,9 @@ class Ramp(threading.Thread):
             self.parent.value = step
 
     def ramp(self):
+        """
+        linear interpolation from a value to another in a certain time
+        """
         start = current_milli_time()
         last = start
         step = float( (self.destination - self.origin) / ( float(self.duration / self.grain) ))
@@ -119,6 +121,9 @@ class Random(threading.Thread):
         self.parent.value = self.destination
 
     def random(self):
+        """
+        Generate pseudo-random values in a certain range during a certain time
+        """
         start = current_milli_time()
         last = start
         while (current_milli_time() < (start + self.duration)):
