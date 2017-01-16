@@ -14,6 +14,7 @@ from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
 from pybush.node_abstract import NodeAbstract
+from pybush.errors import BushTypeError, NoOutputError
 
 __dbug__ = 4
 my_project = new_project(name='My Python project')
@@ -23,7 +24,7 @@ another_project = new_project('Another Python project')
 my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 another_device = my_project.new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
-output = my_device.new_output(protocol='MIDI')
+midi_output = my_device.new_output(protocol='MIDI')
 node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
 node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
@@ -183,6 +184,12 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param1.address, 'My_device')
         self.assertEqual(param2.address, 'My_device/node.1')
         self.assertEqual(param3.address, 'My_device/node.1/node_.2')
+
+    def test_errors(self):
+        with self.assertRaises(BushTypeError) as cm:
+            my_project.output = None
+        the_exception = cm.exception
+        self.assertEqual(the_exception.error_code, 1)
 
 if __name__ == '__main__':
     unittest.main()

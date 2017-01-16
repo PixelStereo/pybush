@@ -11,7 +11,8 @@ A Device has some protocol/plugin for input/output
 
 from pybush.node import Node
 from pybush.constants import __dbug__
-from pybush.errors import LektureTypeError
+from pybush.errors import BushTypeError
+from pybush.functions import prop_list
 from pybush.output import OutputOSC, OutputMIDI
 
 
@@ -53,11 +54,14 @@ class Device(Node):
                 return self._outputs[0]
     @output.setter
     def output(self, out):
-        if out.protocol == self.protocol:
-            self._output = out
+        if 'protocol' in prop_list(out):
+            if out.protocol == self.output.protocol:
+                self._output = out
+            else:
+                print('DO YOU WANT TO CHANGE THE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
+                raise BushTypeError('Wait for a ' + self.output.protocol + ',  but receive a', out.protocol)
         else:
-            print('DO YOU WANT TO CHANGE THE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
-            raise LektureTypeError('Wait for an Output but receive a', out.protocol)
+            raise BushTypeError('Wait for an Output but receive a', out.__class__.__name__)
 
     def export(self):
         """

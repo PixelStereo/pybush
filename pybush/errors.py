@@ -6,12 +6,13 @@ All the Exceptions declared by the package are here
 ---
 """
 
-class LektureTypeError(Exception):
+class BushTypeError(Exception):
     """
     Waiting for an object of class 'expected', but received an object of class 'received'
     """
     def __init__(self, expected, received):
-        super(LektureTypeError, self).__init__()
+        super(BushTypeError, self).__init__()
+        self.error_code = 1
         dbg = 'Wait for an {expected} instance object but receive a {received}'
         print(dbg.format(expected=expected, received=received.__class__))
 
@@ -21,3 +22,4 @@ class NoOutputError(Exception):
     """
     def __init__(self):
         super(NoOutputError, self).__init__()
+        self.error_code = 401
