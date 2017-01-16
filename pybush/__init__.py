@@ -29,12 +29,10 @@ Node base class has at least 1 property which is a name.
 Name must be unique in the namespace.
 When you create a name, it will raise an error if there is already
 the same name.
-
 Nodes are used to organize your namespace.
 Leaves are used for parameters and controlers.
 - Parameter : It is a string, integer, boolean, float or list with a state.
-- Controler : It is the result of a computation made by an algorythm
-				or an external remote or controler.
+- Controler : It is the result of a computation (algorythm/remote/controler)
 
 There is others optionnals properties for each nodes, which are :
 - tags : tags are un unordered list of strings.
@@ -55,8 +53,8 @@ Changelog:
 
 - v0.1.1 - Apr. 6th 2016
     - First draft
-
 """
+
 from __future__ import print_function
 from __future__ import unicode_literals
 from ._version import get_versions
