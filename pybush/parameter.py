@@ -32,24 +32,9 @@ class Parameter(NodeAbstract):
         self._raw = None
         # collection of snapshots
         self._snapshots = []
-        # Because it is mandatory and used to determine address for parameter
-        if 'parent' in kwargs.keys():
-            self._parent = kwargs['parent']
-        if 'value' in kwargs.keys():
-            self._value = kwargs['value']
-        if 'clipmode' in kwargs.keys():
-            self._clipmode = kwargs['clipmode']
-        if 'domain' in kwargs.keys():
-            self._domain = kwargs['domain']
-        if 'unique' in kwargs.keys():
-            self.unique = kwargs['unique']
-        if 'datatype' in kwargs.keys():
-            self._datatype = kwargs['datatype']
-        if 'raw' in kwargs.keys():
-            self._raw = kwargs['raw']
+        for key in kwargs.keys():
+            setattr(self, '_'+key, kwargs[key])
         # collection of snapshots
-        #if 'snapshots' in kwargs.keys():
-        #    self._snapshots = kwargs['snapshots']
         for att, val in kwargs.items():
             if att == 'snapshots':
                 for snap in kwargs['snapshots']:
@@ -180,6 +165,8 @@ class Parameter(NodeAbstract):
         duration : duration of the ramp
         grain : time between each grain
         """
+        if self.current_player:
+            self.current_player.terminate()
         self.current_player = Ramp(self, self.value, destination, duration, grain)
         return self.current_player
 
@@ -189,6 +176,8 @@ class Parameter(NodeAbstract):
         duration : duration of the ramp
         grain : time between each grain
         """
+        if self.current_player:
+            self.current_player.terminate()
         self.current_player = Random(self, self.value, destination, duration, grain)
         return self.current_player
 

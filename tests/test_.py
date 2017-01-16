@@ -20,8 +20,8 @@ my_project = new_project(name='My Python project')
 
 another_project = new_project('Another Python project')
 #len(projects())
-my_device = my_project.new_device(name='My Python device', author='Pixel Stereo', version='0.1.0')
-another_device = my_project.new_device(name='My Other Python device', author='Stereo Pixel', version='0.1.1')
+my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
+another_device = my_project.new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 output = my_device.new_output(protocol='MIDI')
 node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
@@ -68,7 +68,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(my_device.version, str), True)
         self.assertEqual(my_device.version, '0.1.0')
         self.assertEqual(type(my_device.name), str)
-        self.assertEqual(my_device.name, 'My Python device')
+        self.assertEqual(my_device.name, 'My device')
         self.assertEqual(len(my_project.devices), 2)
 
 
@@ -176,13 +176,13 @@ class TestAll(unittest.TestCase):
         print(abstrakt)
 
     def test_address(self):
-        self.assertEqual(my_device.address, 'My_Python_device')
-        self.assertEqual(node_1.address, 'My_Python_device/node.1')
-        self.assertEqual(node_2.address, 'My_Python_device/node.1/node_.2')
-        self.assertEqual(node_3.address, 'My_Python_device/node.1/node_.2/node.3')
-        self.assertEqual(param1.address, 'My_Python_device')
-        self.assertEqual(param2.address, 'My_Python_device/node.1')
-        self.assertEqual(param3.address, 'My_Python_device/node.1/node_.2')
+        self.assertEqual(my_device.address, 'My_device')
+        self.assertEqual(node_1.address, 'My_device/node.1')
+        self.assertEqual(node_2.address, 'My_device/node.1/node_.2')
+        self.assertEqual(node_3.address, 'My_device/node.1/node_.2/node.3')
+        self.assertEqual(param1.address, 'My_device')
+        self.assertEqual(param2.address, 'My_device/node.1')
+        self.assertEqual(param3.address, 'My_device/node.1/node_.2')
 
 if __name__ == '__main__':
     unittest.main()

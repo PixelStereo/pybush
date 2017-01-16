@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 40.0, 121.0, 468.0, 470.0 ],
+		"rect" : [ 40.0, 121.0, 426.0, 495.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -43,7 +43,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 144.0, 33.0, 24.0, 24.0 ],
+					"patching_rect" : [ 119.0, 9.0, 24.0, 24.0 ],
 					"style" : ""
 				}
 
@@ -226,9 +226,9 @@
 					"numinlets" : 3,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 12.0, 49.0, 419.0, 22.0 ],
+					"patching_rect" : [ 12.0, 48.0, 286.0, 22.0 ],
 					"style" : "",
-					"text" : "route My_Python_application/node.1/node_.2 My_Python_application/node.1"
+					"text" : "route My_device/node.1/node_.2 My_device/node.1"
 				}
 
 			}

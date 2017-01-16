@@ -5,14 +5,14 @@
 Animation's library
 """
 
-import threading
+import multiprocessing
 from time import time
 from random import uniform
 
 current_milli_time = lambda: time() * 1000
 
 
-class Automation(threading.Thread):
+class Automation(multiprocessing.Process):
     """
     This is an abstact class for an Automation
     You can automate parameter in this way : 
@@ -30,12 +30,6 @@ class Automation(threading.Thread):
         self.duration = duration
         self.grain = grain
         self.start()
-
-    def stop(self):
-        """
-        Stop the current aanimation
-        """
-        pass
         
 
 class Ramp(Automation):
