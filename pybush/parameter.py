@@ -12,7 +12,7 @@ import liblo
 
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
-from pybush.animations import RampPlayer, RandomPlayer
+from pybush.animations import Ramp, Random
 
 
 class Parameter(NodeAbstract):
@@ -180,7 +180,7 @@ class Parameter(NodeAbstract):
         duration : duration of the ramp
         grain : time between each grain
         """
-        self.current_player = RampPlayer(self, self.value, destination, duration, grain)
+        self.current_player = Ramp(self, self.value, destination, duration, grain)
         return self.current_player
 
     def random(self, destination=1, duration=1000, grain=10):
@@ -189,7 +189,7 @@ class Parameter(NodeAbstract):
         duration : duration of the ramp
         grain : time between each grain
         """
-        self.current_player = RandomPlayer(self, self.value, destination, duration, grain)
+        self.current_player = Random(self, self.value, destination, duration, grain)
         return self.current_player
 
     def recall(self, snap):

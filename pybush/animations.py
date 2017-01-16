@@ -12,12 +12,18 @@ from random import uniform
 current_milli_time = lambda: time() * 1000
 
 
-class RandomPlayer(threading.Thread):
+class Automation(threading.Thread):
     """
+    This is an abstact class for an Automation
+    You can automate parameter in this way : 
+    - update parameter.value
+    - parameter.ramp(destination=1, duration=1000, grain=10) update parameter.value each 10 ms if grain == 10
+    - parameter.random(destination=1, duration=1000, grain=10)
+
     A Player that play things
     """
-    def __init__(self, parent, value, destination, duration, grain):
-        super(RandomPlayer, self).__init__()
+    def __init__(self, parent, value=0, destination=1, duration=1000, grain=10):
+        super(Automation, self).__init__()
         self.parent = parent
         self.value = value
         self.destination = destination
@@ -25,57 +31,22 @@ class RandomPlayer(threading.Thread):
         self.grain = grain
         self.start()
 
-    def run(self):
-        random = Random(self.parent, self.parent.value, self.destination, self.duration, self.grain)
-        if random:
-            random.join()
-
     def stop(self):
         """
         Stop the current aanimation
         """
         pass
+        
 
-class RampPlayer(threading.Thread):
-    """
-    A Player that play things
-    """
-    def __init__(self, parent, value, destination, duration, grain):
-        super(RampPlayer, self).__init__()
-        self.parent = parent
-        self.value = value
-        self.destination = destination
-        self.duration = duration
-        self.grain = grain
-        self.start()
-
-    def run(self):
-        ramp = Ramp(self.parent, self.parent.value, self.destination, self.duration, self.grain)
-        if ramp:
-            ramp.join()
-
-    def stop(self):
-        """
-        Stop the current aanimation
-        """
-        pass
-
-
-class Ramp(threading.Thread):
+class Ramp(Automation):
     """
     Instanciate a thread for Playing a ramp
     step every 10 ms
     Allow to do several ramps in a same project / scenario / event
     :param target:
     """
-    def __init__(self, parent, origin=0, destination=1, duration=1000, grain=10):
-        super(Ramp, self).__init__()
-        self.parent = parent
-        self.origin = origin
-        self.destination = destination
-        self.duration = duration
-        self.grain = grain
-        self.start()
+    def __init__(self, parent, origin, destination, duration, grain):
+        super(Ramp, self).__init__(parent, origin, destination, duration, grain)
 
     def run(self):
         for step in self.ramp():
@@ -87,16 +58,16 @@ class Ramp(threading.Thread):
         """
         start = current_milli_time()
         last = start
-        step = float( (self.destination - self.origin) / ( float(self.duration / self.grain) ))
+        step = float( (self.destination - self.value) / ( float(self.duration / self.grain) ))
         while (current_milli_time() < (start + self.duration)):
             while (current_milli_time() < last + self.grain):
                 pass # wait
             last = current_milli_time()
-            self.origin += step
-            yield self.origin
+            self.value += step
+            yield self.value
 
 
-class Random(threading.Thread):
+class Random(Automation):
     """
     Instanciate a thread for Playing a ramp
 
@@ -106,14 +77,8 @@ class Random(threading.Thread):
 
     :param target:
     """
-    def __init__(self, parent, origin=0, destination=1, duration=1000, grain=10):
-        super(Random, self).__init__()
-        self.parent = parent
-        self.origin = origin
-        self.destination = destination
-        self.duration = duration
-        self.grain = grain
-        self.start()
+    def __init__(self, parent, origin, destination, duration, grain):
+        super(Random, self).__init__(parent, origin, destination, duration, grain)
 
     def run(self):
         for step in self.random():
