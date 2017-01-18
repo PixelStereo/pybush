@@ -15,7 +15,7 @@ current_milli_time = lambda: time() * 1000
 class Automation(multiprocessing.Process):
     """
     This is an abstact class for an Automation
-    You can automate parameter in this way : 
+    You can automate parameter in this way :
     - update parameter.value
     - parameter.ramp(destination=1, duration=1000, grain=10) update parameter.value each 10 ms if grain == 10
     - parameter.random(destination=1, duration=1000, grain=10)
@@ -30,7 +30,7 @@ class Automation(multiprocessing.Process):
         self.duration = duration
         self.grain = grain
         self.start()
-        
+
 
 class Ramp(Automation):
     """
@@ -50,13 +50,13 @@ class Ramp(Automation):
         """
         linear interpolation from a value to another in a certain time
         """
-        start = current_milli_time()
+        start = current_time()
         last = start
         step = float( (self.destination - self.value) / ( float(self.duration / self.grain) ))
-        while (current_milli_time() < (start + self.duration)):
-            while (current_milli_time() < last + self.grain):
+        while (current_time() < (start + self.duration)):
+            while (current_time() < last + self.grain):
                 pass # wait
-            last = current_milli_time()
+            last = current_time()
             self.value += step
             yield self.value
 
@@ -83,11 +83,11 @@ class Random(Automation):
         """
         Generate pseudo-random values in a certain range during a certain time
         """
-        start = current_milli_time()
+        start = current_time()
         last = start
-        while (current_milli_time() < (start + self.duration)):
-            while (current_milli_time() < last + self.grain):
+        while (current_time() < (start + self.duration)):
+            while (current_time() < last + self.grain):
                 pass # wait
-            last = current_milli_time()
+            last = current_time()
             origin = uniform(self.parent.domain[0], self.parent.domain[1])
             yield origin
