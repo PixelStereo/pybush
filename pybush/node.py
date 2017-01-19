@@ -9,6 +9,7 @@ Device and Parameter are based on the Node Class
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
 from pybush.parameter import Parameter
+from pybush.controler import Controler
 from pybush.file import File
 
 class Node(NodeAbstract, File):
@@ -17,6 +18,7 @@ class Node(NodeAbstract, File):
         super(Node, self).__init__()
         # initialise attributes/properties of this node
         self._parameter = None
+        self._controler = None
         self._children = []
         # kwargs setup attributes
         for att, val in kwargs.items():
@@ -109,7 +111,7 @@ class Node(NodeAbstract, File):
         string : create a parameter with this name
         """
         if args:
-            if self._parameter is None:
+            if self._parameter is None and self._controler is None:
                 if isinstance(args[0], dict):
                     child = args[0]
                     child.setdefault('parent', self)
@@ -123,6 +125,30 @@ class Node(NodeAbstract, File):
         else:
             self._parameter = Parameter(parent=self)
             return self._parameter
+
+    # ----------- MEKE_CONTROLER METHOD -------------
+    def make_controler(self, *args, **kwargs):
+        """
+        Call this method to attach a controler to this node
+        You can send a string or a dict as argument
+        string : create a parameter with this name
+        """
+        if args:
+            if self._controler is None and self._parameter is None:
+                if isinstance(args[0], dict):
+                    child = args[0]
+                    child.setdefault('parent', self)
+                    self._controler = Controler(**child)
+                else:
+                    kwargs.setdefault('parent', self)
+                    print(kwargs)
+                    self._controler = Controler(**kwargs)
+                return self._controler
+            else:
+                return False
+        else:
+            self._controler = Controler(parent=self)
+            return self._controler
 
   # ----------- NEW CHILD METHOD -------------
     def new_child(self, dict_import=None, name=None, tags=None):
