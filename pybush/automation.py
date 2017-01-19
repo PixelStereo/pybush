@@ -9,7 +9,7 @@ import multiprocessing
 from time import time
 from random import uniform
 
-current_time = lambda: time() * 1000
+CURRENT_TIME = lambda: time() * 1000
 
 
 class Automation(multiprocessing.Process):
@@ -55,13 +55,13 @@ class RampGenerator(Automation):
         """
         linear interpolation from a value to another in a certain time
         """
-        start = current_time()
+        start = CURRENT_TIME()
         last = start
         step = float( (self.destination - self.value) / ( float(self.duration / self.grain) ))
-        while (current_time() < (start + self.duration)):
-            while (current_time() < last + self.grain):
+        while (CURRENT_TIME() < (start + self.duration)):
+            while (CURRENT_TIME() < last + self.grain):
                 pass # wait
-            last = current_time()
+            last = CURRENT_TIME()
             self.value += step
             yield self.value
 
@@ -88,11 +88,11 @@ class RandomGenerator(Automation):
         """
         Generate pseudo-random values in a certain range during a certain time
         """
-        start = current_time()
+        start = CURRENT_TIME()
         last = start
-        while (current_time() < (start + self.duration)):
-            while (current_time() < last + self.grain):
+        while (CURRENT_TIME() < (start + self.duration)):
+            while (CURRENT_TIME() < last + self.grain):
                 pass # wait
-            last = current_time()
+            last = CURRENT_TIME()
             origin = uniform(self.parent.domain[0], self.parent.domain[1])
             yield origin

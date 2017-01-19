@@ -12,8 +12,8 @@ import liblo
 
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
-from pybush.animations import RampGenerator, RandomGenerator
-from pybush.errors import BushTypeError
+from pybush.file import File
+from pybush.automation import RampGenerator, RandomGenerator
 
 
 class Parameter(NodeAbstract):
