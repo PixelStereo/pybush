@@ -10,8 +10,6 @@ So a Controler inherit from Node Class and just add attributes about value
 
 from pybush.constants import __dbug__
 from pybush.node_abstract import NodeAbstract
-from pybush.animations import RampGenerator, RandomGenerator
-from pybush.errors import BushTypeError
 
 
 class Controler(NodeAbstract):
