@@ -32,6 +32,7 @@ class Node(NodeAbstract, File):
         """
         method to call parameter's snapshot
         """
+        print(kwargs)
         return self.export()
 
     def recall(self, *args, **kwargs):
