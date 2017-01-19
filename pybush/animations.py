@@ -32,7 +32,12 @@ class Automation(multiprocessing.Process):
         self.start()
 
 
-class Ramp(Automation):
+    def take_leadership(self):
+        if self.parameter.current_player:
+            self.parameter.current_player.terminate()
+        return self.parameter.current_player
+
+class RampGenerator(Automation):
     """
     Instanciate a thread for Playing a ramp
     step every 10 ms
@@ -40,7 +45,7 @@ class Ramp(Automation):
     :param target:
     """
     def __init__(self, parent, origin, destination, duration, grain):
-        super(Ramp, self).__init__(parent, origin, destination, duration, grain)
+        super(RampGenerator, self).__init__(parent, origin, destination, duration, grain)
 
     def run(self):
         for step in self.ramp():
@@ -61,7 +66,7 @@ class Ramp(Automation):
             yield self.value
 
 
-class Random(Automation):
+class RandomGenerator(Automation):
     """
     Instanciate a thread for Playing a ramp
 
@@ -72,7 +77,7 @@ class Random(Automation):
     :param target:
     """
     def __init__(self, parent, origin, destination, duration, grain):
-        super(Random, self).__init__(parent, origin, destination, duration, grain)
+        super(RandomGenerator, self).__init__(parent, origin, destination, duration, grain)
 
     def run(self):
         for step in self.random():
