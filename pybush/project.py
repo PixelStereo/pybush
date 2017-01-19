@@ -4,15 +4,13 @@
 """
 Project Class is the root class
 A project must contains devices
-It might contains scenario, which is useful to drive devices
-But it might it use only with devices and active mappings between
+it might be used with devices and active mappings between
 input devices and output device
 """
 
 import datetime
 from pybush import __version__
 from pybush.device import Device
-#from pybush.scenario import Scenario
 from pybush.constants import __dbug__, __projects__
 
 def new_project(name=None):
@@ -31,7 +29,7 @@ def projects():
 
 class Project(Device):
     """
-    Project class, will host devices, scenario, mappings etc…
+    Project class, will host devices, mappings etc…
     Project inherits from Device because it might have input/outputs
     TODO:control each function/attribute from/to a device with OSC/ARTNET/MIDI
     """
@@ -41,19 +39,15 @@ class Project(Device):
         # from pylekture
         self._lastopened = None
         self._created = str(datetime.datetime.now())
-        self._scenario = []
-        self._events = []
         self._version = __version__
 
     def reset(self):
-        """reset a project by deleting project.attributes, scenario and events related"""
+        """
+        reset a project by deleting project.attributes related
+        """
         # reset project attributes
         self._version = None
         self._path = None
-        # reset scenario
-        self._scenario = []
-        # reset  events
-        self._events = []
 
     def __repr__(self):
         printer = 'Project (name:{name})'
@@ -63,11 +57,9 @@ class Project(Device):
         """
         export Node to a json_string/python_dict with all its properties
         """
-        proj = {'devices':[], 'scenario':[]}
+        proj = {'devices':[]}
         for device in self.devices:
             proj['devices'].append(device.export())
-        for scenar in self.scenario:
-            proj['scenario'].append(scenar.export())
         return proj
 
     def new_device(self, dict_import=None, name=None, tags=None, version=None, author=None):
@@ -101,52 +93,6 @@ class Project(Device):
         else:
             self._devices.append(the_new_device)
 
-    def scenario_set(self, old, new):
-        """Change order of a scenario in the scenario list of the project"""
-        s_temp = self._scenario[old]
-        self._scenario.pop(old)
-        self._scenario.insert(new, s_temp)
-
-    @property
-    def scenario(self):
-        """
-        Report existing scenario
-
-        :return: All Scenario of this project
-        :rtype: list
-        """
-        return self._scenario
-
-    def new_scenario(self, **kwargs):
-        """
-        Create a new scenario for this Project
-            :args: Optional args are every attributes of the scenario, associated with a keyword
-            :rtype: Scenario object
-        """
-        taille = len(self._scenario)
-        scenario = Scenario(parent=self)
-        self._scenario.append(scenario)
-        for key, value in kwargs.items():
-            if key == 'events':
-                for event in value:
-                    scenario.add_event(self.events[event])
-            else:
-                setattr(self._scenario[taille], key, value)
-        return scenario
-
-    def del_scenario(self, scenario):
-        """
-        delete a scenario of this project
-        This function won't delete events of the scenario
-        """
-        if scenario in self.scenario:
-            # delete the scenario
-            self._scenario.remove(scenario)
-        else:
-            if debug:
-                print("ERROR - trying to delete a scenario which not exists \
-                      in self._scenario", scenario)
-
     @property
     def lastopened(self):
         """
@@ -171,8 +117,8 @@ class Project(Device):
         """
         Fillin Bush with objects created from a json file
 
-        Creates Outputs, Scenario and Events obects
-        First, dump attributes, then outputs, scenario and finish with events.
+        Creates Outputs obects
+        First, dump attributes, then outputs.
 
         :returns: True if file formatting is correct, False otherwise
         :rtype: boolean
