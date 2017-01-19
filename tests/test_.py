@@ -15,7 +15,7 @@ from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
 from pybush.node_abstract import NodeAbstract
 from pybush.errors import BushTypeError, NoOutputError
-from pybush.animations import Ramp
+from pybush.controler import Controler
 
 __dbug__ = 4
 my_project = new_project(name='My Python project')
@@ -31,9 +31,10 @@ node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
 param1 = my_device.make_parameter()
 param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
-                                'clipmode':'both', 'repetitions':True})
+                                'clipmode':'both', 'unique':True})
+print(param2)
 param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
-                                domain=[-1,1], clipmode='low', repetitions=False)
+                                domain=[-1,1], clipmode='low', unique=False)
 """snap_device = my_device.new_snapshot()
 snap_project = my_project.new_snapshot()
 param2.value = 0
@@ -77,7 +78,7 @@ class TestAll(unittest.TestCase):
     def test_nodes(self):
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 1)
+        self.assertEqual(len(my_device.children), 2)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
         node_1.name = 'node 1 renamed'
@@ -94,12 +95,31 @@ class TestAll(unittest.TestCase):
 
     def test_parameter(self):
         self.assertEqual(my_device.make_parameter(['fake']), False)
+        self.assertEqual(param2.service, 'Parameter')
+        self.assertEqual(param2.value, 2)
+        self.assertEqual(param2.unique, True)
+        self.assertEqual(param2.datatype, 'decimal')
+        self.assertEqual(param2.clipmode, 'both')
+        self.assertEqual(param2.domain, [0, 11])
+
+    def test_controler(self):
+        control_node = my_device.new_child()
+        controler = control_node.make_controler(datatype='decimal', domain=[0,1])
+        self.assertEqual(isinstance(controler, Controler), True)
+        print(controler)
 
     def test_ramp(self):
-        a_ramp = param2.ramp(3, 2000)
-        self.assertEqual(isinstance(a_ramp, Ramp), True)
-        while a_ramp.is_alive():
-            pass
+        pass
+        #ramp = Ramp(0, 1000)
+        #print(a_ramp)
+        #print(a_ramp, param2.value)
+        #print(prop_dict(a_ramp))
+        #while a_ramp.is_alive():
+        #    self.assertEqual(param2.value<10, True)
+        #    #print('there',param2.value)
+        #    pass
+        #print('--w--w-w-w-w-w-w-w-w-w',param2.value)
+        #self.assertEqual(param2==10, True)
 
     def test_writing_files(self):
         self.assertEqual(node_1.parameter, param2)
@@ -152,7 +172,7 @@ class TestAll(unittest.TestCase):
         parameter.tags = ['uno','dos']
         parameter.domain = [0,1]
         parameter.clipmode = 'both'
-        parameter.repetitions = 1
+        parameter.unique = 1
         # create two parameters with the same name must be raised
         same = my_device.make_parameter()
         # here, we just assign the parameter as False
