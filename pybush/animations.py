@@ -9,7 +9,7 @@ import multiprocessing
 from time import time
 from random import uniform
 
-current_milli_time = lambda: time() * 1000
+current_time = lambda: time() * 1000
 
 
 class Automation(multiprocessing.Process):
