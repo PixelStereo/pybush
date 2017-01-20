@@ -39,9 +39,13 @@ class Parameter(NodeAbstract):
         for att, val in kwargs.items():
             if att == 'snapshots':
                 for snap in kwargs['snapshots']:
-                    self.new_snapshot(snap)
+                    self.import_snapshot(snap)
             else:
-                setattr(self, att, val)
+                try:
+                    setattr(self, att, val)
+                except(AttributeError) as error:
+                    if __dbug__ == 4:
+                        print(str(error) + ' ' + att)
         # there is no animation on the param
         self.current_player = None
 
@@ -73,35 +77,17 @@ class Parameter(NodeAbstract):
         export the Parameter to a json_string/python_dict with all its properties
         """
         param = self.get_state()
-        param.setdefault('snapshots', self.snapshots)
+        param.setdefault('snapshots', [])
+        for snap in self.snapshots:
+            if isinstance(snap, dict):
+                param['snapshots'].append(snap)
+            else:
+                param['snapshots'].append(snap.export())
         return param
 
     @property
     def name(self):
         return self.parent.name
-
-    @property
-    def snapshots(self):
-        """
-        All the events of this scenario
-        """
-        return self._snapshots
-    @snapshots.setter
-    def snapshots(self, snaps):
-        for snap in snaps:
-            self.new_snapshot(snap)
-
-    def new_snapshot(self, the_snap=None):
-        """
-        create a new event for this scenario
-        """
-        if not the_snap:
-            the_snap = self.get_state()
-        if the_snap:
-            self._snapshots.append(the_snap)
-            return the_snap
-        else:
-            return None
 
     def set(self, state_dict):
         """
@@ -186,7 +172,7 @@ class Parameter(NodeAbstract):
         """
         recall a snapshot
         """
-        for prop, val in snap.items():
+        for prop, val in snap.export().items():
             if prop == 'name' or prop == 'raw':
                 pass
             else:
@@ -258,3 +244,82 @@ class Parameter(NodeAbstract):
     @datatype.setter
     def datatype(self, datatype):
         self._datatype = datatype
+
+    @property
+    def snapshots(self):
+        """
+        All the events of this scenario
+        """
+        return self._snapshots
+    @snapshots.setter
+    def snapshots(self, snaps):
+        for snap in snaps:
+            self.new_snapshot(snap)
+
+    def import_snapshot(self, the_snap=None):
+        """
+        import a new event for this scenario
+        """
+        if isinstance(the_snap, dict):
+            the_snap.setdefault('parent', self)
+            the_snap = Snapshot(**the_snap)
+            return the_snap
+        if the_snap:
+            # used to load an existing project and load a snap_dict
+            self._snapshots.append(the_snap.export())
+            return the_snap
+        else:
+            return None
+
+
+    def new_snapshot(self, the_snap=None):
+        """
+        create a new event for this scenario
+        """
+        if not the_snap:
+            dico = prop_dict(self)
+            dico.setdefault('parent', self)
+            the_snap = Snapshot(**dico)
+        if the_snap:
+            # used to load an existing project and load a snap_dict
+            self._snapshots.append(the_snap)
+            return the_snap
+        else:
+            return None
+
+
+from pybush.functions import prop_dict
+
+
+class Snapshot(Parameter, File):
+    """
+    A SnapShot is afrozen state of a param
+    """
+    def __init__(self, **kwargs):
+        if 'snapshots' in kwargs.keys():
+                kwargs.pop('snapshots')
+        super(Snapshot, self).__init__(**kwargs)
+        for att, val in kwargs.items():
+            try:
+                setattr(self, att, val)
+            except AttributeError as error:
+                if __dbug__ == 4:
+                    print(str(error) + ' ' + att)
+
+    def __repr__(self):
+        """
+        represents the parameter class
+        """
+        printer = 'Snapshot (address:{address}, raw:{raw}, value:{value}, datatype:{datatype}, \
+                                domain:{domain}, clipmode:{clipmode}, \
+                                unique:{unique}, tags:{tags})'
+        return printer.format(address=self.address, raw=self.raw, value=self.value, datatype=self.datatype, \
+                              domain=self.domain, clipmode=self.clipmode, \
+                              unique=self.unique, tags=self.tags)
+
+    def export(self):
+        """
+        export the Parameter to a json_string/python_dict with all its properties
+        """
+        snap = self.get_state()
+        return snap

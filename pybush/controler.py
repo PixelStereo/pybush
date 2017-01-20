@@ -9,10 +9,10 @@ So a Controler inherit from Node Class and just add attributes about value
 """
 
 from pybush.constants import __dbug__
-from pybush.node_abstract import NodeAbstract
+from pybush.node import Node
 
 
-class Controler(NodeAbstract):
+class Controler(Node):
     """
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its node

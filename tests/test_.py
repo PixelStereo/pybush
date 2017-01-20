@@ -54,11 +54,15 @@ param2.value = 1"""
 class TestAll(unittest.TestCase):
 
     def test_a_snapshot(self):
-        snap_1 = node_1.new_snapshot()
-        node_1.parameter.value = 2
-        snap_2 = node_1.new_snapshot()
-        node_1.recall(snap_1)
-        self.assertEqual(node_1.parameter.value, 2)
+        snap_1 = param2.new_snapshot()
+        print(snap_1.value)
+        #print(1, param2.value)
+        node_1.value = 2
+        #print(3, param2.value)
+        snap_2 = param2.new_snapshot()
+        #node_1.recall(snap_1)
+        #print(3, param2.value)
+        #self.assertEqual(param2.value, 2)
 
     def test_a_project(self):
         self.assertEqual(my_project.name, 'My Python project')
@@ -90,13 +94,13 @@ class TestAll(unittest.TestCase):
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        self.assertEqual(len(prop_dict(node_1).keys()), 8)
-        self.assertEqual(len(prop_list(node_1)), 11)
+        self.assertEqual(len(prop_dict(node_1).keys()), 9)
+        self.assertEqual(len(prop_list(node_1)), 12)
 
     def test_parameter(self):
         self.assertEqual(my_device.make_parameter(['fake']), False)
         self.assertEqual(param2.service, 'Parameter')
-        self.assertEqual(param2.value, 2)
+        self.assertEqual(param2.value, 1)
         self.assertEqual(param2.unique, True)
         self.assertEqual(param2.datatype, 'decimal')
         self.assertEqual(param2.clipmode, 'both')
@@ -192,8 +196,8 @@ class TestAll(unittest.TestCase):
     def test_print(self):
         print('----------------------------')
         print(my_device.name + " version " + my_device.version + " by " + my_device.author)
-        for key, val in param2.export().items():
-            print(key, val)
+        #for key, val in param2.export().items():
+        #    print('iterate', key, val)
 
     def test_abstract_node(self):
         abstrakt = NodeAbstract(name='Untitled abstract Node')

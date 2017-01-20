@@ -25,8 +25,8 @@ class Node(NodeAbstract, File):
             setattr(self, att, val)
 
     def __repr__(self):
-        printer = 'Node (name:{name}, parameter:{parameter}, children:{children})'
-        return printer.format(name=self.name, parameter=self.parameter, children=self.children)
+        printer = 'Node (name:{name}, parameter:{parameter}, controler:{controler}, children:{children})'
+        return printer.format(name=self.name, parameter=self.parameter, controler=self.controler, children=self.children)
 
     def new_snapshot(self, **kwargs):
         """
@@ -40,6 +40,8 @@ class Node(NodeAbstract, File):
         Method to recall a snapshot of a parameter
         """
         if self.parameter:
+            print('ARGS', args)
+            print('KWARGS', kwargs)
             return self.parameter.recall(*args, **kwargs)
         else:
             return False
@@ -63,11 +65,16 @@ class Node(NodeAbstract, File):
             param = self.parameter.export()
         else:
             param = None
+        if self.controler:
+            control = self.controler.export()
+        else:
+            control = None
         filiation = []
         if self.children:
             for chili in self.children:
                 filiation.append(chili.export())
-        return {'name':self.name, 'tags':self.tags, 'children':filiation, 'parameter':param}
+        print('ooooOoOooOoooOOOOOOOOooooooo', param)
+        return {'name':self.name, 'tags':self.tags, 'children':filiation, 'parameter':param, 'controler':control}
 
     # ----------- children -------------
     @property
@@ -86,6 +93,23 @@ class Node(NodeAbstract, File):
                 self._children = [the_new_child]
             else:
                 self._children.append(the_new_child)
+
+    # ----------- CONTROLER -------------
+    @property
+    def controler(self):
+        """
+        This is a CONTROLER property
+        Return the controler Object if it exists, return None otherwise
+        Return the controler dict otherwise
+        """
+        return self._controler
+    @controler.setter
+    def controler(self, *args, **kwargs):
+        if args:
+            if __dbug__:
+                print('why to do with that')
+        elif kwargs:
+            self._controler.set(kwargs)
 
     # ----------- PARAMETER -------------
     @property
@@ -111,6 +135,11 @@ class Node(NodeAbstract, File):
         You can send a string or a dict as argument
         string : create a parameter with this name
         """
+        print('----ARGS--')
+        print(args)
+        print('----KWARGS--')
+        print(kwargs)
+        print('------')
         if args:
             if self._parameter is None and self._controler is None:
                 if isinstance(args[0], dict):
@@ -160,6 +189,9 @@ class Node(NodeAbstract, File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
+        print('dict_import', dict_import)
+        print('tags', tags)
+        print('name', name)
         if isinstance(dict_import, dict):
             # we import a python dict to create the child
             # be careful about children and parameter

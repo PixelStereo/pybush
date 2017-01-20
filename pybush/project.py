@@ -46,8 +46,18 @@ class Project(Device):
         reset a project by deleting project.attributes related
         """
         # reset project attributes
+        print('-----RESET')
         self._version = None
         self._path = None
+        if self.devices != []:
+            for dev in self.devices:
+                del dev
+        if self.children != []:
+            for child in self.children:
+                del child
+        self.children = []
+        self.devices = []
+        self._created = str(datetime.datetime.now())
 
     def __repr__(self):
         printer = 'Project (name:{name})'
@@ -57,9 +67,11 @@ class Project(Device):
         """
         export Node to a json_string/python_dict with all its properties
         """
-        proj = {'devices':[]}
-        for device in self.devices:
-            proj['devices'].append(device.export())
+        proj = {'devices':[], 'lastopened':self.lastopened, \
+                'version':self.version,'created':self.created }
+        if self.devices != []:
+            for device in self.devices:
+                proj['devices'].append(device.export())
         return proj
 
     def new_device(self, dict_import=None, name=None, tags=None, version=None, author=None):
@@ -88,10 +100,14 @@ class Project(Device):
         return self._devices
     @devices.setter
     def devices(self, the_new_device):
-        if self._devices is None:
-            self._devices = [the_new_device]
+        if the_new_device:
+            if self._devices is None:
+                self._devices = [the_new_device]
+            else:
+                self._devices.append(the_new_device)
+            return True
         else:
-            self._devices.append(the_new_device)
+            return False
 
     @property
     def lastopened(self):
@@ -143,7 +159,6 @@ class Project(Device):
                 for prop, value in device_dict.items():
                     if value:
                         if prop == 'children':
-                            # the device has children
                             for child in value:
                                 device.new_child(child)
                         elif prop == 'parameter':
