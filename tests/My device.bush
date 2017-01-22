@@ -32,6 +32,24 @@
             "description": "None",
             "name": "sub",
             "tags": null
+        },
+        {
+            "children": [],
+            "description": "None",
+            "name": "my supa parameter",
+            "parameter": {
+                "clipmode": "both",
+                "datatype": "decimal",
+                "domain": [
+                    -2,
+                    2
+                ],
+                "snapshots": [],
+                "tags": null,
+                "unique": true,
+                "value": -2.0
+            },
+            "tags": null
         }
     ],
     "name": "My device",

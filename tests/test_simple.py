@@ -24,14 +24,13 @@ my_device = my_project.new_device(name='My device', author='Pixel Stereo', versi
 # CREATE AN OUTPUT
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 
-# CREATE A PARAMETER
-#supa_param = my_device.new_parameter({'name':'my supa parameter', 'value':-2, 'datatype':'decimal', 'domain':[-2,2], \
-#                                'clipmode':'both', 'unique':True})
 
 oda_param = my_device.new_parameter({'name':'sub/device/lala/menu', 'datatype':'integer', 'domain':[0,50], 'clipmode':'low'})
 
-#print('here', supa_param)
-#print('address of supa_param', supa_param.address)
+supa_param = my_device.new_parameter({'name':'my supa parameter', 'value':-2, 'datatype':'decimal', 'domain':[-2,2], \
+                                'clipmode':'both', 'unique':True})
+
+print('address of supa_param', supa_param.address)
 print('------------------')
 print('address of oda_param', oda_param.address)
 print('------------------')

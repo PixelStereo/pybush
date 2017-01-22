@@ -218,13 +218,14 @@ class Device(Node):
                 lock = node._parameter
             else:
                 # it is a root parameter
+                print('creating root parameter')
                 toto = dict_import['name']
                 node = create_node()
                 dict_import.setdefault('parent', node)
                 # remove 
                 dict_import.pop('name')
-                self._parameter = Parameter(**dict_import)
-                lock = self._parameter
+                node._parameter = Parameter(**dict_import)
+                lock = node._parameter
         if not lock:
             print('there is already a child with the same name', dict_import['name'])
         return lock
