@@ -7,10 +7,10 @@ An ouput is an object that can send-out commands.
 Maybe we might use some plug in pybush to have in/out access for a bunch of nodes (pybush / a bush)
 """
 
-from pybush.node_abstract import NodeAbstract
+from pybush.basic import Basic
 
 
-class Output(NodeAbstract):
+class Output(Basic):
     """
     Abstract class
     Create a new output for a device

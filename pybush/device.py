@@ -12,6 +12,7 @@ A Device has some protocol/plugin for input/output
 from pybush.node import Node
 from pybush.constants import __dbug__
 from pybush.errors import BushTypeError
+from pybush.parameter import Parameter
 from pybush.functions import prop_list
 from pybush.output import OutputOSC, OutputMIDI
 
@@ -160,6 +161,12 @@ class Device(Node):
         else:
             return False
 
+    def new_parameter(self, **kwargs):
+        """
+        Create a new parameter (node + node.makeparameter())
+        """
+        pass
+
     def del_output(self, output):
         """
         delete an output of this project
@@ -171,3 +178,76 @@ class Device(Node):
             if __dbug__:
                 print("ERROR - trying to delete an output which not exists \
                       in self._outputs", output)
+
+    def new_parameter(self, dict_import={}):
+        """
+        create a parameter in the device
+        name must be provided.
+        """
+        self._final_node = self
+        def create_node():
+            if isinstance(toto, str):
+                node = self._final_node.new_child(name=toto)
+            else:
+                node = self._final_node.new_child(name=toto[0])
+            self._final_node = node
+            if isinstance(toto, str):
+                pass
+            else:
+                toto.pop(0)
+            return self._final_node
+        lock = False
+        if 'name' in dict_import.keys():
+            if '/' in dict_import['name']:
+                # this is a parameter in a child node of the device
+                # we will create nodes first, and then parameter
+                toto = dict_import['name'].split('/')
+                if self.children:
+                    for child in self.children:
+                        if child.name == toto[0]:
+                            return False
+                    # at this point, it seems that 
+                    # there is no child with the same name
+                    # so please create this node as a child
+                while len(toto) > 1:
+                    node = create_node()
+                    # and create parameters attributes for the node
+                dict_import.setdefault('parent', node)
+                dict_import.pop('name')
+                node._parameter = Parameter(**dict_import)
+                lock = node._parameter
+            else:
+                # it is a root parameter
+                toto = dict_import['name']
+                node = create_node()
+                dict_import.setdefault('parent', node)
+                # remove 
+                dict_import.pop('name')
+                self._parameter = Parameter(**dict_import)
+                lock = self._parameter
+        if not lock:
+            print('there is already a child with the same name', dict_import['name'])
+        return lock
+
+
+    def make_parameter(self, *args, **kwargs):
+        """
+        Call this method to attach a parameter to this node
+        You can send a string or a dict as argument
+        string : create a parameter with this name
+        """
+        if args:
+            if self._parameter is None:
+                if isinstance(args[0], dict):
+                    child = args[0]
+                    child.setdefault('parent', self)
+                    self._parameter = Parameter(**child)
+                else:
+                    kwargs.setdefault('parent', self)
+                    self._parameter = Parameter(**kwargs)
+                return self._parameter
+            else:
+                return False
+        else:
+            self._parameter = Parameter(parent=self)
+            return self._parameter

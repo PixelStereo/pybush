@@ -1,4 +1,3 @@
-
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -8,15 +7,14 @@ A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
 import liblo
-
-
 from pybush.constants import __dbug__
-from pybush.node_abstract import NodeAbstract
-from pybush.file import File
+from pybush.node import Node
+from pybush.state import State
+from pybush.snapshot import Snapshot
 from pybush.automation import RampGenerator, RandomGenerator
 
 
-class Parameter(NodeAbstract):
+class Parameter(State):
     """
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its node
@@ -25,16 +23,8 @@ class Parameter(NodeAbstract):
         super(Parameter, self).__init__()
         # IMPORTANT to register parent first
         self._parent = kwargs['parent']
-        self._value = 0.
-        self._clipmode = None
-        self._domain = None
-        self._unique = None
-        self._datatype = None
-        self._raw = None
         # collection of snapshots
         self._snapshots = []
-        for key in kwargs.keys():
-            setattr(self, '_'+key, kwargs[key])
         # collection of snapshots
         for att, val in kwargs.items():
             if att == 'snapshots':
@@ -46,6 +36,14 @@ class Parameter(NodeAbstract):
                 except(AttributeError) as error:
                     if __dbug__ == 4:
                         print(str(error) + ' ' + att)
+        self._value = 0.
+        self._clipmode = None
+        self._domain = None
+        self._unique = None
+        self._datatype = None
+        self._raw = None
+        for key in kwargs.keys():
+            setattr(self, '_'+key, kwargs[key])
         # there is no animation on the param
         self.current_player = None
 
@@ -53,48 +51,70 @@ class Parameter(NodeAbstract):
         """
         represents the parameter class
         """
-        printer = 'Parameter (address:{address}, raw:{raw}, value:{value}, datatype:{datatype}, \
+        printer = 'Parameter (address:{address}, description:{description}, raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
                                 unique:{unique}, tags:{tags})'
-        return printer.format(address=self.address, raw=self.raw, value=self.value, datatype=self.datatype, \
+        return printer.format(address=self.address, description=self.description, raw=self.raw, \
+                              value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
                               unique=self.unique, tags=self.tags)
 
-    def get_state(self):
+    @property
+    def address(self):
         """
-        export the Parameter to a json_string/python_dict with all its properties
+        address
         """
-        param = {}
-        param.setdefault('value', self.value)
-        param.setdefault('domain', self.domain)
-        param.setdefault('datatype', self.datatype)
-        param.setdefault('clipmode', self.clipmode)
-        param.setdefault('unique', self.unique)
-        return param
+        return self.parent.address
+
+    @property
+    def description(self):
+        """
+        description
+        """
+        return self.parent.description
+    @description.setter
+    def description(self, description):
+        self.parent.description = description
+
+
+    @property
+    def tags(self):
+        """
+        address
+        """
+        return self.parent.tags
+    @tags.setter
+    def tags(self, tags):
+        self.parent.tags = tags
 
     def export(self):
         """
         export the Parameter to a json_string/python_dict with all its properties
         """
-        param = self.get_state()
-        param.setdefault('snapshots', [])
+        param = {}
+        #param.setdefault('name', self.name)
+        snaps = []
         for snap in self.snapshots:
-            if isinstance(snap, dict):
-                param['snapshots'].append(snap)
-            else:
-                param['snapshots'].append(snap.export())
+            snaps.append(snap.export())
+        print('---EXPORT--SNAPS-FROM-PARAM---', snaps)
+        param.setdefault('snapshots', snaps)
+        param.setdefault('value', self.value)
+        param.setdefault('domain', self.domain)
+        param.setdefault('datatype', self.datatype)
+        param.setdefault('clipmode', self.clipmode)
+        param.setdefault('unique', self.unique)
+        param.setdefault('tags', self.tags)
         return param
 
-    @property
-    def name(self):
-        return self.parent.name
-
-    def set(self, state_dict):
+    def recall(self, snap):
         """
-        Set a parameter to a state
+        recall a snapshot of the parameter
         """
-        for prop, val in state_dict:
-            setattr(self, prop, val)
+        for prop, val in snap.export().items():
+            if prop == 'name' or prop == 'raw':
+                pass
+            else:
+                setattr(self, prop, val)
 
     def clip(self, value):
         """
@@ -168,16 +188,6 @@ class Parameter(NodeAbstract):
         self.current_player = RandomGenerator(self, self.value, destination, duration, grain)
         return self.current_player
 
-    def recall(self, snap):
-        """
-        recall a snapshot
-        """
-        for prop, val in snap.export().items():
-            if prop == 'name' or prop == 'raw':
-                pass
-            else:
-                setattr(self, prop, val)
-
     # ----------- VALUE -------------
     @property
     def value(self):
@@ -245,6 +255,52 @@ class Parameter(NodeAbstract):
     def datatype(self, datatype):
         self._datatype = datatype
 
+    # ----------- RAW VALUE -------------
+    @property
+    def raw(self):
+        """
+        raw value without rangeClipmode or rangeBoundsneither than datatype
+        """
+        return self._value
+
+    def new_child_post_action(self, dict_import):
+        """
+        might be subclassed if need to do something with the 
+        """
+        # if the new_child have a parameter, create it please
+        if dict_import['parameter']:
+            # we give the parameter dict to the make_parameter method
+            # it will create the parameter with values from the dict
+            if the_new_child.make_parameter(dict_import['parameter']):
+                return True
+            else:
+                return False
+
+    # ----------- PARENT -------------
+    @property
+    def parent(self):
+        """
+        parent of the node
+        """
+        return self._parent
+    @parent.setter
+    def parent(self, parent):
+        self._parent = parent
+
+    def snap(self, name, the_snap=None):
+        """
+        create a new event for this scenario
+        """
+        if not the_snap:
+            state = self.export()
+            the_snap = Snapshot(**state)
+        if the_snap:
+            # used to load an existing project and load a snap_dict
+            self._snapshots.append(the_snap)
+            return the_snap
+        else:
+            return None
+
     @property
     def snapshots(self):
         """
@@ -253,8 +309,8 @@ class Parameter(NodeAbstract):
         return self._snapshots
     @snapshots.setter
     def snapshots(self, snaps):
-        for snap in snaps:
-            self.new_snapshot(snap)
+        for snapy in snaps:
+            self.snap(snapy)
 
     def import_snapshot(self, the_snap=None):
         """
@@ -270,56 +326,3 @@ class Parameter(NodeAbstract):
             return the_snap
         else:
             return None
-
-
-    def new_snapshot(self, the_snap=None):
-        """
-        create a new event for this scenario
-        """
-        if not the_snap:
-            dico = prop_dict(self)
-            dico.setdefault('parent', self)
-            the_snap = Snapshot(**dico)
-        if the_snap:
-            # used to load an existing project and load a snap_dict
-            self._snapshots.append(the_snap)
-            return the_snap
-        else:
-            return None
-
-
-from pybush.functions import prop_dict
-
-
-class Snapshot(Parameter, File):
-    """
-    A SnapShot is afrozen state of a param
-    """
-    def __init__(self, **kwargs):
-        if 'snapshots' in kwargs.keys():
-                kwargs.pop('snapshots')
-        super(Snapshot, self).__init__(**kwargs)
-        for att, val in kwargs.items():
-            try:
-                setattr(self, att, val)
-            except AttributeError as error:
-                if __dbug__ == 4:
-                    print(str(error) + ' ' + att)
-
-    def __repr__(self):
-        """
-        represents the parameter class
-        """
-        printer = 'Snapshot (address:{address}, raw:{raw}, value:{value}, datatype:{datatype}, \
-                                domain:{domain}, clipmode:{clipmode}, \
-                                unique:{unique}, tags:{tags})'
-        return printer.format(address=self.address, raw=self.raw, value=self.value, datatype=self.datatype, \
-                              domain=self.domain, clipmode=self.clipmode, \
-                              unique=self.unique, tags=self.tags)
-
-    def export(self):
-        """
-        export the Parameter to a json_string/python_dict with all its properties
-        """
-        snap = self.get_state()
-        return snap

@@ -13,9 +13,7 @@ from pybush.constants import __dbug__
 from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
-from pybush.node_abstract import NodeAbstract
 from pybush.errors import BushTypeError, NoOutputError
-from pybush.controler import Controler
 
 __dbug__ = 4
 my_project = new_project(name='My Python project')
@@ -26,15 +24,21 @@ my_device = my_project.new_device(name='My device', author='Pixel Stereo', versi
 another_device = my_project.new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
-node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
-node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
+node_1 = my_device.new_child(name='node.1')
+node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
 param1 = my_device.make_parameter()
-param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
+param2 = my_device.new_parameter({'name':'node.1', 'value':1, 'datatype':'decimal', 'domain':[0,11], \
                                 'clipmode':'both', 'unique':True})
+node_1.tags=['init', 'video']
 print(param2)
-param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
-                                domain=[-1,1], clipmode='low', unique=False)
+param3 = my_device.new_parameter({  'name':'node.1/node.2',
+                                    'value':-0.5, \
+                                    'datatype':'decimal', \
+                                    'domain':[-1,1], \
+                                    'clipmode':'low', \
+                                    'unique':False \
+                                    })
 """snap_device = my_device.new_snapshot()
 snap_project = my_project.new_snapshot()
 param2.value = 0
@@ -105,12 +109,6 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param2.datatype, 'decimal')
         self.assertEqual(param2.clipmode, 'both')
         self.assertEqual(param2.domain, [0, 11])
-
-    def test_controler(self):
-        control_node = my_device.new_child()
-        controler = control_node.make_controler(datatype='decimal', domain=[0,1])
-        self.assertEqual(isinstance(controler, Controler), True)
-        print(controler)
 
     def test_ramp(self):
         pass
@@ -198,13 +196,6 @@ class TestAll(unittest.TestCase):
         print(my_device.name + " version " + my_device.version + " by " + my_device.author)
         #for key, val in param2.export().items():
         #    print('iterate', key, val)
-
-    def test_abstract_node(self):
-        abstrakt = NodeAbstract(name='Untitled abstract Node')
-        self.assertEqual(abstrakt.name, 'Untitled abstract Node')
-        abstrakt_2 = NodeAbstract(name='toto')
-        self.assertEqual(abstrakt_2.name, 'toto')
-        print(abstrakt)
 
     def test_address(self):
         self.assertEqual(my_device.address, 'My_device')

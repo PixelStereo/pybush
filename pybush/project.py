@@ -46,7 +46,6 @@ class Project(Device):
         reset a project by deleting project.attributes related
         """
         # reset project attributes
-        print('-----RESET')
         self._version = None
         self._path = None
         if self.devices != []:

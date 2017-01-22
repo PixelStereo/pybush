@@ -2,79 +2,54 @@
 # -*- coding: utf-8 -*-
 
 """
-The Node is the Base class of all items in a namespace.
+Node Class
+The Node is based on the Basic class
+It is the base class of all items in a namespace.
 Device and Parameter are based on the Node Class
+it 
 """
-
 from pybush.constants import __dbug__
-from pybush.node_abstract import NodeAbstract
-from pybush.parameter import Parameter
-from pybush.controler import Controler
+from pybush.functions import spacelessify
 from pybush.file import File
+from pybush.basic import Basic
 
-class Node(NodeAbstract, File):
-    """Base Class for all item in the namespace"""
+
+class Node(Basic, File):
+    """
+    Base Class for all item in the namespace.
+    It offers a way to have information / notification / functions
+    about the namespace hierarchy
+    It inherits from Snapshot Class. It adds recall(), snap() functions.
+    This will create memories for any Node with all its chidren and attributes
+    It inherits from File Class. It adds write(), read() functions.
+    That export/import json files for any Node with all its chidren
+    """
     def __init__(self, **kwargs):
         super(Node, self).__init__()
         # initialise attributes/properties of this node
+        self._address = None
         self._parameter = None
-        self._controler = None
         self._children = []
         # kwargs setup attributes
         for att, val in kwargs.items():
             setattr(self, att, val)
 
     def __repr__(self):
-        printer = 'Node (name:{name}, parameter:{parameter}, controler:{controler}, children:{children})'
-        return printer.format(name=self.name, parameter=self.parameter, controler=self.controler, children=self.children)
+        printer = 'Node(name:{name}, description:{description}, tags:{tags}, \
+                        parameter:{parameter}, children:{children})'
+        return printer.format(name=self.name, description=self.description, tags=self.tags, \
+                              parameter=self.parameter, children=self.children)
 
-    def new_snapshot(self, **kwargs):
-        """
-        method to call parameter's snapshot
-        """
-        print(kwargs)
-        return self.export()
-
-    def recall(self, *args, **kwargs):
-        """
-        Method to recall a snapshot of a parameter
-        """
-        if self.parameter:
-            print('ARGS', args)
-            print('KWARGS', kwargs)
-            return self.parameter.recall(*args, **kwargs)
-        else:
-            return False
-
-
+    # ----------- PARAMETER -------------
     @property
-    def snapshots(self):
+    def parameter(self):
         """
-        Ordered list of snapshots
+        parameter of the node
         """
-        if self.parameter:
-            return self.parameter.snapshots
-        else:
-            return False
-
-    def export(self):
-        """
-        export Node to a json_string/python_dict with all its properties
-        """
-        if self.parameter:
-            param = self.parameter.export()
-        else:
-            param = None
-        if self.controler:
-            control = self.controler.export()
-        else:
-            control = None
-        filiation = []
-        if self.children:
-            for chili in self.children:
-                filiation.append(chili.export())
-        print('ooooOoOooOoooOOOOOOOOooooooo', param)
-        return {'name':self.name, 'tags':self.tags, 'children':filiation, 'parameter':param, 'controler':control}
+        return self._parameter
+    @parameter.setter
+    def parameter(self, parameter):
+        self._parameter = parameter
 
     # ----------- children -------------
     @property
@@ -94,93 +69,7 @@ class Node(NodeAbstract, File):
             else:
                 self._children.append(the_new_child)
 
-    # ----------- CONTROLER -------------
-    @property
-    def controler(self):
-        """
-        This is a CONTROLER property
-        Return the controler Object if it exists, return None otherwise
-        Return the controler dict otherwise
-        """
-        return self._controler
-    @controler.setter
-    def controler(self, *args, **kwargs):
-        if args:
-            if __dbug__:
-                print('why to do with that')
-        elif kwargs:
-            self._controler.set(kwargs)
-
-    # ----------- PARAMETER -------------
-    @property
-    def parameter(self):
-        """
-        This is a parameter property
-        Return the Parameter Object if it exists, return None otherwise
-        Return the parameter dict otherwise
-        """
-        return self._parameter
-    @parameter.setter
-    def parameter(self, *args, **kwargs):
-        if args:
-            if __dbug__:
-                print('why to do with that')
-        elif kwargs:
-            self._parameter.set(kwargs)
-
-    # ----------- MAKE_PARAMETER METHOD -------------
-    def make_parameter(self, *args, **kwargs):
-        """
-        Call this method to attach a parameter to this node
-        You can send a string or a dict as argument
-        string : create a parameter with this name
-        """
-        print('----ARGS--')
-        print(args)
-        print('----KWARGS--')
-        print(kwargs)
-        print('------')
-        if args:
-            if self._parameter is None and self._controler is None:
-                if isinstance(args[0], dict):
-                    child = args[0]
-                    child.setdefault('parent', self)
-                    self._parameter = Parameter(**child)
-                else:
-                    kwargs.setdefault('parent', self)
-                    self._parameter = Parameter(**kwargs)
-                return self._parameter
-            else:
-                return False
-        else:
-            self._parameter = Parameter(parent=self)
-            return self._parameter
-
-    # ----------- MEKE_CONTROLER METHOD -------------
-    def make_controler(self, *args, **kwargs):
-        """
-        Call this method to attach a controler to this node
-        You can send a string or a dict as argument
-        string : create a parameter with this name
-        """
-        if args:
-            if self._controler is None and self._parameter is None:
-                if isinstance(args[0], dict):
-                    child = args[0]
-                    child.setdefault('parent', self)
-                    self._controler = Controler(**child)
-                else:
-                    kwargs.setdefault('parent', self)
-                    print(kwargs)
-                    self._controler = Controler(**kwargs)
-                return self._controler
-            else:
-                return False
-        else:
-            self._controler = Controler(parent=self)
-            return self._controler
-
-  # ----------- NEW CHILD METHOD -------------
+    # ----------- NEW CHILD METHOD -------------
     def new_child(self, dict_import=None, name=None, tags=None):
         """
         Create a new Node in its parent
@@ -189,29 +78,78 @@ class Node(NodeAbstract, File):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
-        print('dict_import', dict_import)
-        print('tags', tags)
-        print('name', name)
         if isinstance(dict_import, dict):
+            # check that the name doesn't already exists
+            if self.children and 'name' in dict_import.keys():
+                for child in self.children:
+                    if dict_import['name'] == child.name:
+                        if __dbug__:
+                            print('this name is already taken by this one :', child)
+                        return False
             # we import a python dict to create the child
             # be careful about children and parameter
             # which needs to instanciate Classes Node and Parameter
-            the_new_child = Node(parent=self, name=dict_import['name'], tags=dict_import['tags'], children=[])
+            the_new_child = Node(parent=self, **dict_import)
             # this will append this children as a child in the self.children list
             self.children = the_new_child
             # maybe the new_child contains children itself?
-            if dict_import['children']:
+            if 'children' in dict_import.keys():
                 if len(dict_import['children']) > 0:
                     for little_child in dict_import['children']:
                         # create a new child for each of the new_child.children item recursivly
                         the_new_child.new_child(little_child)
-            # if the new_child have a parameter, create it please
-            if dict_import['parameter']:
-                # we give the parameter dict to the make_parameter method
-                # it will create the parameter with values from the dict
-                the_new_child.make_parameter(dict_import['parameter'])
+            self.new_child_post_action(dict_import)
         else:
             # if the child argument is only a string, this is the name of the new_child to create
             the_new_child = Node(parent=self, name=name, tags=tags, children=[])
             self.children = the_new_child
         return the_new_child
+
+
+    def new_child_post_action(self, dict_import):
+        """
+        might be subclassed
+        """
+        pass
+
+    def post_export(self, node):
+        """
+        export Node to a json_string/python_dict with all its properties
+        """
+        if self.parameter:
+            node.setdefault('parameter', self.parameter.export())
+        filiation = []
+        if self.children:
+            for chili in self.children:
+                filiation.append(chili.export())
+        node.setdefault('children', filiation)
+        return node
+
+    # ----------- ADDRESS -------------
+    @property
+    def address(self):
+        """
+        Current address of the node
+        """
+        def get_address(self):
+            """
+            recursive function to get into parent's hierarchy
+            """
+            address = spacelessify(self.name)
+            if not address:
+                address = 'no_address'
+            if self.__class__.__name__ is not 'Device':
+                if self.parent:
+                    parent_address = (get_address(self.parent))
+                    if self.__class__.__name__ is 'Parameter':
+                        address = parent_address
+                    else:
+                        address = parent_address + '/' + address
+            return address
+        return get_address(self)
+        #return self._address
+    @address.setter
+    def address(self, address):
+        if __dbug__:
+            print('come back later for setting a new address for a node', address)
+            print(self.address)

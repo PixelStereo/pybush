@@ -1,0 +1,47 @@
+{
+    "author": "Pixel Stereo",
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "description": "None",
+                            "name": "lala",
+                            "parameter": {
+                                "clipmode": "low",
+                                "datatype": "integer",
+                                "domain": [
+                                    0,
+                                    50
+                                ],
+                                "snapshots": [],
+                                "tags": null,
+                                "unique": null,
+                                "value": 0
+                            },
+                            "tags": null
+                        }
+                    ],
+                    "description": "None",
+                    "name": "device",
+                    "tags": null
+                }
+            ],
+            "description": "None",
+            "name": "sub",
+            "tags": null
+        }
+    ],
+    "name": "My device",
+    "outputs": {
+        "OSC": [
+            {
+                "name": "OSC Output",
+                "port": "127.0.0.1:1234"
+            }
+        ]
+    },
+    "version": "0.1.0"
+}
