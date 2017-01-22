@@ -21,7 +21,6 @@ class Snapshot(State):
                 kwargs.pop('snapshots')
         if 'name' in kwargs.keys():
                 kwargs.pop('name')
-        print('----INITING SNAPSHOT WITH :,', kwargs)
         for att, val in kwargs.items():
             try:
                 setattr(self, att, val)
@@ -29,11 +28,10 @@ class Snapshot(State):
                 if __dbug__ == 4:
                     print(str(error) + ' ' + att)
 
-    """def __repr__(self):
-        printer = 'Snapshot (address:{address}, raw:{raw}, value:{value}, datatype:{datatype}, \
+    def __repr__(self):
+        printer = 'Snapshot (raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
                                 unique:{unique}, tags:{tags})'
-        return printer.format(address=self.address, raw=self.raw, value=self.value, datatype=self.datatype, \
+        return printer.format(raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
-                              unique=self.unique, tags=self.tags)"""
-
+                              unique=self.unique, tags=self.tags)

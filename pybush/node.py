@@ -19,8 +19,8 @@ class Node(Basic, File):
     Base Class for all item in the namespace.
     It offers a way to have information / notification / functions
     about the namespace hierarchy
-    It inherits from Snapshot Class. It adds recall(), snap() functions.
-    This will create memories for any Node with all its chidren and attributes
+    It inherits from Basic Class. It adds name, description and tags functions.
+    That export/import json files for any Node with all its chidren
     It inherits from File Class. It adds write(), read() functions.
     That export/import json files for any Node with all its chidren
     """
@@ -40,7 +40,8 @@ class Node(Basic, File):
         return printer.format(name=self.name, description=self.description, tags=self.tags, \
                               parameter=self.parameter, children=self.children)
 
-    # ----------- PARAMETER -------------
+
+    
     @property
     def parameter(self):
         """
@@ -49,9 +50,34 @@ class Node(Basic, File):
         return self._parameter
     @parameter.setter
     def parameter(self, parameter):
-        self._parameter = parameter
+        if parameter.__class__.__name__ == 'Parameter':
+            self._parameter = parameter
+            return True
+        elif parameter.__class__.__name__ == 'dict':
+            device = self.get_device()
+            self._parameter = device._create_parameter(self, parameter)
+            if self._parameter:
+                return True
+            else:
+                return False
+        else:
+            if __dbug__:
+                print('ERROR 876 : this is not a Parameter instance, this is a ' + parameter.__class__.__name__)
+            return False
 
-    # ----------- children -------------
+    def get_device(self):
+        """
+        get the root device of this node
+        """
+        asker = self
+        def get_parent(asker):
+            asker = asker.parent
+            return asker
+        while asker.service != 'Device':
+            asker = get_parent(asker)
+            print(asker.service)
+        return asker
+
     @property
     def children(self):
         """
@@ -69,7 +95,6 @@ class Node(Basic, File):
             else:
                 self._children.append(the_new_child)
 
-    # ----------- NEW CHILD METHOD -------------
     def new_child(self, dict_import=None, name=None, tags=None):
         """
         Create a new Node in its parent
@@ -79,26 +104,30 @@ class Node(Basic, File):
             :return False if name is not valid (already exists or is not provided)
         """
         if isinstance(dict_import, dict):
-            # check that the name doesn't already exists
-            if self.children and 'name' in dict_import.keys():
-                for child in self.children:
-                    if dict_import['name'] == child.name:
-                        if __dbug__:
-                            print('this name is already taken by this one :', child)
-                        return False
-            # we import a python dict to create the child
-            # be careful about children and parameter
-            # which needs to instanciate Classes Node and Parameter
-            the_new_child = Node(parent=self, **dict_import)
-            # this will append this children as a child in the self.children list
-            self.children = the_new_child
-            # maybe the new_child contains children itself?
-            if 'children' in dict_import.keys():
-                if len(dict_import['children']) > 0:
-                    for little_child in dict_import['children']:
-                        # create a new child for each of the new_child.children item recursivly
-                        the_new_child.new_child(little_child)
-            self.new_child_post_action(dict_import)
+            if 'name' in dict_import.keys():
+                # check that the name doesn't already exists
+                if self.children:
+                    for child in self.children:
+                        print(child.name)
+                        if dict_import['name'] == child.name:
+                            if __dbug__:
+                                print('this name is already taken by this one :', child.name)
+                            return False
+                # we import a python dict to create the child
+                # be careful about children and parameter
+                # which needs to instanciate Classes Node and Parameter
+                the_new_child = Node(parent=self, **dict_import)
+                # this will append this children as a child in the self.children list
+                self.children = the_new_child
+                # maybe the new_child contains children itself?
+                if 'children' in dict_import.keys():
+                    if len(dict_import['children']) > 0:
+                        for little_child in dict_import['children']:
+                            # create a new child for each of the new_child.children item recursivly
+                            the_new_child.new_child(little_child)
+                self.new_child_post_action(dict_import)
+            else:
+                print('for now we need a name to create a parameter')
         else:
             # if the child argument is only a string, this is the name of the new_child to create
             the_new_child = Node(parent=self, name=name, tags=tags, children=[])
@@ -125,7 +154,6 @@ class Node(Basic, File):
         node.setdefault('children', filiation)
         return node
 
-    # ----------- ADDRESS -------------
     @property
     def address(self):
         """

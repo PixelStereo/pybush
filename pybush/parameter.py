@@ -8,7 +8,6 @@ So a Parameter inherit from Node Class and just add attributes about value
 """
 import liblo
 from pybush.constants import __dbug__
-from pybush.node import Node
 from pybush.state import State
 from pybush.snapshot import Snapshot
 from pybush.automation import RampGenerator, RandomGenerator
@@ -28,8 +27,8 @@ class Parameter(State):
         # collection of snapshots
         for att, val in kwargs.items():
             if att == 'snapshots':
-                for snap in kwargs['snapshots']:
-                    self.import_snapshot(snap)
+                for snap in kwargs[att]:
+                    self.snap(snap)
             else:
                 try:
                     setattr(self, att, val)
@@ -95,8 +94,10 @@ class Parameter(State):
         #param.setdefault('name', self.name)
         snaps = []
         for snap in self.snapshots:
-            snaps.append(snap.export())
-        print('---EXPORT--SNAPS-FROM-PARAM---', snaps)
+            if not isinstance(snap, dict):
+                snaps.append(snap.export())
+            else:
+                snaps.append(snap)
         param.setdefault('snapshots', snaps)
         param.setdefault('value', self.value)
         param.setdefault('domain', self.domain)
@@ -115,55 +116,6 @@ class Parameter(State):
                 pass
             else:
                 setattr(self, prop, val)
-
-    def clip(self, value):
-        """
-        clip a value to its domain according to its clipmode
-            :return cliped value
-        """
-        if self.clipmode == 'low' or self.clipmode == 'both':
-            if len(self.domain) > 0:
-                if value < self.domain[0]:
-                    value = self.domain[0]
-        if self.clipmode == 'high' or self.clipmode == 'both':
-            if len(self.domain) > 1:
-                if value > self.domain[1]:
-                    value = self.domain[1]
-        return value
-
-    # ----------- RAW VALUE -------------
-    @property
-    def raw(self):
-        """
-        raw value without rangeClipmode or rangeBoundsneither than datatype
-        """
-        return self._value
-
-    def update(self):
-        """
-        update is called when value is updated
-        might be used to send it to network or other protocols
-        """
-        ip_add = 'localhost'
-        udp = 1234
-        try:
-            target = liblo.Address(ip_add, int(udp))
-            if __dbug__ >= 3:
-                print('connect to : ' + ip_add + ':' + str(udp))
-        except liblo.AddressError as err:
-            if __dbug__ >= 3:
-                print('liblo.AddressError' + str(err))
-        msg = liblo.Message(self.address)
-        if isinstance(self.value, list):
-            # this is just a list of values to send
-            for arg in self.value:
-                arg = check_type(arg)
-                msg.add(arg)
-        else:
-            msg.add(self.value)
-        liblo.send(target, msg)
-        if __dbug__ >= 3:
-            print('update ' + self.name + ' to value ' + str(self.value))
 
     def ramp(self, destination=1, duration=1000, grain=10):
         """
@@ -187,81 +139,6 @@ class Parameter(State):
             self.current_player.terminate()
         self.current_player = RandomGenerator(self, self.value, destination, duration, grain)
         return self.current_player
-
-    # ----------- VALUE -------------
-    @property
-    def value(self):
-        """
-        Current value of the parameter
-        """
-        if self.datatype == 'decimal':
-            value = self.clip(self._value)
-            value = float(value)
-        elif self.datatype == 'string':
-            value = str(self._value)
-        elif self.datatype == 'integer':
-            value = self.clip(self._value)
-            value = int(self._value)
-        else:
-            value = self._value
-        return value
-    @value.setter
-    def value(self, value):
-        self._value = value
-        self.update()
-
-    # ----------- DOMAIN -------------
-    @property
-    def domain(self):
-        """
-        Current domain of the parameter
-        """
-        return self._domain
-    @domain.setter
-    def domain(self, domain):
-        self._domain = domain
-
-    # ----------- CLIPMODE -------------
-    @property
-    def clipmode(self):
-        """
-        Current clipmode of the parameter
-        """
-        return self._clipmode
-    @clipmode.setter
-    def clipmode(self, clipmode):
-        self._clipmode = clipmode
-
-    # ----------- UNIQUE -------------
-    @property
-    def unique(self):
-        """
-        Filter repetitions of the parameter
-        """
-        return self._unique
-    @unique.setter
-    def unique(self, unique):
-        self._unique = unique
-
-    # ----------- DATATYPE -------------
-    @property
-    def datatype(self):
-        """
-        Current datatype of the parameter
-        could be None (default), or string, integer, decimal
-        """
-        return self._datatype
-    @datatype.setter
-    def datatype(self, datatype):
-        self._datatype = datatype
-
-    # ----------- RAW VALUE -------------
-    @property
-    def raw(self):
-        """
-        raw value without rangeClipmode or rangeBoundsneither than datatype
-        """
-        return self._value
 
     def new_child_post_action(self, dict_import):
         """
@@ -292,8 +169,12 @@ class Parameter(State):
         create a new event for this scenario
         """
         if not the_snap:
-            state = self.export()
-            the_snap = Snapshot(**state)
+            the_snap = self.export()
+        if isinstance(the_snap, dict):
+            # if this is a dict, please create a snapshot
+            # it is a dict for a new snap or for an imported snap
+            the_snap.setdefault('parent', self)
+            the_snap = Snapshot(**the_snap)
         if the_snap:
             # used to load an existing project and load a snap_dict
             self._snapshots.append(the_snap)
@@ -307,22 +188,3 @@ class Parameter(State):
         All the events of this scenario
         """
         return self._snapshots
-    @snapshots.setter
-    def snapshots(self, snaps):
-        for snapy in snaps:
-            self.snap(snapy)
-
-    def import_snapshot(self, the_snap=None):
-        """
-        import a new event for this scenario
-        """
-        if isinstance(the_snap, dict):
-            the_snap.setdefault('parent', self)
-            the_snap = Snapshot(**the_snap)
-            return the_snap
-        if the_snap:
-            # used to load an existing project and load a snap_dict
-            self._snapshots.append(the_snap.export())
-            return the_snap
-        else:
-            return None

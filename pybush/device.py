@@ -16,6 +16,7 @@ from pybush.parameter import Parameter
 from pybush.functions import prop_list
 from pybush.output import OutputOSC, OutputMIDI
 
+from pprint import pprint
 
 class Device(Node):
     """
@@ -45,7 +46,7 @@ class Device(Node):
     @property
     def output(self):
         """
-        The port to output this project
+        The port to output this device
         Initialised to the first output
         """
         if self._output:
@@ -64,6 +65,11 @@ class Device(Node):
         else:
             raise BushTypeError('Wait for an Output but receive a', out.__class__.__name__)
 
+    def dict_import(self, dict_import):
+        """
+        create a device with importing a device json bush file
+        """
+        print(dict_import)
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties
@@ -108,7 +114,7 @@ class Device(Node):
     @property
     def outputs(self):
         """
-        return a list of outputs of this project
+        return a list of outputs of this device
         """
         return self._outputs
 
@@ -126,7 +132,9 @@ class Device(Node):
             return None
 
     def getprotocols(self):
-        """return the protocols available for this project"""
+        """
+        return the protocols available for this device
+        """
         protocols = []
         for out in self.outputs:
             proto = out.protocol
@@ -139,7 +147,7 @@ class Device(Node):
 
     def new_output(self, protocol="OSC", **kwargs):
         """
-        Create a new output for this project
+        Create a new output for this device
         args:Mandatory argument is the protocol that you want to use for this output
         (OSC, MIDI, serial, ArtNet)
         rtype:Output object
@@ -161,15 +169,9 @@ class Device(Node):
         else:
             return False
 
-    def new_parameter(self, **kwargs):
-        """
-        Create a new parameter (node + node.makeparameter())
-        """
-        pass
-
     def del_output(self, output):
         """
-        delete an output of this project
+        delete an output of this device
         """
         if output in self.outputs:
             # delete the output
@@ -196,7 +198,7 @@ class Device(Node):
             else:
                 toto.pop(0)
             return self._final_node
-        lock = False
+        lock = None
         if 'name' in dict_import.keys():
             if '/' in dict_import['name']:
                 # this is a parameter in a child node of the device
@@ -205,31 +207,32 @@ class Device(Node):
                 if self.children:
                     for child in self.children:
                         if child.name == toto[0]:
-                            return False
+                            return None
                     # at this point, it seems that 
                     # there is no child with the same name
                     # so please create this node as a child
                 while len(toto) > 1:
                     node = create_node()
                     # and create parameters attributes for the node
-                dict_import.setdefault('parent', node)
-                dict_import.pop('name')
-                node._parameter = Parameter(**dict_import)
-                lock = node._parameter
+                lock = self._create_parameter(node, dict_import)
             else:
                 # it is a root parameter
-                print('creating root parameter')
                 toto = dict_import['name']
                 node = create_node()
-                dict_import.setdefault('parent', node)
-                # remove 
-                dict_import.pop('name')
-                node._parameter = Parameter(**dict_import)
-                lock = node._parameter
+                lock = self._create_parameter(node, dict_import)
         if not lock:
-            print('there is already a child with the same name', dict_import['name'])
+            print('there is already a child with the same name', dict_import)
         return lock
 
+    def _create_parameter(self, node, param_dict):
+        """
+        internal method to create a parameter in a certain node of a device
+        """
+        param_dict.setdefault('parent', node)
+        if 'name' in param_dict.keys():
+            param_dict.pop('name')
+        node._parameter = Parameter(**param_dict)
+        return node._parameter
 
     def make_parameter(self, *args, **kwargs):
         """
@@ -252,3 +255,55 @@ class Device(Node):
         else:
             self._parameter = Parameter(parent=self)
             return self._parameter
+
+    def load(self, filepath):
+        """
+        Fillin Bush with objects created from a json file
+
+        Creates Outputs obects
+        First, dump attributes, then outputs.
+
+        :returns: True if file formatting is correct, False otherwise
+        :rtype: boolean
+        """
+        # self.read is a method from File Class
+        device_dict = self.read(filepath)
+        # TODO : CHECK IF THIS IS A VALID DEVICE FILE
+        # if valid python dict / json file
+        if device_dict:
+            if __dbug__:
+                print('initing device called : ' + filepath)
+            self.__init__()
+            if __dbug__:
+                print('loading device called : ' + filepath)
+        else:
+            if __dbug__:
+                print('ERROR 901 - file provided is not a valid file' + str(filepath))
+        try:
+            if __dbug__:
+                print('------- new-device : ' + device_dict['name'] + ' ------ ')
+            #device = self.new_device(device_dict['name'])
+            # iterate each attributes of the selected device
+            for prop, value in device_dict.items():
+                if value:
+                    if prop == 'children':
+                        for child in value:
+                            self.new_child(child)
+                    elif prop == 'parameter':
+                        if __dbug__:
+                            print('no parameter for device')
+                    elif prop == 'outputs':
+                        if __dbug__:
+                            print('import will create an output')
+                        self.new_output(value)
+                    else:
+                        # register value of the given attribute for the device
+                        setattr(self, prop, value)
+                if __dbug__:
+                    print('device loaded : ' + str(self.name))
+            return True
+        # catch error if file is not valid or if file is not a valide node
+        except (IOError, ValueError) as error:
+            if __dbug__:
+                print(error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
+            return False

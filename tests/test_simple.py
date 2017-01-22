@@ -30,7 +30,7 @@ oda_param = my_device.new_parameter({'name':'sub/device/lala/menu', 'datatype':'
 supa_param = my_device.new_parameter({'name':'my supa parameter', 'value':-2, 'datatype':'decimal', 'domain':[-2,2], \
                                 'clipmode':'both', 'unique':True})
 
-print('address of supa_param', supa_param.address)
+"""print('address of supa_param', supa_param.address)
 print('------------------')
 print('address of oda_param', oda_param.address)
 print('------------------')
@@ -42,65 +42,27 @@ print('address of my_device : ' + my_device.address, my_device.parameter)
 print('address of the first child of my_device : ' + my_device.children[0].address, my_device.children[0].parameter)
 print('address of the first child of the first child of my_device : ' + my_device.children[0].children[0].address, my_device.children[0].children[0].parameter)
 print('address of the first child of the first child of the first child of my_device : ' + my_device.children[0].children[0].children[0].address, my_device.children[0].children[0].children[0].parameter)
-print(len(my_device.children[0].children))
+print(len(my_device.children[0].children))"""
 #supa_param.ramp(2, 100)
 print('-----------')
-print('-----------')
-#snap = supa_param.snap('test')
-#print('the snap', snap)
+snap = supa_param.snap('test')
+supa_param.domain = [0.5, 0.8]
+supa_param.value = 0.123456789
+supa_param.clipmode = 'low'
+supa_param.unique = False
+snap2 = supa_param.snap('deux')
+print(supa_param.value)
+supa_param.recall(snap)
+print(supa_param.value)
+print('the snap', snap)
 #print(prop_dict(snap))
 my_device.write('./')
+#print(my_device)
+print('-----WWWWWWWW------')
+new_device = my_project.new_device()
+device_import = new_device.load('./My Device.bush')
+print('--------------')
+print('--------------')
+#print(device_import)
+#print(new_device)
 
-
-quit()
-
-
-
-param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
-                                'clipmode':'both', 'unique':True})
-
-quit()
-print()
-quit()
-
-snap_1 = param2.new_snapshot()
-print('THE SNAP 1 VALUE', snap_1.value)
-print('THE SNAP 1 DOMAIN', snap_1.domain)
-
-param2.value = 'popo'
-param2.domain = ['toto', 'tata']
-param2.datatype = 'string'
-param2.unique = False
-param2.clipmode = None
-#print(2, param2.value)
-#print('----------')
-#print('----------')
-#print(snap_1.export())
-#print('----------')
-#print('----------')
-snap_2 = param2.new_snapshot()
-print('THE SNAP 2 VALUE', snap_2.value)
-print('THE SNAP 2 DOMAIN', snap_2.domain)
-#print('THE SNAP 2', snap_2)
-#print(3)
-#print(snap_1.export())
-param2.recall(snap_1)
-print('THE RECALL 1 VALUE', param2.value)
-print('THE RECALL 1 DOMAIN', param2.domain)
-node_1.write('./')
-param2.recall(snap_1)
-print('THE RECALL 1 VALUE', param2.value)
-print('THE RECALL 1 DOMAIN', param2.domain)
-node_1.write('./')
-print(snap_1.write('./snap'))
-print(snap_2.write('./snap2'))
-print(my_project.write('./'))
-#print(my_project.export())
-print(my_project.reset())
-#print(my_project.export())
-toto = new_project(name='loading test')
-toto.load('./My Python project.bush')
-print('ALLEZ')
-print(toto.write('./My imported project'))
-#print(3, param2.value)
-#self.assertEqual(param2.value, 2)

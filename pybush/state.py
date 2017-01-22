@@ -49,17 +49,14 @@ class State(object):
         param.setdefault('clipmode', self.clipmode)
         param.setdefault('unique', self.unique)
         param.setdefault('tags', self.tags)
+        print('------------------')
+        print('------------------')
+        print('this is a snapshot/state export')
+        from pprint import pprint
+        pprint(param)
+        print('------------------')
+        print('------------------')
         return param
-
-    def recall(self, snap):
-        """
-        recall a snapshot of the parameter
-        """
-        for prop, val in snap.export().items():
-            if prop == 'raw':
-                pass
-            else:
-                setattr(self, prop, val)
 
     def clip(self, value):
         """
