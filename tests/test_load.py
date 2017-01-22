@@ -44,6 +44,16 @@ print('--------------')"""
 #pprint(new_device.export())
 #pprint(new_device.children[0].parameter.export())
 #print(type(new_device.children[0].parameter))
+
+print('x')
+#print(device_import)
+pprint(prop_dict(new_device))
+
+
+quit()
+
+
+
 print(type(new_device.children[0].parameter.snapshots[0]))
 print(new_device.children[0].parameter.snapshots)
 new_device.name = 'new device'

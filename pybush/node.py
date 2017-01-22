@@ -108,11 +108,13 @@ class Node(Basic, File):
                 # check that the name doesn't already exists
                 if self.children:
                     for child in self.children:
-                        print(child.name)
-                        if dict_import['name'] == child.name:
-                            if __dbug__:
-                                print('this name is already taken by this one :', child.name)
-                            return False
+                        if isinstance(child, list):
+                            child = child[0]
+                        if isinstance(child, Node):
+                            if dict_import['name'] == child.name:
+                                if __dbug__:
+                                    print('this name is already taken by this one :', child.name)
+                                return False
                 # we import a python dict to create the child
                 # be careful about children and parameter
                 # which needs to instanciate Classes Node and Parameter

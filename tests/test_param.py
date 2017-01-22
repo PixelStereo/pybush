@@ -15,7 +15,7 @@ from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush.project import new_project, projects
 from pybush.node import Node
 from pybush.errors import BushTypeError, NoOutputError
-
+from pprint import pprint
 __dbug__ = 4
 my_project = new_project(name='My Python project')
 
@@ -26,10 +26,9 @@ output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 
 supa_param = my_device.new_parameter({'name':'sub/my supa parameter', 'value':-2, 'datatype':'decimal', 'domain':[-2,2], \
                                 'clipmode':'both', 'unique':True})
-print('-----------')
-snap = supa_param.snap()
-supa_param.domain = [0.5, 0.8]
-supa_param.value = 0.123456789
+
+supa_param.snap()
+supa_param.value = 5
+supa_param.domain = [10,22]
 supa_param.clipmode = 'low'
-supa_param.unique = False
 my_device.write('./')

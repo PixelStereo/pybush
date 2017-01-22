@@ -39,6 +39,8 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'clipmode':'low', \
                                     'unique':False \
                                     })
+print(param3)
+
 """snap_device = my_device.new_snapshot()
 snap_project = my_project.new_snapshot()
 param2.value = 0
@@ -58,12 +60,12 @@ param2.value = 1"""
 class TestAll(unittest.TestCase):
 
     def test_a_snapshot(self):
-        snap_1 = param2.new_snapshot()
+        snap_1 = param2.snap()
         print(snap_1.value)
         #print(1, param2.value)
         node_1.value = 2
         #print(3, param2.value)
-        snap_2 = param2.new_snapshot()
+        snap_2 = param2.snap()
         #node_1.recall(snap_1)
         #print(3, param2.value)
         #self.assertEqual(param2.value, 2)
@@ -200,11 +202,11 @@ class TestAll(unittest.TestCase):
     def test_address(self):
         self.assertEqual(my_device.address, 'My_device')
         self.assertEqual(node_1.address, 'My_device/node.1')
-        self.assertEqual(node_2.address, 'My_device/node.1/node_.2')
-        self.assertEqual(node_3.address, 'My_device/node.1/node_.2/node.3')
+        self.assertEqual(node_2.address, 'My_device/node.1/node.2')
+        self.assertEqual(node_3.address, 'My_device/node.1/node.2/node.3')
         self.assertEqual(param1.address, 'My_device')
         self.assertEqual(param2.address, 'My_device/node.1')
-        self.assertEqual(param3.address, 'My_device/node.1/node_.2')
+        self.assertEqual(param3.address, 'My_device/node.1/node.2')
 
     def test_errors(self):
         with self.assertRaises(BushTypeError) as cm:

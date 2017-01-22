@@ -7,9 +7,10 @@ A State
 """
 import liblo
 from pybush.constants import __dbug__
+from pybush.file import File
 
 
-class State(object):
+class State(File):
     """
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its node
@@ -49,13 +50,6 @@ class State(object):
         param.setdefault('clipmode', self.clipmode)
         param.setdefault('unique', self.unique)
         param.setdefault('tags', self.tags)
-        print('------------------')
-        print('------------------')
-        print('this is a snapshot/state export')
-        from pprint import pprint
-        pprint(param)
-        print('------------------')
-        print('------------------')
         return param
 
     def clip(self, value):

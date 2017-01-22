@@ -207,7 +207,9 @@ class Device(Node):
                 if self.children:
                     for child in self.children:
                         if child.name == toto[0]:
-                            return None
+                            # the node already exists. be carreful 
+                            # to not replace it
+                            pass
                     # at this point, it seems that 
                     # there is no child with the same name
                     # so please create this node as a child
@@ -293,6 +295,7 @@ class Device(Node):
                         if __dbug__:
                             print('no parameter for device')
                     elif prop == 'outputs':
+                        self.new_output(value)
                         if __dbug__:
                             print('import will create an output')
                         self.new_output(value)

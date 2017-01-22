@@ -45,12 +45,12 @@ print('address of the first child of the first child of the first child of my_de
 print(len(my_device.children[0].children))"""
 #supa_param.ramp(2, 100)
 print('-----------')
-snap = supa_param.snap('test')
+snap = supa_param.snap()
 supa_param.domain = [0.5, 0.8]
 supa_param.value = 0.123456789
 supa_param.clipmode = 'low'
 supa_param.unique = False
-snap2 = supa_param.snap('deux')
+snap2 = supa_param.snap()
 print(supa_param.value)
 supa_param.recall(snap)
 print(supa_param.value)

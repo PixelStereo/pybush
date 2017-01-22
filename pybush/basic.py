@@ -16,6 +16,7 @@ class Basic(object):
         # initialise attributes/properties of this node
         self._description = None
         self._tags = []
+        self._name = None
         # kwargs setup attributes
         for att, val in kwargs.items():
             print('xxxxxxxxxxxxxx', att, val)

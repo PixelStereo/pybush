@@ -59,6 +59,13 @@ class Parameter(State):
                               unique=self.unique, tags=self.tags)
 
     @property
+    def name(self):
+        """
+        name
+        """
+        return self.parent.name
+
+    @property
     def address(self):
         """
         address
@@ -111,11 +118,22 @@ class Parameter(State):
         """
         recall a snapshot of the parameter
         """
-        for prop, val in snap.export().items():
+        if isinstance(snap, dict):
+            pass
+        elif isinstance(snap, State) or isinstance(snap, Snapshot):
+            snap = snap.export()
+        else:
+            print('ERROR 76543')
+            return False
+        for prop, val in snap.items():
             if prop == 'name' or prop == 'raw':
                 pass
             else:
-                setattr(self, prop, val)
+                try:
+                    setattr(self, prop, val)
+                except(AttributeError):
+                    print('cannot set attribute', prop, val)
+        return True
 
     def ramp(self, destination=1, duration=1000, grain=10):
         """
@@ -164,7 +182,7 @@ class Parameter(State):
     def parent(self, parent):
         self._parent = parent
 
-    def snap(self, name, the_snap=None):
+    def snap(self, the_snap=None):
         """
         create a new event for this scenario
         """
@@ -188,3 +206,7 @@ class Parameter(State):
         All the events of this scenario
         """
         return self._snapshots
+    @snapshots.setter
+    def snapshots(self, snaps):
+        for snap in snaps:
+            self.snap(snap)

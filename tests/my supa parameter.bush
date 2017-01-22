@@ -1,0 +1,24 @@
+{
+    "clipmode": "low",
+    "datatype": "decimal",
+    "domain": [
+        10,
+        22
+    ],
+    "snapshots": [
+        {
+            "clipmode": "both",
+            "datatype": "decimal",
+            "domain": [
+                -2,
+                2
+            ],
+            "tags": null,
+            "unique": true,
+            "value": -2.0
+        }
+    ],
+    "tags": null,
+    "unique": true,
+    "value": 10.0
+}
