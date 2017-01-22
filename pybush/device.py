@@ -211,7 +211,7 @@ class Device(Node):
                     # at this point, it seems that 
                     # there is no child with the same name
                     # so please create this node as a child
-                while len(toto) > 1:
+                while len(toto):
                     node = create_node()
                     # and create parameters attributes for the node
                 lock = self._create_parameter(node, dict_import)

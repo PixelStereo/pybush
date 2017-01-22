@@ -24,7 +24,7 @@ my_device = my_project.new_device(name='My device', author='Pixel Stereo', versi
 # CREATE AN OUTPUT
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 
-supa_param = my_device.new_parameter({'name':'my supa parameter', 'value':-2, 'datatype':'decimal', 'domain':[-2,2], \
+supa_param = my_device.new_parameter({'name':'sub/my supa parameter', 'value':-2, 'datatype':'decimal', 'domain':[-2,2], \
                                 'clipmode':'both', 'unique':True})
 print('-----------')
 snap = supa_param.snap('test')

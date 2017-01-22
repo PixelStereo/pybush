@@ -2,33 +2,40 @@
     "author": "Pixel Stereo",
     "children": [
         {
-            "children": [],
-            "description": "None",
-            "name": "my supa parameter",
-            "parameter": {
-                "clipmode": "low",
-                "datatype": "decimal",
-                "domain": [
-                    0.5,
-                    0.8
-                ],
-                "snapshots": [
-                    {
-                        "clipmode": "both",
+            "children": [
+                {
+                    "children": [],
+                    "description": "None",
+                    "name": "my supa parameter",
+                    "parameter": {
+                        "clipmode": "low",
                         "datatype": "decimal",
                         "domain": [
-                            -2,
-                            2
+                            0.5,
+                            0.8
+                        ],
+                        "snapshots": [
+                            {
+                                "clipmode": "both",
+                                "datatype": "decimal",
+                                "domain": [
+                                    -2,
+                                    2
+                                ],
+                                "tags": null,
+                                "unique": true,
+                                "value": -2.0
+                            }
                         ],
                         "tags": null,
-                        "unique": true,
-                        "value": -2.0
-                    }
-                ],
-                "tags": null,
-                "unique": false,
-                "value": 0.5
-            },
+                        "unique": false,
+                        "value": 0.5
+                    },
+                    "tags": null
+                }
+            ],
+            "description": "None",
+            "name": "sub",
             "tags": null
         }
     ],
