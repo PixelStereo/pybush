@@ -297,10 +297,14 @@ class Device(Node, File):
                         if __dbug__:
                             print('no parameter for device')
                     elif prop == 'outputs':
-                        self.new_output(value)
-                        if __dbug__:
-                            print('import will create an output')
-                        self.new_output(value)
+                        for protocol, output in value.items():
+                            for out in output:
+                                self.new_output(protocol=protocol, **out)
+                                if __dbug__:
+                                    print('import creates an OSC output')
+                            if protocol == 'MIDI':
+                                if __dbug__:
+                                    print('import creates a MIDI output')
                     else:
                         # register value of the given attribute for the device
                         setattr(self, prop, value)
