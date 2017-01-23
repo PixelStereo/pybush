@@ -12,16 +12,13 @@ import datetime
 from pybush.constants import __dbug__
 from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
-from pybush.project import new_project, projects
+from pybush import new_device, get_devices
 from pybush.errors import BushTypeError, NoOutputError
 
 __dbug__ = 4
-my_project = new_project(name='My Python project')
 
-another_project = new_project('Another Python project')
-#len(projects())
-my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
-another_device = my_project.new_device(name='My device', author='Stereo Pixel', version='0.1.1')
+my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
+another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
 node_1 = my_device.new_child(name='node.1')
@@ -43,7 +40,6 @@ print('----')
 print(node_1)
 
 """snap_device = my_device.new_snapshot()
-snap_project = my_project.new_snapshot()
 param2.value = 0
 param2.ramp(1, 500)
 param3.value = 1
@@ -71,11 +67,6 @@ class TestAll(unittest.TestCase):
         #print(3, param2.value)
         #self.assertEqual(param2.value, 2)
 
-    def test_a_project(self):
-        self.assertEqual(my_project.name, 'My Python project')
-        self.assertEqual(another_project.name, 'Another Python project')
-        self.assertEqual(len(projects()), 2)
-
     def test_device(self):
         self.assertEqual(isinstance(my_device.author, str), True)
         self.assertEqual(my_device.author, 'Pixel Stereo')
@@ -83,7 +74,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_device.version, '0.1.0')
         self.assertEqual(type(my_device.name), str)
         self.assertEqual(my_device.name, 'My device')
-        self.assertEqual(len(my_project.devices), 2)
+        self.assertEqual(len(get_devices()), 2)
 
 
     def test_nodes(self):
@@ -95,14 +86,14 @@ class TestAll(unittest.TestCase):
         node_1.name = 'node 1 renamed'
 
     def test_device_export(self):
-        xprt = my_project.export()
+        xprt = my_device.export()
         self.assertEqual(isinstance(xprt, dict), True)
-        xprt_name = xprt['devices'][0]['author']
+        xprt_name = xprt['author']
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
-        self.assertEqual(len(prop_dict(node_1).keys()), 7)
-        self.assertEqual(len(prop_list(node_1)), 9)
+        self.assertEqual(len(prop_dict(node_1).keys()), 5)
+        self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
         self.assertEqual(my_device.make_parameter(['fake']), False)
@@ -131,19 +122,14 @@ class TestAll(unittest.TestCase):
         setattr(node_1, 'parameter', param2)
         write_path = os.path.abspath('./')
         write_path = write_path + '/'
-        node1_write_path = write_path + 'export-test_node_1'
-        self.assertEqual(node_1.write(node1_write_path), True)
-        node2_write_path = write_path + 'export-test_node_2'
-        self.assertEqual(node_2.write(node2_write_path), True)
         my_device.name = 'export-device filename from device.name attribute'
+        device_write_path = write_path + 'export-test_device'
         self.assertEqual(my_device.write(write_path), True)
-        project_write_path = write_path + 'export-test_project'
-        self.assertEqual(my_project.write(project_write_path), True)
-        self.assertEqual(my_project.write('/no/fake/BOGUS'), False)
-        self.assertEqual(my_project.write(), False)
-        filepath = os.path.abspath('export-test_project.bush')
-        project = new_project()
-        read = project.load(filepath)
+        self.assertEqual(my_device.write('/no/fake/BOGUS'), False)
+        self.assertEqual(my_device.write(), False)
+        filepath = os.path.abspath('export-test_device.bush')
+        device = new_device()
+        read = device.read(filepath)
 
     def test_modular_functions(self):
         b = 2
@@ -209,7 +195,7 @@ class TestAll(unittest.TestCase):
 
     def test_errors(self):
         with self.assertRaises(BushTypeError) as cm:
-            my_project.output = None
+            my_device.output = None
         the_exception = cm.exception
         self.assertEqual(the_exception.error_code, 1)
 

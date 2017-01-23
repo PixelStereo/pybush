@@ -194,7 +194,7 @@ class Parameter(State):
             the_snap.setdefault('parent', self)
             the_snap = Snapshot(**the_snap)
         if the_snap:
-            # used to load an existing project and load a snap_dict
+            # used to load an existing device and load a snap_dict
             self._snapshots.append(the_snap)
             return the_snap
         else:

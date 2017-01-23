@@ -42,7 +42,7 @@ class File(object):
     def file_extention(self, new_f_e_):
         self._file_extention = new_f_e_
 
-    def read(self, path):
+    def load(self, path):
         """
         Read a Node file from hard drive. Must be valid.
         if valid it will be loaded and return True, otherwise, it will return False

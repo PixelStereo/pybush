@@ -41,7 +41,7 @@ class RampGenerator(Automation):
     """
     Instanciate a thread for Playing a ramp
     step every 10 ms
-    Allow to do several ramps in a same project / scenario / event
+    Allow to do several ramps in a same device / scenario / event
     :param target:
     """
     def __init__(self, parent, origin, destination, duration, grain):
@@ -72,7 +72,7 @@ class RandomGenerator(Automation):
 
     step every 10 ms
 
-    Allow to do several ramps in a same project / scenario / event
+    Allow to do several ramps in a same device / scenario / event
 
     :param target:
     """

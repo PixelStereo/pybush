@@ -18,7 +18,7 @@ class BushTypeError(Exception):
 
 class NoOutputError(Exception):
     """
-    There is no output in this project
+    There is no output in this device
     """
     def __init__(self):
         super(NoOutputError, self).__init__()

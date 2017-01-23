@@ -12,17 +12,14 @@ import datetime
 from pybush.constants import __dbug__
 from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
-from pybush.project import new_project, projects
+from pybush import new_device, get_devices
 from pybush.errors import BushTypeError, NoOutputError
 
 __dbug__ = 4
 
-my_project = new_project(name='My Python project')
-print('how many projects : ' + str(len(projects())))
-
-my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
-another_device = my_project.new_device(name='My device', author='Stereo Pixel', version='0.1.1')
-print('how many devices : ' + str(len(my_project.devices)))
+my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
+another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
+print('how many devices : ' + str(len(get_devices())))
 
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
@@ -83,13 +80,11 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'unique':False \
                                     })
 
-        self.assertEqual(node_1.write(node1_write_path), True)
 print(param3)
 print('----')
 print(node_1)
 
 """snap_device = my_device.new_snapshot()
-snap_project = my_project.new_snapshot()
 param2.value = 0
 param2.ramp(1, 500)
 param3.value = 1

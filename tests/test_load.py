@@ -12,14 +12,13 @@ import datetime
 from pybush.constants import __dbug__
 from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
-from pybush.project import new_project, projects
+from pybush import new_device
 from pybush.node import Node
 from pybush.errors import BushTypeError, NoOutputError
 from pprint import pprint
 
 __dbug__ = 4
-my_project = new_project(name='My Python project')
-new_device = my_project.new_device()
+new_device = new_device()
 device_import = new_device.load('./My Device.bush')
 """print('--------------')
 print('IMPORT', device_import)

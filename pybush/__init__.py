@@ -64,3 +64,34 @@ from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 __release__ = __version__
+
+from pybush.device import Device
+from pybush.constants import __devices__
+
+def new_device(dict_import=None, name=None, tags=None, version=None, author=None):
+    """
+    Create a new device
+        :return node object if successful
+        :return False if name is not valid (already exists or is not provided)
+    """
+    if isinstance(dict_import, dict):
+        # we import a python dict to create the child
+        # be careful about children and parameter
+        # which needs to instanciate Classes Node and Parameter
+        device = Device (parent=None, name=dict_import['name'],
+                                version=dict_import['version'], author=dict_import['author'], \
+                                tags=dict_import['tags'])
+    else:
+        # if the child argument is only a string, this is the name of the new_child to create
+        device = Device(name=name, tags=tags, version=version, author=author)
+    if device:
+        __devices__.append(device)
+        return __devices__[-1]
+    else:
+        return False
+
+def get_devices():
+    """
+    return a list of devices
+    """
+    return __devices__

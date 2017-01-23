@@ -10,18 +10,15 @@ it
 """
 from pybush.constants import __dbug__
 from pybush.functions import spacelessify
-from pybush.file import File
 from pybush.basic import Basic
 
 
-class Node(Basic, File):
+class Node(Basic):
     """
     Base Class for all item in the namespace.
     It offers a way to have information / notification / functions
     about the namespace hierarchy
     It inherits from Basic Class. It adds name, description and tags functions.
-    That export/import json files for any Node with all its chidren
-    It inherits from File Class. It adds write(), read() functions.
     That export/import json files for any Node with all its chidren
     """
     def __init__(self, **kwargs):

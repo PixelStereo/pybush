@@ -2,45 +2,33 @@
     "author": "Pixel Stereo",
     "children": [
         {
-            "children": [
-                {
-                    "children": [],
-                    "description": "None",
-                    "name": "my supa parameter",
-                    "parameter": {
-                        "clipmode": "low",
-                        "datatype": "decimal",
-                        "domain": [
-                            10,
-                            22
-                        ],
-                        "snapshots": [
-                            {
-                                "clipmode": "both",
-                                "datatype": "decimal",
-                                "domain": [
-                                    -2,
-                                    2
-                                ],
-                                "tags": null,
-                                "unique": true,
-                                "value": -2.0
-                            }
-                        ],
-                        "tags": null,
-                        "unique": true,
-                        "value": 10.0
-                    },
-                    "tags": null
-                }
-            ],
+            "children": [],
             "description": "None",
-            "name": "sub",
+            "name": "node.1",
+            "parameter": {
+                "clipmode": "both",
+                "datatype": "decimal",
+                "domain": [
+                    0,
+                    11
+                ],
+                "snapshots": [],
+                "tags": null,
+                "unique": true,
+                "value": 1.0
+            },
             "tags": null
         }
     ],
     "name": "My device",
     "outputs": {
+        "MIDI": [
+            {
+                "channel": 1,
+                "name": null,
+                "port": null
+            }
+        ],
         "OSC": [
             {
                 "name": "OSC Output",

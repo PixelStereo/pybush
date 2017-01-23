@@ -14,15 +14,17 @@ from pybush.constants import __dbug__
 from pybush.errors import BushTypeError
 from pybush.parameter import Parameter
 from pybush.functions import prop_list
+from pybush.file import File
 from pybush.output import OutputOSC, OutputMIDI
 
-from pprint import pprint
 
-class Device(Node):
+class Device(Node, File):
     """
     Device Class represent a fixture, a unit
     Device inherit from Node
     Device Class creates author and version attributes
+    It inherits from File Class. It adds write(), read() functions.
+    That export/import json files for any Node with all its chidren
     """
     def __init__(self, **kwargs):
         super(Device, self).__init__(**kwargs)
@@ -258,7 +260,7 @@ class Device(Node):
             self._parameter = Parameter(parent=self)
             return self._parameter
 
-    def load(self, filepath):
+    def read(self, filepath):
         """
         Fillin Bush with objects created from a json file
 
@@ -269,7 +271,7 @@ class Device(Node):
         :rtype: boolean
         """
         # self.read is a method from File Class
-        device_dict = self.read(filepath)
+        device_dict = self.load(filepath)
         # TODO : CHECK IF THIS IS A VALID DEVICE FILE
         # if valid python dict / json file
         if device_dict:

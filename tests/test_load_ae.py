@@ -12,16 +12,12 @@ import datetime
 from pybush.constants import __dbug__
 from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
-from pybush.project import new_project, projects
+from pybush import new_device
 from pybush.errors import BushTypeError, NoOutputError
 
 __dbug__ = 4
-my_project = new_project(name='My Python project')
-
-another_project = new_project('Another Python project')
-#len(projects())
-my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
-another_device = my_project.new_device(name='My device', author='Stereo Pixel', version='0.1.1')
+my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
+another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
 node_1 = my_device.new_child(name='node.1')

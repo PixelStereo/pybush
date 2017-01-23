@@ -12,15 +12,14 @@ import datetime
 from pybush.constants import __dbug__
 from time import sleep
 from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
-from pybush.project import new_project, projects
+from pybush import new_device
 from pybush.node import Node
 from pybush.errors import BushTypeError, NoOutputError
 
 __dbug__ = 4
-my_project = new_project(name='My Python project')
 
 # CREATE A DEVICE
-my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
+my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 # CREATE AN OUTPUT
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 
