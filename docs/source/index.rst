@@ -52,14 +52,6 @@ pybush.file
     :undoc-members:
     :show-inheritance:
 
-pybush.node_abstract
---------------------
-
-.. automodule:: pybush.node_abstract
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 pybush.node
 -----------
 
@@ -69,23 +61,39 @@ pybush.node
     :show-inheritance:
 
 pybush.parameter
-------------------------
+----------------
 
 .. automodule:: pybush.parameter
     :members:
     :undoc-members:
     :show-inheritance:
 
-pybush.animations
---------------------------
+pybush.state
+------------
 
-.. automodule:: pybush.animations
+.. automodule:: pybush.state
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pybush.snapshot
+---------------
+
+.. automodule:: pybush.snapshot
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pybush.automation
+-----------------
+
+.. automodule:: pybush.automation
     :members:
     :undoc-members:
     :show-inheritance:
 
 pybush.functions
-------------------------
+----------------
 
 .. automodule:: pybush.functions
     :members:
@@ -94,7 +102,7 @@ pybush.functions
 
 
 pybush.errors
--------------------
+-------------
 
 .. automodule:: pybush.errors
     :members:
