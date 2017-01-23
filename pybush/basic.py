@@ -101,7 +101,7 @@ class Basic(object):
         self.post_export(basic)
         return basic
 
-    def post_export(self):
+    def post_export(self, something):
         """
         might be subclassed
         """

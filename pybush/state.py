@@ -190,37 +190,3 @@ class State(File):
     @datatype.setter
     def datatype(self, datatype):
         self._datatype = datatype
-
-    # ----------- RAW VALUE -------------
-    @property
-    def raw(self):
-        """
-        raw value without rangeClipmode or rangeBoundsneither than datatype
-        """
-        return self._value
-
-    def update(self):
-        """
-        update is called when value is updated
-        might be used to send it to network or other protocols
-        """
-        ip_add = 'localhost'
-        udp = 1234
-        try:
-            target = liblo.Address(ip_add, int(udp))
-            if __dbug__ >= 3:
-                print('connect to : ' + ip_add + ':' + str(udp))
-        except liblo.AddressError as err:
-            if __dbug__ >= 3:
-                print('liblo.AddressError' + str(err))
-        msg = liblo.Message(self.address)
-        if isinstance(self.value, list):
-            # this is just a list of values to send
-            for arg in self.value:
-                arg = check_type(arg)
-                msg.add(arg)
-        else:
-            msg.add(self.value)
-        liblo.send(target, msg)
-        if __dbug__ >= 3:
-            print('update ' + self.name + ' to value ' + str(self.value))
