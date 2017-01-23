@@ -177,7 +177,6 @@ class Node(Basic, File):
                         address = parent_address + '/' + address
             return address
         return get_address(self)
-        #return self._address
     @address.setter
     def address(self, address):
         if __dbug__:
