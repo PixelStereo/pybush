@@ -21,14 +21,6 @@ pybush.constants
     :undoc-members:
     :show-inheritance:
 
-pybush.project
---------------
-
-.. automodule:: pybush.project
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 pybush.output
 -------------
 .. automodule:: pybush.output
