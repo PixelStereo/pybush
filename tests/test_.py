@@ -122,14 +122,14 @@ class TestAll(unittest.TestCase):
         setattr(node_1, 'parameter', param2)
         write_path = os.path.abspath('./')
         write_path = write_path + '/'
-        my_device.name = 'export-device filename from device.name attribute'
+        my_device.name = 'export-device.name attribute'
         device_write_path = write_path + 'export-test_device'
-        self.assertEqual(my_device.write(write_path), True)
+        self.assertEqual(my_device.write(device_write_path), True)
         self.assertEqual(my_device.write('/no/fake/BOGUS'), False)
         self.assertEqual(my_device.write(), False)
         filepath = os.path.abspath('export-test_device.bush')
         device = new_device()
-        #read = device.read(filepath)
+        print(device.read(filepath))
 
     def test_modular_functions(self):
         b = 2

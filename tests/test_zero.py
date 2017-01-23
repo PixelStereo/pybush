@@ -38,8 +38,26 @@ node_1.parameter = {
                     'clipmode':'both',
                     'unique':True
                     }
+node_1.parameter.snap()
+node_1.parameter.value = 2
+node_1.parameter.name= 'replace'
+node_1.parameter.domain = [2, 22]
+node_1.parameter.datatype = 'integer'
+node_1.parameter.clipmode = 'low'
+node_1.parameter.unique = False
 print(my_device.write('./'))
-another_device.read('./My device.bush')
 print('----------------------------------------------------------------------')
+print(another_device.read('./My device.bush'))
+print('----------------------------------------------------------------------')
+print(my_device.output)
+print('----------------------------------------------------------------------')
+print(my_device.children[0].parameter)
+print(my_device.children[0].parameter.recall(my_device.children[0].parameter.snapshots[0]))
+print(my_device.children[0].parameter)
+print('----------------------------------------------------------------------')
+print(my_device.children[0].parameter.snapshots[0])
 print('----------------------------------------------------------------------')
 print(another_device)
+another_device.name = 'new one'
+print(another_device)
+print(another_device.write('./'))
