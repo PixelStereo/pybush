@@ -129,7 +129,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_device.write(), False)
         filepath = os.path.abspath('export-test_device.bush')
         device = new_device()
-        read = device.read(filepath)
+        #read = device.read(filepath)
 
     def test_modular_functions(self):
         b = 2
