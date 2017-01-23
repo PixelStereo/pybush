@@ -4,7 +4,8 @@
 """
 Implements output for scenario-events
 An ouput is an object that can send-out commands.
-Maybe we might use some plug in pybush to have in/out access for a bunch of nodes (pybush / a bush)
+Maybe we might use some plug in pybush
+to have in/out access for a bunch of nodes (pybush / a bush)
 """
 
 from pybush.basic import Basic
@@ -57,6 +58,14 @@ class OutputMIDI(Output):
         self._channel = 1
         self._message = 'CC'
 
+    def __repr__(self):
+        printer = 'OSC Output (name:{name}, port:{port})'
+        return printer.format(name=self.name, port=self.port)
+
+    def export(self):
+        return {'name':self.name, 'port':self.port,'channel':self.channel, \
+                'message':self.message}
+
     @property
     def channel(self):
         """
@@ -75,18 +84,33 @@ class OutputMIDI(Output):
         else:
             return False
 
+    @property
+    def message(self):
+        """
+        The MIDI message 
+        CONTROL
+        NOTE
+        PGM
+        """
+        return self._message
+    @message.setter
+    def message(self, value):
+        if value == 'CONTROL' or value == 'NOTE' or value == 'PGM':
+            self._message = value
+            return True
+        else:
+            return False
 
-    def export(self):
-        return {'name':self.name, 'port':self.port,'channel':self.channel}
 
 class OutputOSC(Output):
     """
     OutputUdp is a based class for all UDP based output
     You can use it if you want to send raw UDP.
-    If you want to send OSC through UDP, please use OutputOsc as it checks if your OSC messages
-    are correctly formatted.
+    If you want to send OSC through UDP, please use OutputOsc
+    as it checks if your OSC messages are correctly formatted.
     We might create a new class : OutputOsc as a subclass of OutputUdp.
-    It should be used to double check that you send a correct OSC format message/bundle.
+    It should be used to double check
+    that you send a correct OSC format message/bundle.
     """
     def __init__(self, **kwargs):
         super(OutputOSC, self).__init__()
