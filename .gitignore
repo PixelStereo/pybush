@@ -65,3 +65,4 @@ examples/.tempfiles
 tests/export-*.bush
 tests/BOGUS.bush
 pylint*
+*.bush
