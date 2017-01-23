@@ -51,12 +51,12 @@ class Parameter(State):
         represents the parameter class
         """
         printer = 'Parameter (address:{address}, description:{description}, raw:{raw}, value:{value}, datatype:{datatype}, \
-                                domain:{domain}, clipmode:{clipmode}, \
+                                domain:{domain}, clipmode:{clipmode}, snapshots:{snapshots}\
                                 unique:{unique}, tags:{tags})'
         return printer.format(address=self.address, description=self.description, raw=self.raw, \
                               value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
-                              unique=self.unique, tags=self.tags)
+                              unique=self.unique, tags=self.tags, snapshots=len(self.snapshots))
 
     @property
     def name(self):
@@ -64,6 +64,9 @@ class Parameter(State):
         name
         """
         return self.parent.name
+    @name.setter
+    def name(self, name):
+        self.parent._name = name
 
     @property
     def address(self):
