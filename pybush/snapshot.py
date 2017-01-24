@@ -6,7 +6,6 @@
 A Snapshot is a state of a Parameter.
 """
 
-from pybush.functions import prop_dict
 from pybush.state import State
 from pybush.constants import __dbug__
 
@@ -20,9 +19,9 @@ class Snapshot(State):
         if __dbug__:
             print('----------------creating a snapshot----------------')
         if 'snapshots' in kwargs.keys():
-                kwargs.pop('snapshots')
+            kwargs.pop('snapshots')
         if 'name' in kwargs.keys():
-                kwargs.pop('name')
+            kwargs.pop('name')
         for att, val in kwargs.items():
             try:
                 setattr(self, att, val)
