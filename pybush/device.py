@@ -300,17 +300,19 @@ class Device(Node, File):
                     elif prop == 'outputs':
                         for protocol, output in value.items():
                             for out in output:
-                                self.new_output(protocol=protocol, **out)
-                                if __dbug__:
-                                    print('import creates an OSC output')
-                            if protocol == 'MIDI':
-                                if __dbug__:
-                                    print('import creates a MIDI output')
+                                if protocol == 'OSC':
+                                    self.new_output(protocol=protocol, **out)
+                                    if __dbug__:
+                                        print('import creates an OSC output')
+                                if protocol == 'MIDI':
+                                    self.new_output(protocol=protocol, **out)
+                                    if __dbug__:
+                                        print('import creates a MIDI output')
                     else:
                         # register value of the given attribute for the device
                         setattr(self, prop, value)
-                if __dbug__:
-                    print('device loaded : ' + str(self.name))
+            if __dbug__:
+                print('device loaded : ' + str(self.name))
             return True
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as error:
