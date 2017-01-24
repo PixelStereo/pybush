@@ -67,7 +67,6 @@ class State(File):
                     value = self.domain[1]
         return value
 
-    # ----------- RAW VALUE -------------
     @property
     def raw(self):
         """
@@ -101,30 +100,6 @@ class State(File):
         if __dbug__ >= 3:
             print('update ' + self.name + ' to value ' + str(self.value))
 
-    def ramp(self, destination=1, duration=1000, grain=10):
-        """
-        ramp is an animation that drive from the current value to another in a certain time
-        destination : value to reach
-        duration : duration of the ramp
-        grain : time between each grain
-        """
-        if self.current_player:
-            self.current_player.terminate()
-        self.current_player = RampGenerator(self, self.value, destination, duration, grain)
-        return self.current_player
-
-    def random(self, destination=1, duration=1000, grain=10):
-        """
-        random is an animation that generate pseudo random valuesin a certain time
-        duration : duration of the ramp
-        grain : time between each grain
-        """
-        if self.current_player:
-            self.current_player.terminate()
-        self.current_player = RandomGenerator(self, self.value, destination, duration, grain)
-        return self.current_player
-
-    # ----------- VALUE -------------
     @property
     def value(self):
         """
@@ -146,7 +121,6 @@ class State(File):
         self._value = value
         self.update()
 
-    # ----------- DOMAIN -------------
     @property
     def domain(self):
         """
@@ -157,7 +131,6 @@ class State(File):
     def domain(self, domain):
         self._domain = domain
 
-    # ----------- CLIPMODE -------------
     @property
     def clipmode(self):
         """
@@ -168,7 +141,6 @@ class State(File):
     def clipmode(self, clipmode):
         self._clipmode = clipmode
 
-    # ----------- UNIQUE -------------
     @property
     def unique(self):
         """
@@ -179,7 +151,6 @@ class State(File):
     def unique(self, unique):
         self._unique = unique
 
-    # ----------- DATATYPE -------------
     @property
     def datatype(self):
         """
