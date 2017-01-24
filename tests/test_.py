@@ -38,6 +38,9 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
 print(param3)
 print('----')
 print(node_1)
+param3.ramp(2, 100)
+sleep(0.2)
+param3.random(2, 100)
 
 """snap_device = my_device.new_snapshot()
 param2.value = 0
