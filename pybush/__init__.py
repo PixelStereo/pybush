@@ -76,8 +76,6 @@ def new_device(dict_import=None, name=None, tags=None, version=None, author=None
     """
     if isinstance(dict_import, dict):
         # we import a python dict to create the child
-        # be careful about children and parameter
-        # which needs to instanciate Classes Node and Parameter
         device = Device (parent=None, name=dict_import['name'],
                                 version=dict_import['version'], author=dict_import['author'], \
                                 tags=dict_import['tags'])
