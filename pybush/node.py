@@ -29,7 +29,15 @@ class Node(Basic):
         self._children = []
         # kwargs setup attributes
         for att, val in kwargs.items():
-            setattr(self, att, val)
+            if att == 'children':
+                for child in kwargs[att]:
+                    self.new_child(child)
+            else:
+                try:
+                    setattr(self, att, val)
+                except(AttributeError) as error:
+                    if __dbug__ == 4:
+                        print(str(error) + ' ' + att)
 
     def __repr__(self):
         printer = 'Node(name:{name}, description:{description}, tags:{tags}, \
@@ -86,11 +94,14 @@ class Node(Basic):
             return []
     @children.setter
     def children(self, the_new_child):
-        if the_new_child:
+        if isinstance(the_new_child, Node):
             if not self._children:
                 self._children = [the_new_child]
             else:
                 self._children.append(the_new_child)
+        else:
+            print('PROBLEM', type(the_new_child))
+
 
     def new_child(self, dict_import=None, name=None, tags=None):
         """
