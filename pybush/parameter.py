@@ -22,6 +22,12 @@ class Parameter(State):
         super(Parameter, self).__init__()
         # IMPORTANT to register parent first
         self._parent = kwargs['parent']
+        self._value = 0.
+        self._clipmode = None
+        self._domain = None
+        self._unique = None
+        self._datatype = None
+        self._raw = None
         # collection of snapshots
         self._snapshots = []
         # collection of snapshots
@@ -35,14 +41,8 @@ class Parameter(State):
                 except(AttributeError) as error:
                     if __dbug__ == 4:
                         print(str(error) + ' ' + att)
-        self._value = 0.
-        self._clipmode = None
-        self._domain = None
-        self._unique = None
-        self._datatype = None
-        self._raw = None
-        for key in kwargs.keys():
-            setattr(self, '_'+key, kwargs[key])
+        #for key in kwargs.keys():
+        #    setattr(self, '_'+key, kwargs[key])
         # there is no animation on the param
         self.current_player = None
 
