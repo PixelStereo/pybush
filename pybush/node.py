@@ -26,12 +26,13 @@ class Node(Basic):
         # initialise attributes/properties of this node
         self._address = None
         self._parameter = None
-        self._children = []
+        self._children = None
         # kwargs setup attributes
         for att, val in kwargs.items():
             if att == 'children':
-                for child in kwargs[att]:
-                    self.new_child(child)
+                if kwargs[att]:
+                    for child in kwargs[att]:
+                        self.new_child(child)
             else:
                 try:
                     setattr(self, att, val)
@@ -91,19 +92,9 @@ class Node(Basic):
         if self._children:
             return self._children
         else:
-            return []
-    @children.setter
-    def children(self, the_new_child):
-        if isinstance(the_new_child, Node):
-            if not self._children:
-                self._children = [the_new_child]
-            else:
-                self._children.append(the_new_child)
-        else:
-            print('PROBLEM', type(the_new_child))
+            return None
 
-
-    def new_child(self, dict_import=None, name=None, tags=None):
+    def new_child(self, dict_import=None, name=None, description=None, tags=None, children=None):
         """
         Create a new Node in its parent
 
@@ -127,8 +118,11 @@ class Node(Basic):
                 # be careful about children and parameter
                 # which needs to instanciate Classes Node and Parameter
                 the_new_child = Node(parent=self, **dict_import)
-                # this will append this children as a child in the self.children list
-                self.children = the_new_child
+                # Append this child in the self.children list
+                if not self.children:
+                    self._children = [the_new_child]
+                else:
+                    self._children.append(the_new_child)
                 # maybe the new_child contains children itself?
                 if 'children' in dict_import.keys():
                     if len(dict_import['children']) > 0:
@@ -140,8 +134,12 @@ class Node(Basic):
                 print('for now we need a name to create a parameter')
         else:
             # if the child argument is only a string, this is the name of the new_child to create
-            the_new_child = Node(parent=self, name=name, tags=tags, children=[])
-            self.children = the_new_child
+            the_new_child = Node(parent=self, name=name, description=description, tags=tags, children=children)
+            # Append this child in the self.children list
+            if not self.children:
+                self._children = [the_new_child]
+            else:
+                self._children.append(the_new_child)
         return the_new_child
 
 
