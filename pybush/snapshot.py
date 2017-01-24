@@ -7,10 +7,11 @@ A Snapshot is a state of a Parameter.
 """
 
 from pybush.state import State
+from pybush.basic import Basic
 from pybush.constants import __dbug__
 
 
-class Snapshot(State):
+class Snapshot(State, Basic):
     """
     A SnapShot is afrozen state of a param
     """
@@ -30,9 +31,9 @@ class Snapshot(State):
                     print(str(error) + ' ' + att)
 
     def __repr__(self):
-        printer = 'Snapshot (raw:{raw}, value:{value}, datatype:{datatype}, \
+        printer = 'Snapshot (name:{name}, description:{description}, raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
                                 unique:{unique}, tags:{tags})'
-        return printer.format(raw=self.raw, value=self.value, datatype=self.datatype, \
+        return printer.format(name=self.name, description=self.description, raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
                               unique=self.unique, tags=self.tags)
