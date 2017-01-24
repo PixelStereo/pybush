@@ -41,9 +41,10 @@ class Device(Node, File):
             setattr(self, att, val)
 
     def __repr__(self):
-        printer = 'Device (name:{name}, author:{author}, version:{version}, children:{children})'
+        printer = 'Device (name:{name}, author:{author}, version:{version}, outputs:{outputs}, children:{children})'
         return printer.format(name=self.name, author=self.author, \
-                                version=self.version, children=self.children)
+                                version=self.version, children=self.children, \
+                                outputs=self.outputs)
 
     @property
     def output(self):
