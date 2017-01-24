@@ -92,7 +92,7 @@ class OutputMIDI(Output):
     @property
     def message(self):
         """
-        The MIDI message 
+        The MIDI message
         CONTROL
         NOTE
         PGM
