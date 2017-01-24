@@ -24,8 +24,13 @@ midi_output = my_device.new_output(protocol='MIDI')
 node_1 = my_device.new_child(name='node.1')
 node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
-param2 = my_device.new_parameter({'name':'node.1', 'value':1, 'datatype':'decimal', 'domain':[0,11], \
-                                'clipmode':'both', 'unique':True})
+param2 = my_device.new_parameter({  'name':'node.1',
+                                    'value':1,
+                                    'datatype':'decimal',
+                                    'domain':[0,11], \
+                                    'clipmode':'both',
+                                    'unique':True
+                                    })
 node_1.tags=['init', 'video']
 print(param2)
 param3 = my_device.new_parameter({  'name':'node.1/node.2',
