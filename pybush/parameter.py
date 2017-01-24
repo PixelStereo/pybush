@@ -35,9 +35,6 @@ class Parameter(State):
                 except(AttributeError) as error:
                     if __dbug__ == 4:
                         print(str(error) + ' ' + att)
-        #for key in kwargs.keys():
-        #    setattr(self, '_'+key, kwargs[key])
-        # there is no animation on the param
         self.current_player = None
 
     def __repr__(self):
