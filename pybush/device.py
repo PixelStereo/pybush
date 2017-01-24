@@ -68,11 +68,6 @@ class Device(Node, File):
         else:
             raise BushTypeError('Wait for an Output but receive a', out.__class__.__name__)
 
-    def dict_import(self, dict_import):
-        """
-        create a device with importing a device json bush file
-        """
-        print(dict_import)
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties
