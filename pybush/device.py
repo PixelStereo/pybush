@@ -38,7 +38,11 @@ class Device(Node, File):
         self._inputs = None
         # kwargs setup attributes
         for att, val in kwargs.items():
-            setattr(self, att, val)
+            try:
+                setattr(self, att, val)
+            except(AttributeError) as error:
+                if __dbug__ == 4:
+                    print(str(error) + ' ' + att)
         # temporary workaround
         self._final_node = None
 
