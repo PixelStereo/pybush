@@ -17,6 +17,8 @@ class Snapshot(State):
     """
     def __init__(self, **kwargs):
         super(Snapshot, self).__init__(**kwargs)
+        if __dbug__:
+            print('----------------creating a snapshot----------------')
         if 'snapshots' in kwargs.keys():
                 kwargs.pop('snapshots')
         if 'name' in kwargs.keys():

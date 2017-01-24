@@ -104,10 +104,7 @@ class Parameter(State):
         #param.setdefault('name', self.name)
         snaps = []
         for snap in self.snapshots:
-            if not isinstance(snap, dict):
-                snaps.append(snap.export())
-            else:
-                snaps.append(snap)
+            snaps.append(snap.export())
         param.setdefault('snapshots', snaps)
         param.setdefault('value', self.value)
         param.setdefault('domain', self.domain)
@@ -116,27 +113,6 @@ class Parameter(State):
         param.setdefault('unique', self.unique)
         param.setdefault('tags', self.tags)
         return param
-
-    def recall(self, snap):
-        """
-        recall a snapshot of the parameter
-        """
-        if isinstance(snap, dict):
-            pass
-        elif isinstance(snap, State) or isinstance(snap, Snapshot):
-            snap = snap.export()
-        else:
-            print('ERROR 76543')
-            return False
-        for prop, val in snap.items():
-            if prop == 'name' or prop == 'raw':
-                pass
-            else:
-                try:
-                    setattr(self, prop, val)
-                except(AttributeError):
-                    print('cannot set attribute', prop, val)
-        return True
 
     def ramp(self, destination=1, duration=1000, grain=10):
         """
@@ -196,8 +172,8 @@ class Parameter(State):
             # it is a dict for a new snap or for an imported snap
             the_snap.setdefault('parent', self)
             the_snap = Snapshot(**the_snap)
-        if the_snap:
-            # used to load an existing device and load a snap_dict
+        if isinstance(the_snap, Snapshot):
+            # add the snapshot to the snapshots list
             self._snapshots.append(the_snap)
             return the_snap
         else:
@@ -209,7 +185,24 @@ class Parameter(State):
         All the events of this scenario
         """
         return self._snapshots
-    @snapshots.setter
-    def snapshots(self, snaps):
-        for snap in snaps:
-            self.snap(snap)
+
+    def recall(self, snap):
+        """
+        recall a snapshot of the parameter
+        """
+        if isinstance(snap, dict):
+            pass
+        elif isinstance(snap, State) or isinstance(snap, Snapshot):
+            snap = snap.export()
+        else:
+            print('ERROR 76543')
+            return False
+        for prop, val in snap.items():
+            if prop == 'name' or prop == 'raw':
+                pass
+            else:
+                try:
+                    setattr(self, prop, val)
+                except(AttributeError):
+                    print('cannot set attribute', prop, val)
+        return True
