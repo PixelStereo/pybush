@@ -221,7 +221,8 @@ class Device(Node, File):
                 node = create_node()
                 lock = self._create_parameter(node, dict_import)
         if not lock:
-            print('there is already a child with the same name', dict_import)
+            if __dbug__:
+                print('there is already a child with the same name', dict_import)
         return lock
 
     def _create_parameter(self, node, param_dict):
