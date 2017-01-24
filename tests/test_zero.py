@@ -65,11 +65,6 @@ print('----------------------------------------------------------------------')
 print(another_device)
 print('----------------------------------------------------------------------')
 another_device.name = 'new one'
-print(another_device)
+#print(another_device)
 print('----------------------------------------------------------------------')
 print(another_device.write('./'))
-for key, val in another_device.export().items():
-	print(key, val)
-	if key == 'snapshots':
-		print(type(val), val)
-print('----------------------------------------------------------------------')

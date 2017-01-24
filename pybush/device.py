@@ -39,6 +39,8 @@ class Device(Node, File):
         # kwargs setup attributes
         for att, val in kwargs.items():
             setattr(self, att, val)
+        # temporary workaround
+        self._final_node = None
 
     def __repr__(self):
         printer = 'Device (name:{name}, author:{author}, version:{version}, outputs:{outputs}, children:{children})'
@@ -186,38 +188,41 @@ class Device(Node, File):
         """
         self._final_node = self
         def create_node():
-            if isinstance(toto, str):
-                node = self._final_node.new_child(name=toto)
+            """
+            function to create a node if needed
+            """
+            if isinstance(the_import, str):
+                node = self._final_node.new_child(name=the_import)
             else:
-                node = self._final_node.new_child(name=toto[0])
+                node = self._final_node.new_child(name=the_import[0])
             self._final_node = node
-            if isinstance(toto, str):
+            if isinstance(the_import, str):
                 pass
             else:
-                toto.pop(0)
+                the_import.pop(0)
             return self._final_node
         lock = None
         if 'name' in dict_import.keys():
             if '/' in dict_import['name']:
                 # this is a parameter in a child node of the device
                 # we will create nodes first, and then parameter
-                toto = dict_import['name'].split('/')
+                the_import = dict_import['name'].split('/')
                 if self.children:
                     for child in self.children:
-                        if child.name == toto[0]:
-                            # the node already exists. be carreful 
+                        if child.name == the_import[0]:
+                            # the node already exists. be carreful
                             # to not replace it
                             pass
-                    # at this point, it seems that 
+                    # at this point, it seems that
                     # there is no child with the same name
                     # so please create this node as a child
-                while len(toto):
+                while len(the_import):
                     node = create_node()
                     # and create parameters attributes for the node
                 lock = self._create_parameter(node, dict_import)
             else:
                 # it is a root parameter
-                toto = dict_import['name']
+                the_import = dict_import['name']
                 node = create_node()
                 lock = self._create_parameter(node, dict_import)
         if not lock:
@@ -232,8 +237,8 @@ class Device(Node, File):
         param_dict.setdefault('parent', node)
         if 'name' in param_dict.keys():
             param_dict.pop('name')
-        node._parameter = Parameter(**param_dict)
-        return node._parameter
+        node.parameter = Parameter(**param_dict)
+        return node.parameter
 
     def make_parameter(self, *args, **kwargs):
         """
