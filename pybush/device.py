@@ -191,7 +191,7 @@ class Device(Node, File):
         name must be provided.
         """
         self._final_node = self
-        def create_node():
+        def _create_node():
             """
             function to create a node if needed
             """
@@ -205,6 +205,15 @@ class Device(Node, File):
             else:
                 the_import.pop(0)
             return self._final_node
+        def _create_parameter(node, param_dict):
+            """
+            internal method to create a parameter in a certain node of a device
+            """
+            param_dict.setdefault('parent', node)
+            if 'name' in param_dict.keys():
+                param_dict.pop('name')
+            node.parameter = Parameter(**param_dict)
+            return node.parameter
         lock = None
         if 'name' in dict_import.keys():
             if '/' in dict_import['name']:
@@ -221,50 +230,18 @@ class Device(Node, File):
                     # there is no child with the same name
                     # so please create this node as a child
                 while len(the_import):
-                    node = create_node()
+                    node = _create_node()
                     # and create parameters attributes for the node
-                lock = self._create_parameter(node, dict_import)
+                lock = _create_parameter(node, dict_import)
             else:
                 # it is a root parameter
                 the_import = dict_import['name']
-                node = create_node()
-                lock = self._create_parameter(node, dict_import)
+                node = _create_node()
+                lock = _create_parameter(node, dict_import)
         if not lock:
             if __dbug__:
                 print('there is already a child with the same name', dict_import)
         return lock
-
-    def _create_parameter(self, node, param_dict):
-        """
-        internal method to create a parameter in a certain node of a device
-        """
-        param_dict.setdefault('parent', node)
-        if 'name' in param_dict.keys():
-            param_dict.pop('name')
-        node.parameter = Parameter(**param_dict)
-        return node.parameter
-
-    def make_parameter(self, *args, **kwargs):
-        """
-        Call this method to attach a parameter to this node
-        You can send a string or a dict as argument
-        string : create a parameter with this name
-        """
-        if args:
-            if self._parameter is None:
-                if isinstance(args[0], dict):
-                    child = args[0]
-                    child.setdefault('parent', self)
-                    self._parameter = Parameter(**child)
-                else:
-                    kwargs.setdefault('parent', self)
-                    self._parameter = Parameter(**kwargs)
-                return self._parameter
-            else:
-                return False
-        else:
-            self._parameter = Parameter(parent=self)
-            return self._parameter
 
     def read(self, filepath):
         """
