@@ -24,6 +24,7 @@ midi_output = my_device.new_output(protocol='MIDI')
 node_1 = my_device.new_child(name='node.1')
 node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
 node_3 = node_2.new_child(name="node.3")
+#param0 = my_device.new_parameter(name='punk one')
 param2 = my_device.new_parameter({  'name':'node.1',
                                     'value':1,
                                     'datatype':'decimal',
@@ -47,7 +48,11 @@ param3.ramp(2, 100)
 sleep(0.2)
 param3.random(2, 100)
 
-"""snap_device = my_device.new_snapshot()
+# it is not possible for the moment to snap a device
+"""snap_device = my_device.snap()
+print('-----_______---')
+print(snap_device)
+print('-----_______---')"""
 param2.value = 0
 param2.ramp(1, 500)
 param3.value = 1
@@ -56,11 +61,12 @@ param3.ramp(0, 500)
 sleep(0.5)
 param3.domain = [0.4, 0.6]
 param3.random(destination=1, duration=700)
+param2.random(1, 700)
+print(param2.value)
 param3.value = 0.5
-param2.ramp(0, 500)
 sleep(0.7)
-param2.value = 1"""
-
+param2.ramp(0, 50)
+param2.value = 1
 
 class TestAll(unittest.TestCase):
 
