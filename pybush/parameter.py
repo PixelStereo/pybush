@@ -6,7 +6,7 @@
 A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
-import liblo
+
 from pybush.constants import __dbug__
 from pybush.state import State
 from pybush.snapshot import Snapshot
@@ -22,12 +22,6 @@ class Parameter(State):
         super(Parameter, self).__init__()
         # IMPORTANT to register parent first
         self._parent = kwargs['parent']
-        self._value = 0.
-        self._clipmode = None
-        self._domain = None
-        self._unique = None
-        self._datatype = None
-        self._raw = None
         # collection of snapshots
         self._snapshots = []
         # collection of snapshots
@@ -50,8 +44,12 @@ class Parameter(State):
         """
         represents the parameter class
         """
-        printer = 'Parameter (address:{address}, description:{description}, raw:{raw}, value:{value}, datatype:{datatype}, \
-                                domain:{domain}, clipmode:{clipmode}, snapshots:{snapshots}\
+        printer = 'Parameter (  address:{address}, \
+                                description:{description}, \
+                                raw:{raw}, value:{value}, \
+                                datatype:{datatype}, \
+                                domain:{domain}, clipmode:{clipmode}, \
+                                snapshots:{snapshots}\
                                 unique:{unique}, tags:{tags})'
         return printer.format(address=self.address, description=self.description, raw=self.raw, \
                               value=self.value, datatype=self.datatype, \
@@ -66,7 +64,7 @@ class Parameter(State):
         return self.parent.name
     @name.setter
     def name(self, name):
-        self.parent._name = name
+        self.parent.name = name
 
     @property
     def address(self):
@@ -137,20 +135,6 @@ class Parameter(State):
         self.current_player = RandomGenerator(self, self.value, destination, duration, grain)
         return self.current_player
 
-    def new_child_post_action(self, dict_import):
-        """
-        might be subclassed if need to do something with the 
-        """
-        # if the new_child have a parameter, create it please
-        if dict_import['parameter']:
-            # we give the parameter dict to the make_parameter method
-            # it will create the parameter with values from the dict
-            if the_new_child.make_parameter(dict_import['parameter']):
-                return True
-            else:
-                return False
-
-    # ----------- PARENT -------------
     @property
     def parent(self):
         """

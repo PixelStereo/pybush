@@ -38,6 +38,8 @@ node_1.parameter = {
                     'clipmode':'both',
                     'unique':True
                     }
+my_device.new_parameter({'name':'node.1/node.2/param'})
+
 node_1.parameter.snap()
 node_1.parameter.value = 2
 node_1.parameter.name= 'replace'
@@ -65,7 +67,6 @@ print('----------------------------------------------------------------------')
 another_device.name = 'new one'
 print(another_device)
 print('----------------------------------------------------------------------')
-quit()
 print(another_device.write('./'))
 for key, val in another_device.export().items():
 	print(key, val)

@@ -62,8 +62,10 @@ class OutputMIDI(Output):
         self._message = 'CC'
 
     def __repr__(self):
-        printer = 'OSC Output (name:{name}, port:{port})'
-        return printer.format(name=self.name, port=self.port)
+        printer = 'MIDI Output (name:{name}, port:{port}, \
+                                channel:{channel}, message:{message})'
+        return printer.format(name=self.name, port=self.port, \
+                                channel=self.channel, message=self.message)
 
     def export(self):
         return {'name':self.name, 'port':self.port,'channel':self.channel, \
