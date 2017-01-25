@@ -185,7 +185,7 @@ class Device(Node, File):
                 print("ERROR - trying to delete an output which not exists \
                       in self._outputs", output)
 
-    def new_parameter(self, dict_import={}):
+    def new_parameter(self, dict_import):
         """
         create a parameter in the device
         name must be provided.
