@@ -9,6 +9,7 @@ A Snapshot is a state of a Parameter.
 from pybush.state import State
 from pybush.basic import Basic
 from pybush.constants import __dbug__
+from pybush.functions import set_attributes
 
 
 class Snapshot(State, Basic):
@@ -24,11 +25,7 @@ class Snapshot(State, Basic):
         if 'name' in kwargs.keys():
             kwargs.pop('name')
         for att, val in kwargs.items():
-            try:
-                setattr(self, att, val)
-            except AttributeError as error:
-                if __dbug__ == 4:
-                    print(str(error) + ' ' + att)
+            set_attributes(self, att, val)
 
     def __repr__(self):
         printer = 'Snapshot(name:{name}, description:{description}, \

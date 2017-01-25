@@ -13,7 +13,7 @@ from pybush.node import Node
 from pybush.constants import __dbug__
 from pybush.errors import BushTypeError
 from pybush.parameter import Parameter
-from pybush.functions import prop_list
+from pybush.functions import prop_list, set_attributes
 from pybush.file import File
 from pybush.output import OutputOSC, OutputMIDI
 
@@ -38,11 +38,7 @@ class Device(Node, File):
         self._inputs = None
         # kwargs setup attributes
         for att, val in kwargs.items():
-            try:
-                setattr(self, att, val)
-            except(AttributeError) as error:
-                if __dbug__ == 4:
-                    print(str(error) + ' ' + att)
+            set_attributes(self, att, val)
         # temporary workaround
         self._final_node = None
 
@@ -167,7 +163,7 @@ class Device(Node, File):
             output = None
         if output:
             for key, value in kwargs.items():
-                setattr(output, key, value)
+                set_attributes(output, key, value)
             self._outputs.append(output)
             return self._outputs[taille]
         else:
@@ -292,7 +288,7 @@ class Device(Node, File):
                                         print('import creates a MIDI output')
                     else:
                         # register value of the given attribute for the device
-                        setattr(self, prop, value)
+                        set_attributes(self, prop, value)
             if __dbug__:
                 print('device loaded : ' + str(self.name))
             return True

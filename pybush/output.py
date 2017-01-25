@@ -10,6 +10,7 @@ to have in/out access for a bunch of nodes (pybush / a bush)
 
 from pybush.basic import Basic
 from pybush.constants import __dbug__
+from pybush.functions import set_attributes
 
 
 class Output(Basic):
@@ -22,7 +23,7 @@ class Output(Basic):
         super(Output, self).__init__()
         self._port = None
         for att, val in kwargs.items():
-            setattr(self, att, val)
+            set_attributes(self, att, val)
 
     @property
     def protocol(self):
@@ -125,7 +126,7 @@ class OutputOSC(Output):
         self._name = 'OSC Output'
         self._port='127.0.0.1:1234'
         for att, val in kwargs.items():
-            setattr(self, att, val)
+            set_attributes(self, att, val)
 
 
     def __repr__(self):

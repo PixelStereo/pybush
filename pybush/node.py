@@ -11,6 +11,7 @@ it
 from pybush.constants import __dbug__
 from pybush.functions import spacelessify
 from pybush.basic import Basic
+from pybush.functions import set_attributes
 
 
 class Node(Basic):
@@ -34,11 +35,7 @@ class Node(Basic):
                     for child in kwargs[att]:
                         self.new_child(child)
             else:
-                try:
-                    setattr(self, att, val)
-                except(AttributeError) as error:
-                    if __dbug__ == 4:
-                        print(str(error) + ' ' + att)
+                set_attributes(self, att, val)
 
     def __repr__(self):
         printer = 'Node(name:{name}, description:{description}, tags:{tags}, \

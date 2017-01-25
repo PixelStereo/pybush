@@ -5,6 +5,7 @@
 Basic Class
 """
 from pybush.constants import __dbug__
+from pybush.functions import set_attributes
 
 
 class Basic(object):
@@ -20,7 +21,7 @@ class Basic(object):
         # kwargs setup attributes
         for att, val in kwargs.items():
             print('xxxxxxxxxxxxxx', att, val)
-            setattr(self, att, val)
+            set_attributes(self, att, val)
 
     def __repr__(self):
         printer = 'Basic(name:{name}, tags:{tags}, description:{description})'
@@ -88,7 +89,7 @@ class Basic(object):
         Set a parameter to a state
         """
         for prop, val in state_dict:
-            setattr(self, prop, val)
+            set_attributes(self, prop, val)
 
     def export(self):
         """

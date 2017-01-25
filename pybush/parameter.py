@@ -11,7 +11,7 @@ from pybush.constants import __dbug__
 from pybush.state import State
 from pybush.snapshot import Snapshot
 from pybush.automation import RampGenerator, RandomGenerator
-
+from pybush.functions import set_attributes
 
 class Parameter(State):
     """
@@ -30,11 +30,7 @@ class Parameter(State):
                 for snap in kwargs[att]:
                     self.snap(snap)
             else:
-                try:
-                    setattr(self, att, val)
-                except(AttributeError) as error:
-                    if __dbug__ == 4:
-                        print(str(error) + ' ' + att)
+                set_attributes(self, att, val)
         self.current_player = None
 
     def __repr__(self):
@@ -182,8 +178,5 @@ class Parameter(State):
             if prop == 'name' or prop == 'raw':
                 pass
             else:
-                try:
-                    setattr(self, prop, val)
-                except(AttributeError):
-                    print('cannot set attribute', prop, val)
+                set_attributes(self, prop, val)
         return True

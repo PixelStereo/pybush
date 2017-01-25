@@ -153,3 +153,14 @@ def spacelessify(name):
         return newname
     else:
         return name
+
+def set_attributes(object, attribut, value):
+    """
+    set value for attribute
+    catch error if needed
+    """
+    try:
+        setattr(object, attribut, value)
+    except(AttributeError) as error:
+        if __dbug__ == 4:
+            print(str(error) + ' ' + attribut)
