@@ -99,6 +99,9 @@ class Node(Basic):
             :return False if name is not valid (already exists or is not provided)
         """
         def append_child(new_child):
+            """
+            append the child to the children list of this instance
+            """
             if not self.children:
                 self._children = [new_child]
             else:
