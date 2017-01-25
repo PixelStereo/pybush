@@ -94,7 +94,7 @@ class TestAll(unittest.TestCase):
     def test_nodes(self):
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 3)
+        self.assertEqual(len(my_device.children), 5)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
         node_1.name = 'node 1 renamed'
@@ -110,7 +110,6 @@ class TestAll(unittest.TestCase):
         self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
-        self.assertEqual(my_device.make_parameter(['fake']), False)
         self.assertEqual(param2.__class__.__name__, 'Parameter')
         self.assertEqual(param2.value, 1)
         self.assertEqual(param2.unique, True)
@@ -170,7 +169,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(s, list), True)
         s = m_string(s)
         self.assertEqual(isinstance(s, str), True)
-        parameter = my_device.make_parameter()
+        parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
         parameter.value = 3.2
         parameter.datatype = 'decimal'
         parameter.tags = ['uno','dos']
@@ -178,7 +177,7 @@ class TestAll(unittest.TestCase):
         parameter.clipmode = 'both'
         parameter.unique = 1
         # create two parameters with the same name must be raised
-        same = my_device.make_parameter()
+        same = my_device.new_parameter({'name':'one/two/three/same'})
         # here, we just assign the parameter as False
         self.assertEqual(same, same)
         self.assertEqual(parameter.value, 1)

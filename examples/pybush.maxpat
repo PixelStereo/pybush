@@ -226,9 +226,9 @@
 					"numinlets" : 3,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 12.0, 48.0, 286.0, 22.0 ],
+					"patching_rect" : [ 12.0, 55.0, 286.0, 22.0 ],
 					"style" : "",
-					"text" : "route My_device/node.1/node_.2 My_device/node.1"
+					"text" : "route My_device/node.1/node.2 My_device/node.1"
 				}
 
 			}

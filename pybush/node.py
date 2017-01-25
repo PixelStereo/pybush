@@ -6,7 +6,7 @@ Node Class
 The Node is based on the Basic class
 It is the base class of all items in a namespace.
 Device and Parameter are based on the Node Class
-it 
+it
 """
 from pybush.constants import __dbug__
 from pybush.functions import spacelessify
@@ -47,7 +47,7 @@ class Node(Basic):
                               parameter=self.parameter, children=self.children)
 
 
-    
+
     @property
     def parameter(self):
         """
@@ -60,8 +60,7 @@ class Node(Basic):
             self._parameter = parameter
             return True
         elif parameter.__class__.__name__ == 'dict':
-            device = self.get_device()
-            self._parameter = device._create_parameter(self, parameter)
+            self._parameter = self.get_device().new_parameter(parameter)
             if self._parameter:
                 return True
             else:
@@ -77,6 +76,9 @@ class Node(Basic):
         """
         asker = self
         def get_parent(asker):
+            """
+            get the parent of the current node
+            """
             asker = asker.parent
             return asker
         while asker.service != 'Device':
