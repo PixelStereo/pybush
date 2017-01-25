@@ -101,6 +101,11 @@ class Node(Basic):
             :return node object if successful
             :return False if name is not valid (already exists or is not provided)
         """
+        def append_child(new_child):
+            if not self.children:
+                self._children = [new_child]
+            else:
+                self._children.append(new_child)
         if isinstance(dict_import, dict):
             if 'name' in dict_import.keys():
                 # check that the name doesn't already exists
@@ -118,10 +123,7 @@ class Node(Basic):
                 # which needs to instanciate Classes Node and Parameter
                 the_new_child = Node(parent=self, **dict_import)
                 # Append this child in the self.children list
-                if not self.children:
-                    self._children = [the_new_child]
-                else:
-                    self._children.append(the_new_child)
+                append_child(the_new_child)
                 # maybe the new_child contains children itself?
                 if 'children' in dict_import.keys():
                     if len(dict_import['children']) > 0:
@@ -135,10 +137,7 @@ class Node(Basic):
             # if the child argument is only a string, this is the name of the new_child to create
             the_new_child = Node(parent=self, name=name, description=description, tags=tags, children=children)
             # Append this child in the self.children list
-            if not self.children:
-                self._children = [the_new_child]
-            else:
-                self._children.append(the_new_child)
+            append_child(the_new_child)
         return the_new_child
 
 
