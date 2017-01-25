@@ -31,9 +31,12 @@ class Snapshot(State, Basic):
                     print(str(error) + ' ' + att)
 
     def __repr__(self):
-        printer = 'Snapshot (name:{name}, description:{description}, raw:{raw}, value:{value}, datatype:{datatype}, \
-                                domain:{domain}, clipmode:{clipmode}, \
-                                unique:{unique}, tags:{tags})'
-        return printer.format(name=self.name, description=self.description, raw=self.raw, value=self.value, datatype=self.datatype, \
-                              domain=self.domain, clipmode=self.clipmode, \
-                              unique=self.unique, tags=self.tags)
+        printer = 'Snapshot(name:{name}, description:{description}, \
+                            raw:{raw}, value:{value}, datatype:{datatype}, \
+                            domain:{domain}, clipmode:{clipmode}, \
+                            unique:{unique}, tags:{tags})'
+        return printer.format(  name=self.name, description=self.description, \
+                                raw=self.raw, value=self.value, \
+                                datatype=self.datatype, domain=self.domain, \
+                                clipmode=self.clipmode, unique=self.unique, \
+                                tags=self.tags)

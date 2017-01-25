@@ -61,10 +61,7 @@ class Node(Basic):
             return True
         elif parameter.__class__.__name__ == 'dict':
             self._parameter = self.get_device().new_parameter(parameter)
-            if self._parameter:
-                return True
-            else:
-                return False
+            return bool(self._parameter)
         else:
             if __dbug__:
                 print('ERROR 876 : this is not a Parameter instance, this is a ' + parameter.__class__.__name__)
