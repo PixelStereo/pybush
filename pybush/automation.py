@@ -32,11 +32,6 @@ class Automation(multiprocessing.Process):
         self.start()
 
 
-    def take_leadership(self):
-        if self.parameter.current_player:
-            self.parameter.current_player.terminate()
-        return self.parameter.current_player
-
 class RampGenerator(Automation):
     """
     Instanciate a thread for Playing a ramp
