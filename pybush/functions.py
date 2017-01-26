@@ -166,8 +166,8 @@ def set_attributes(the_instance, the_dict):
                 for child in the_dict[att]:
                     the_instance.new_child(child)
         elif att == 'parameter':
-            if __dbug__:
-                print('no parameter for device')
+            if the_dict[att]:
+                the_instance.get_device().new_parameter(val)
         elif att == 'snapshots':
             if the_dict[att]:
                 for snap in the_dict[att]:
