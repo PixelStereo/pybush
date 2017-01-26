@@ -22,8 +22,7 @@ class Output(Basic):
     def __init__(self, **kwargs):
         super(Output, self).__init__()
         self._port = None
-        for att, val in kwargs.items():
-            set_attributes(self, att, val)
+        set_attributes(self, kwargs)
 
     @property
     def protocol(self):
@@ -125,8 +124,7 @@ class OutputOSC(Output):
         self._protocol = 'OSC'
         self._name = 'OSC Output'
         self._port='127.0.0.1:1234'
-        for att, val in kwargs.items():
-            set_attributes(self, att, val)
+        set_attributes(self, kwargs)
 
 
     def __repr__(self):

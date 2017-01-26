@@ -25,12 +25,8 @@ class Parameter(State):
         # collection of snapshots
         self._snapshots = []
         # collection of snapshots
-        for att, val in kwargs.items():
-            if att == 'snapshots':
-                for snap in kwargs[att]:
-                    self.snap(snap)
-            else:
-                set_attributes(self, att, val)
+        set_attributes(self, kwargs)
+        # this is the player for ramp/random
         self.current_player = None
 
     def __repr__(self):

@@ -20,12 +20,14 @@ class Snapshot(State, Basic):
         super(Snapshot, self).__init__(**kwargs)
         if __dbug__:
             print('----------------creating a snapshot----------------')
+        # Don't store snapshots or name
+        # We only want a state to store, and basics (name, description, tags)
+        # for the snapshot
         if 'snapshots' in kwargs.keys():
             kwargs.pop('snapshots')
         if 'name' in kwargs.keys():
             kwargs.pop('name')
-        for att, val in kwargs.items():
-            set_attributes(self, att, val)
+        set_attributes(self, kwargs)
 
     def __repr__(self):
         printer = 'Snapshot(name:{name}, description:{description}, \

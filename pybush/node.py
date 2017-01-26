@@ -29,13 +29,7 @@ class Node(Basic):
         self._parameter = None
         self._children = None
         # kwargs setup attributes
-        for att, val in kwargs.items():
-            if att == 'children':
-                if kwargs[att]:
-                    for child in kwargs[att]:
-                        self.new_child(child)
-            else:
-                set_attributes(self, att, val)
+        set_attributes(self, kwargs)
 
     def __repr__(self):
         printer = 'Node(name:{name}, description:{description}, tags:{tags}, \

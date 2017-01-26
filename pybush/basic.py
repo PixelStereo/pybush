@@ -19,9 +19,7 @@ class Basic(object):
         self._tags = []
         self._name = None
         # kwargs setup attributes
-        for att, val in kwargs.items():
-            print('xxxxxxxxxxxxxx', att, val)
-            set_attributes(self, att, val)
+        set_attributes(self, kwargs)
 
     def __repr__(self):
         printer = 'Basic(name:{name}, tags:{tags}, description:{description})'

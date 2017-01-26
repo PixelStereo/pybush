@@ -74,7 +74,7 @@ class TestAll(unittest.TestCase):
         snap_1 = param2.snap()
         print(snap_1.value)
         #print(1, param2.value)
-        node_1.value = 2
+        node_1.value = 212
         #print(3, param2.value)
         snap_2 = param2.snap()
         #node_1.recall(snap_1)

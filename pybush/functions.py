@@ -154,13 +154,38 @@ def spacelessify(name):
     else:
         return name
 
-def set_attributes(the_instance, attribut, value):
+def set_attributes(the_instance, the_dict):
     """
     set value for attribute
     catch error if needed
     """
-    try:
-        setattr(the_instance, attribut, value)
-    except(AttributeError) as error:
-        if __dbug__ == 4:
-            print(str(error) + ' ' + attribut)
+    for att, val in the_dict.items():
+        # children attribute is for Node Instance
+        if att == 'children':
+            if the_dict[att]:
+                for child in the_dict[att]:
+                    the_instance.new_child(child)
+        elif att == 'parameter':
+            if __dbug__:
+                print('no parameter for device')
+        elif att == 'snapshots':
+            if the_dict[att]:
+                for snap in the_dict[att]:
+                    the_instance.snap(snap)
+        elif att == 'outputs':
+            for protocol, output in val.items():
+                for out in output:
+                    if protocol == 'OSC':
+                        the_instance.new_output(protocol=protocol, **out)
+                        if __dbug__:
+                            print('import creates an OSC output')
+                    if protocol == 'MIDI':
+                        the_instance.new_output(protocol=protocol, **out)
+                        if __dbug__:
+                            print('import creates a MIDI output')
+        else:
+            try:
+                setattr(the_instance, att, val)
+            except(AttributeError) as error:
+                if __dbug__ == 4:
+                    print(str(error) + ' ' + att)

@@ -37,8 +37,7 @@ class Device(Node, File):
         # list of all inputs for this device
         self._inputs = None
         # kwargs setup attributes
-        for att, val in kwargs.items():
-            set_attributes(self, att, val)
+        set_attributes(self, kwargs)
         # temporary workaround
         self._final_node = None
 
@@ -163,7 +162,7 @@ class Device(Node, File):
             output = None
         if output:
             for key, value in kwargs.items():
-                set_attributes(output, key, value)
+                set_attributes(output, kwargs)
             self._outputs.append(output)
             return self._outputs[taille]
         else:
@@ -265,30 +264,8 @@ class Device(Node, File):
         try:
             if __dbug__:
                 print('------- new-device : ' + device_dict['name'] + ' ------ ')
-            #device = self.new_device(device_dict['name'])
             # iterate each attributes of the selected device
-            for prop, value in device_dict.items():
-                if value:
-                    if prop == 'children':
-                        for child in value:
-                            self.new_child(child)
-                    elif prop == 'parameter':
-                        if __dbug__:
-                            print('no parameter for device')
-                    elif prop == 'outputs':
-                        for protocol, output in value.items():
-                            for out in output:
-                                if protocol == 'OSC':
-                                    self.new_output(protocol=protocol, **out)
-                                    if __dbug__:
-                                        print('import creates an OSC output')
-                                if protocol == 'MIDI':
-                                    self.new_output(protocol=protocol, **out)
-                                    if __dbug__:
-                                        print('import creates a MIDI output')
-                    else:
-                        # register value of the given attribute for the device
-                        set_attributes(self, prop, value)
+            set_attributes(self, device_dict)
             if __dbug__:
                 print('device loaded : ' + str(self.name))
             return True
