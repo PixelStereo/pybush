@@ -15,6 +15,8 @@ from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush import new_device, get_devices
 from pybush.errors import BushTypeError, NoOutputError
 
+from pybush.automation import RampGenerator, RandomGenerator
+
 __dbug__ = 4
 
 my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
@@ -118,17 +120,12 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param2.domain, [0, 11])
 
     def test_ramp(self):
-        pass
-        #ramp = Ramp(0, 1000)
-        #print(a_ramp)
-        #print(a_ramp, param2.value)
-        #print(prop_dict(a_ramp))
-        #while a_ramp.is_alive():
-        #    self.assertEqual(param2.value<10, True)
-        #    #print('there',param2.value)
-        #    pass
-        #print('--w--w-w-w-w-w-w-w-w-w',param2.value)
-        #self.assertEqual(param2==10, True)
+        a_random = RandomGenerator(param2, 0, 1, 1000, 10)
+        for rand in a_random.random():
+            self.assertEqual(rand > 0, True)
+            self.assertEqual(rand < 11, True)
+        a_ramp = RampGenerator(param2, 0, 1, 1000, 100)
+        #self.assertEqual(next(a_ramp), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
     def test_writing_files(self):
         #self.assertEqual(node_1.parameter, param2)
