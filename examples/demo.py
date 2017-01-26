@@ -5,31 +5,28 @@ import os, sys
 sys.path.append(os.path.abspath('./../'))
 
 from time import sleep
-from pybush.project import new_project, projects
+from pybush import new_device, get_devices
 
-my_project = new_project(name='My Python project')
-my_device = my_project.new_device(name='My device', author='Pixel Stereo', version='0.1.0')
+my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 
-another_device = my_project.new_device(name='My Other device', author='Stereo Pixel', version='0.1.1')
+another_device = new_device(name='My Other device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 output = my_device.new_output(protocol='MIDI')
-node_1 = my_device.new_child(name='node.1', tags=['init', 'video'])
-node_2 = node_1.new_child(name='node .2', tags=['lol', 'lal'])
-node_3 = node_2.new_child(name="node.3")
-param1 = my_device.make_parameter()
-param2 = node_1.make_parameter({'value':1, 'datatype':'decimal', 'domain':[0,11], \
+node_3 = my_device.new_child(name="node.3")
+param1 = my_device.new_parameter({'name':'param.1'})
+param2 = my_device.new_parameter({'name':'node.1/node.2', 'tags':['lol', 'lal'], 'value':1, 'tags':['init', 'video'], 'datatype':'decimal', 'domain':[0,11], \
                                 'clipmode':'both', 'repetitions':True})
-param3 = node_2.make_parameter(value=-0.5, datatype='decimal', \
-                                domain=[-1,1], clipmode='low', repetitions=False)
+param3 = my_device.new_parameter({'name':'node.1/node.2/node.3', 'value':-0.5, 'datatype':'decimal', \
+                                'domain':[-1,1], 'clipmode':'low', 'repetitions':False})
 
-snap_param3 = param3.new_snapshot()
+snap_param3 = param3.snap()
 #print(snap_param3)
 param3.clipmode = "both"
 param3.domain = [-1, 1]
 param3.datatype = "decimal"
 param3.unique = True
 param3.value = 0.5
-snap2_param3 = param3.new_snapshot()
+snap2_param3 = param3.snap()
 #print(snap2_param3)
 param3.recall(snap_param3)
 #print(param3)
@@ -37,10 +34,10 @@ param3.recall(snap2_param3)
 #print(param3)
 for snap in param3.snapshots:
 	print(param3.snapshots.index(snap), snap)
-snap_device = my_device.new_snapshot()
-print('DEVICE SNAPSHOT ', snap_device)
-snap_project = my_project.new_snapshot()
-print('PROJECT SNAPSHOT', snap_project)
+#snap_device = my_device.snap()
+#print('DEVICE SNAPSHOT ', snap_device)
+#snap_project = my_device.snap()
+#print('PROJECT SNAPSHOT', snap_project)
 print(my_device.export())
 print(my_device.write())
 param2.value = 0

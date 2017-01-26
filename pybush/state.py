@@ -8,6 +8,7 @@ A State
 import liblo
 from pybush.constants import __dbug__
 from pybush.file import File
+from pybush.functions import check_type
 
 
 class State(File):
