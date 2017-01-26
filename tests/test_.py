@@ -94,7 +94,7 @@ class TestAll(unittest.TestCase):
     def test_nodes(self):
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 5)
+        self.assertEqual(len(my_device.children), 3)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
         node_1.name = 'node 1 renamed'

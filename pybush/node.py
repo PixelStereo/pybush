@@ -100,6 +100,8 @@ class Node(Basic):
                 self._children = [new_child]
             else:
                 self._children.append(new_child)
+        if not isinstance(dict_import, dict):
+            dict_import = {'name':name, 'description':description, 'tags':tags}
         if isinstance(dict_import, dict):
             if 'name' in dict_import.keys():
                 # check that the name doesn't already exists
@@ -109,9 +111,8 @@ class Node(Basic):
                             child = child[0]
                         if isinstance(child, Node):
                             if dict_import['name'] == child.name:
-                                if __dbug__:
-                                    print('this name is already taken by this one :', child.name)
-                                return False
+                                # return the existing child if it already exists
+                                return child
                 # we import a python dict to create the child
                 # be careful about children and parameter
                 # which needs to instanciate Classes Node and Parameter
