@@ -83,23 +83,16 @@ class Parameter(State):
     def tags(self, tags):
         self.parent.tags = tags
 
-    def export(self):
+    def post_export(self, state):
         """
         export the Parameter to a json_string/python_dict with all its properties
+        It just adds snapshots to the state export
         """
-        param = {}
-        #param.setdefault('name', self.name)
         snaps = []
         for snap in self.snapshots:
             snaps.append(snap.export())
-        param.setdefault('snapshots', snaps)
-        param.setdefault('value', self.value)
-        param.setdefault('domain', self.domain)
-        param.setdefault('datatype', self.datatype)
-        param.setdefault('clipmode', self.clipmode)
-        param.setdefault('unique', self.unique)
-        param.setdefault('tags', self.tags)
-        return param
+        state.setdefault('snapshots', snaps)
+        return state
 
     def ramp(self, destination=1, duration=1000, grain=10):
         """

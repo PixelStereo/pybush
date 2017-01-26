@@ -44,14 +44,15 @@ class State(File):
         """
         export the Parameter to a json_string/python_dict with all its properties
         """
-        param = {}
-        param.setdefault('value', self.value)
-        param.setdefault('domain', self.domain)
-        param.setdefault('datatype', self.datatype)
-        param.setdefault('clipmode', self.clipmode)
-        param.setdefault('unique', self.unique)
-        param.setdefault('tags', self.tags)
-        return param
+        state = {}
+        state.setdefault('value', self.value)
+        state.setdefault('domain', self.domain)
+        state.setdefault('datatype', self.datatype)
+        state.setdefault('clipmode', self.clipmode)
+        state.setdefault('unique', self.unique)
+        state.setdefault('tags', self.tags)
+        state = self.post_export(state)
+        return state
 
     def clip(self, value):
         """
