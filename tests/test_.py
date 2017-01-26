@@ -124,7 +124,10 @@ class TestAll(unittest.TestCase):
         for rand in a_random.random():
             self.assertEqual(rand > 0, True)
             self.assertEqual(rand < 11, True)
-        a_ramp = RampGenerator(param2, 0, 1, 1000, 100)
+        a_ramp = RampGenerator(param3, 0.4, 1.6, 1000, 100)
+        for step in a_ramp.ramp():
+            self.assertEqual(step > 0.4, True)
+            self.assertEqual(step < 1.7, True)
         #self.assertEqual(next(a_ramp), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
     def test_writing_files(self):
