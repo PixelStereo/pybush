@@ -82,13 +82,6 @@ class Basic(object):
             if __dbug__ >= 3:
                 print('not in')
 
-    def set(self, state_dict):
-        """
-        Set a parameter to a state
-        """
-        for prop, val in state_dict:
-            set_attributes(self, prop, val)
-
     def export(self):
         """
         export Node to a json_string/python_dict with all its properties
