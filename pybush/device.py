@@ -161,8 +161,7 @@ class Device(Node, File):
         else:
             output = None
         if output:
-            for key, value in kwargs.items():
-                set_attributes(output, kwargs)
+            set_attributes(output, kwargs)
             self._outputs.append(output)
             return self._outputs[taille]
         else:

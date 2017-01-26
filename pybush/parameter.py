@@ -170,9 +170,5 @@ class Parameter(State):
         else:
             print('ERROR 76543')
             return False
-        for prop, val in snap.items():
-            if prop == 'name' or prop == 'raw':
-                pass
-            else:
-                set_attributes(self, prop, val)
+        set_attributes(self, snap)
         return True
