@@ -107,4 +107,7 @@ class Basic(object):
         return self._name
     @name.setter
     def name(self, name):
+        if name:
+            '_'.join([i if ord(i) < 128 else ' ' for i in name])
+            name = name.replace(" ", "_")
         self._name = name
