@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Bunch of functions usefull for types, or namespace assertions, conventions or convertions
+Bunch of functions usefull for types, or namespace assertions
 """
 
 import re
@@ -19,6 +19,7 @@ def check_type(data):
 
     Returns:
         an integer or a float
+        if it is a list, the first item is returned
     """
     try:
         if len(data) == 1 and isinstance(data, list):
@@ -37,6 +38,7 @@ def check_type(data):
         pass
     return data
 
+
 def m_bool(value):
     """Transform to a bool if it is not already"""
     if not isinstance(value, bool):
@@ -49,6 +51,7 @@ def m_bool(value):
         value = bool(value)
     return value
 
+
 def m_int(value):
     """
     transform a list or string into an integer
@@ -59,6 +62,7 @@ def m_int(value):
         value = int(value)
     return value
 
+
 def m_string(value):
     """transform to a string"""
     if isinstance(value, int) or isinstance(value, float):
@@ -66,6 +70,7 @@ def m_string(value):
     elif isinstance(value, list):
         value = str(value[0])
     return value
+
 
 def prop_list(the_class):
     """
@@ -82,7 +87,9 @@ def prop_list(the_class):
         Error: Not already implemented
     """
     the_class = the_class.__class__
-    return [p for p in dir(the_class) if isinstance(getattr(the_class, p), property)]
+    return [p for p in dir(the_class) \
+                if isinstance(getattr(the_class, p), property)]
+
 
 def prop_dict(the_class):
     """
@@ -110,11 +117,11 @@ def prop_dict(the_class):
         elif prop == 'output':
             newprop = '_' + prop
             newprop = getattr(the_class, newprop)
-            #newprop = newprop
             pdict.setdefault(prop, newprop)
         else:
             pdict.setdefault(prop, getattr(the_class, prop))
     return pdict
+
 
 def load_json(filepath):
     """
@@ -133,6 +140,7 @@ def load_json(filepath):
         return False
     return content
 
+
 def spacelessify(name):
     """
     remove all special signs
@@ -140,7 +148,8 @@ def spacelessify(name):
     replace space by underscores
     """
     if name is not None:
-        # Remove all non-word characters (everything except numbers and letters)
+        # Remove all non-word characters
+        # (everything except numbers and letters)
         newname = re.sub(r"[^\w\s\.]", '', name)
         # Replace all runs of whitespace with '_'
         newname = re.sub(r"\s+", '_', newname)
@@ -153,6 +162,7 @@ def spacelessify(name):
         return newname
     else:
         return name
+
 
 def set_attributes(the_instance, the_dict):
     """

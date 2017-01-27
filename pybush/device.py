@@ -41,11 +41,20 @@ class Device(Node, File):
         # temporary workaround
         self._final_node = None
 
-    def __repr__(self):
-        printer = 'Device (name:{name}, author:{author}, version:{version}, outputs:{outputs}, children:{children})'
-        return printer.format(name=self.name, author=self.author, \
-                                version=self.version, children=self.children, \
-                                outputs=self.outputs)
+    def post_print(self, printer):
+        printer = printer[5:]
+        printer = 'Device' + printer
+        if self.author:
+            printer = printer + ' - author :  ' + self.author
+        if self.version:
+            printer = printer + ' - version :  ' + str(self.version)
+        if self.outputs:
+            printer = printer + ' - outputs :  ' + str(len(self.outputs))
+        if self.children:
+            printer = printer + ' - children :  ' + str(len(self.children))
+        if self.address:
+            printer = printer + ' - address :  ' + self.address
+        return printer
 
     @property
     def output(self):

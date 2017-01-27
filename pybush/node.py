@@ -31,12 +31,14 @@ class Node(Basic):
         # kwargs setup attributes
         set_attributes(self, kwargs)
 
-    def __repr__(self):
-        printer = 'Node(name:{name}, description:{description}, tags:{tags}, \
-                        parameter:{parameter}, children:{children})'
-        return printer.format(name=self.name, description=self.description, tags=self.tags, \
-                              parameter=self.parameter, children=self.children)
-
+    def post_print(self, printer):
+        printer = printer[5:]
+        printer = 'Node' + printer
+        param_or_not_param = False
+        if self.parameter:
+            param_or_not_param = True
+        printer = printer + ' - children : ' + str(len(self.children)) + ' - parameter : ' + str(param_or_not_param) + ' - address : ' + self.address
+        return printer
 
 
     @property
