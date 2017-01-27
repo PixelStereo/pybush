@@ -187,7 +187,7 @@ class Device(Node, File):
         self._final_node = self
         def _create_node():
             """
-            function to create a node if needed
+            function to create a node to another node
             """
             if isinstance(the_import, str):
                 node = self._final_node.new_child(name=the_import)
@@ -201,7 +201,7 @@ class Device(Node, File):
             return self._final_node
         def _create_parameter(node, param_dict):
             """
-            internal method to create a parameter in a certain node of a device
+            internal method to create a parameter to a node
             """
             param_dict.setdefault('parent', node)
             if 'name' in param_dict.keys():
@@ -213,6 +213,8 @@ class Device(Node, File):
             if '/' in dict_import['name']:
                 # this is a parameter in a child node of the device
                 # we will create nodes first, and then parameter
+                if dict_import['name'].startswith('/'):
+                    dict_import['name'] = dict_import['name'][1:]
                 the_import = dict_import['name'].split('/')
                 if self.children:
                     for child in self.children:
@@ -220,9 +222,9 @@ class Device(Node, File):
                             # the node already exists. be carreful
                             # to not replace it
                             pass
-                    # at this point, it seems that
-                    # there is no child with the same name
-                    # so please create this node as a child
+                # at this point, it seems that
+                # there is no child with the same name
+                # so please create this node as a child
                 while len(the_import):
                     node = _create_node()
                     # and create parameters attributes for the node
@@ -232,9 +234,6 @@ class Device(Node, File):
                 the_import = dict_import['name']
                 node = _create_node()
                 lock = _create_parameter(node, dict_import)
-        if not lock:
-            if __dbug__:
-                print('there is already a child with the same name', dict_import)
         return lock
 
     def read(self, filepath):
