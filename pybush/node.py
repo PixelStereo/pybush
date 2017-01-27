@@ -39,7 +39,8 @@ class Node(Basic):
         if self.address:
             printer = printer + ' - address :  ' + self.address
         if self.parameter:
-            printer = printer + add '- parameter value is ' + str(self.parameter.value)
+            val = str(self.parameter.value)
+            printer = printer + ' - parameter value is : ' + val
         return printer
 
     @property
