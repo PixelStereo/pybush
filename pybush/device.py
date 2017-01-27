@@ -78,7 +78,7 @@ class Device(Node, File):
                 raise BushTypeError('Wait for a ' + self.output.protocol + ',  but receive a', out.protocol)
         else:
             msg = 'Wait for an Output but receive a '
-            raise BushTypeError(msg + out.__class__.__name__)
+            raise BushTypeError(msg, out.__class__.__name__)
 
     def export(self):
         """
