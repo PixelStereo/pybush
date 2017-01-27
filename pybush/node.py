@@ -71,7 +71,6 @@ class Node(Basic):
             return asker
         while asker.service != 'Device':
             asker = get_parent(asker)
-            print(asker.service)
         return asker
 
     @property
