@@ -90,7 +90,7 @@ class Basic(object):
         basic.setdefault('name', self.name)
         basic.setdefault('description', self.description)
         basic.setdefault('tags', self.tags)
-        self.post_export(basic)
+        basic = self.post_export(basic)
         return basic
 
     def post_export(self, something):
