@@ -67,16 +67,18 @@ class Device(Node, File):
         else:
             if self._outputs:
                 return self._outputs[0]
+
     @output.setter
     def output(self, out):
         if 'protocol' in prop_list(out):
             if out.protocol == self.output.protocol:
                 self._output = out
             else:
-                print('DO YOU WANT TO CHANGE THE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
+                print('CHANGE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
                 raise BushTypeError('Wait for a ' + self.output.protocol + ',  but receive a', out.protocol)
         else:
-            raise BushTypeError('Wait for an Output but receive a', out.__class__.__name__)
+            msg = 'Wait for an Output but receive a '
+            raise BushTypeError(msg + out.__class__.__name__)
 
     def export(self):
         """
@@ -94,8 +96,13 @@ class Device(Node, File):
                 out_export.setdefault(proto, [])
                 for out in self.getoutputs(proto):
                     out_export[proto].append(out.export())
-        return {'name':self.name, 'author':self.author, 'version':self.version, \
-                'children':child_export, 'outputs':out_export}
+        return {
+                'name': self.name,
+                'author': self.author,
+                'version': self.version, 
+                'children': child_export,
+                'outputs': out_export
+                }
 
     # ----------- AUTHOR -------------
     @property
@@ -104,6 +111,7 @@ class Device(Node, File):
         Current author of the device
         """
         return self._author
+
     @author.setter
     def author(self, author):
         self._author = author
@@ -115,6 +123,7 @@ class Device(Node, File):
         Current version of the device
         """
         return self._version
+
     @version.setter
     def version(self, version):
         self._version = version
@@ -146,7 +155,7 @@ class Device(Node, File):
         protocols = []
         for out in self.outputs:
             proto = out.protocol
-            if not proto in protocols:
+            if proto not in protocols:
                 protocols.append(proto)
         if protocols == []:
             return None
@@ -156,9 +165,13 @@ class Device(Node, File):
     def new_output(self, protocol="OSC", **kwargs):
         """
         Create a new output for this device
-        args:Mandatory argument is the protocol that you want to use for this output
-        (OSC, MIDI, serial, ArtNet)
-        rtype:Output object
+
+            args:
+                Mandatory argument is the protocol
+                you want to use for this output
+                (OSC, MIDI, serial, ArtNet)
+            rtype:
+                Output object
         """
         if not self._outputs:
             self._outputs = []
@@ -194,6 +207,7 @@ class Device(Node, File):
         name must be provided.
         """
         self._final_node = self
+
         def _create_node():
             """
             function to create a node to another node
@@ -208,6 +222,7 @@ class Device(Node, File):
             else:
                 the_import.pop(0)
             return self._final_node
+
         def _create_parameter(node, param_dict):
             """
             internal method to create a parameter to a node
@@ -270,7 +285,7 @@ class Device(Node, File):
                 print('ERROR 901 - file provided is not a valid file' + str(filepath))
         try:
             if __dbug__:
-                print('------- new-device : ' + device_dict['name'] + ' ------ ')
+                print('--- new-device : ' + device_dict['name'] + ' --- ')
             # iterate each attributes of the selected device
             set_attributes(self, device_dict)
             if __dbug__:
@@ -279,5 +294,6 @@ class Device(Node, File):
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as error:
             if __dbug__:
-                print(error, "ERROR 902 - device cannot be loaded, this is not a valid Device")
+                print(error,    "ERROR 902 - device cannot be loaded, \
+                                this is not a valid Device")
             return False
