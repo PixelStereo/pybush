@@ -35,10 +35,10 @@ class State(File):
         """
         printer = 'State (raw:{raw}, value:{value}, datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
-                                unique:{unique}, tags:{tags})'
+                                unique:{unique}'
         return printer.format(raw=self.raw, value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
-                              unique=self.unique, tags=self.tags)
+                              unique=self.unique)
 
     def export(self):
         """
@@ -50,7 +50,6 @@ class State(File):
         state.setdefault('datatype', self.datatype)
         state.setdefault('clipmode', self.clipmode)
         state.setdefault('unique', self.unique)
-        state.setdefault('tags', self.tags)
         state = self.post_export(state)
         return state
 
