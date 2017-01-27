@@ -99,7 +99,7 @@ class Device(Node, File):
         return {
                 'name': self.name,
                 'author': self.author,
-                'version': self.version, 
+                'version': self.version,
                 'children': child_export,
                 'outputs': out_export
                 }

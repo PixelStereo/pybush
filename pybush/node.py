@@ -34,12 +34,13 @@ class Node(Basic):
     def post_print(self, printer):
         printer = printer[5:]
         printer = 'Node' + printer
-        param_or_not_param = False
+        if self.children:
+            printer = printer + ' - children :  ' + str(len(self.children))
+        if self.address:
+            printer = printer + ' - address :  ' + self.address
         if self.parameter:
-            param_or_not_param = True
-        printer = printer + ' - children : ' + str(len(self.children)) + ' - parameter : ' + str(param_or_not_param) + ' - address : ' + self.address
+            printer = printer + add '- parameter value is ' + str(self.parameter.value)
         return printer
-
 
     @property
     def parameter(self):
