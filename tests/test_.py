@@ -19,6 +19,11 @@ from pybush.automation import RampGenerator, RandomGenerator
 
 __dbug__ = 4
 
+def announcement(test):
+    print(' ')
+    print('---TESTING ' + test + ' -----')
+    print(' ')
+
 my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
@@ -78,6 +83,7 @@ node_3 = node_2.new_child(name="node.3")
 class TestAll(unittest.TestCase):
 
     def test_a_snapshot(self):
+        announcement('SNAPSHOT')
         snap_1 = param2.snap()
         print(snap_1.value)
         #print(1, param2.value)
@@ -89,6 +95,7 @@ class TestAll(unittest.TestCase):
         #self.assertEqual(param2.value, 2)
 
     def test_device(self):
+        announcement('DEVICE')
         self.assertEqual(isinstance(my_device.author, str), True)
         self.assertEqual(my_device.author, 'Pixel Stereo')
         self.assertEqual(isinstance(my_device.version, str), True)
@@ -99,6 +106,7 @@ class TestAll(unittest.TestCase):
 
 
     def test_nodes(self):
+        announcement('NODES')
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
         self.assertEqual(len(my_device.children), 2)
@@ -107,16 +115,19 @@ class TestAll(unittest.TestCase):
         #node_1.name = 'node 1 renamed'
 
     def test_device_export(self):
+        announcement('EXPORT')
         xprt = my_device.export()
         self.assertEqual(isinstance(xprt, dict), True)
         xprt_name = xprt['author']
         self.assertEqual(xprt_name, 'Pixel Stereo')
 
     def test_prop_list(self):
+        announcement('PROP_LIST')
         self.assertEqual(len(prop_dict(node_1).keys()), 5)
         self.assertEqual(len(prop_list(node_1)), 7)
 
     def test_parameter(self):
+        announcement('PARAMETER')
         self.assertEqual(param2.__class__.__name__, 'Parameter')
         self.assertEqual(param2.value, 1)
         self.assertEqual(param2.unique, True)
@@ -125,6 +136,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param2.domain, [0, 11])
 
     def test_ramp(self):
+        announcement('RAMP')
         a_random = RandomGenerator(param2, 0, 1, 1000, 10)
         for rand in a_random.random():
             self.assertEqual(rand > 0, True)
@@ -136,6 +148,7 @@ class TestAll(unittest.TestCase):
         #self.assertEqual(next(a_ramp), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
     def test_writing_files(self):
+        announcement('WRTING / READING FILES')
         #self.assertEqual(node_1.parameter, param2)
         setattr(node_1, 'parameter', param2)
         write_path = os.path.abspath('./')
@@ -150,6 +163,7 @@ class TestAll(unittest.TestCase):
         print(device.read(filepath))
 
     def test_modular_functions(self):
+        announcement('MODULAR FUNCTIONS')
         b = 2
         self.assertEqual(isinstance(b, int), True)
         b = m_bool(b)
@@ -195,12 +209,14 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(parameter.value, float), True)
 
     def test_print(self):
+        announcement('PRINT')
         print('----------------------------')
         print(my_device.name + " version " + my_device.version + " by " + my_device.author)
         #for key, val in param2.export().items():
         #    print('iterate', key, val)
 
     def test_address(self):
+        announcement('ADDRESSES')
         self.assertEqual(my_device.address, 'My_device')
         self.assertEqual(node_1.address, 'My_device/node.1')
         self.assertEqual(node_2.address, 'My_device/node.1/node.2')
@@ -209,6 +225,7 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param3.address, 'My_device/node.1/node.2')
 
     def test_errors(self):
+        announcement('RASING ERRORS')
         with self.assertRaises(BushTypeError) as cm:
             my_device.output = None
         the_exception = cm.exception
