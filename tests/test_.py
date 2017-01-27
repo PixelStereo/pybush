@@ -23,18 +23,18 @@ my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
-node_1 = my_device.new_child(name='node.1')
-node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
-node_3 = node_2.new_child(name="node.3")
+#node_1 = my_device.new_child(name='node.1')
+#node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
 #param0 = my_device.new_parameter(name='punk one')
 param2 = my_device.new_parameter({  'name':'node.1',
                                     'value':1,
                                     'datatype':'decimal',
                                     'domain':[0,11], \
                                     'clipmode':'both',
-                                    'unique':True
+                                    'unique':True,
+                                    'tags':['un', 'deux']
                                     })
-node_1.tags=['init', 'video']
+#node_1.tags=['init', 'video']
 print(param2)
 param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'value':-0.5, \
@@ -43,9 +43,9 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'clipmode':'low', \
                                     'unique':False \
                                     })
-print(param3)
-print('----')
-print(node_1)
+parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
+# create two parameters with the same name must be raised
+same = my_device.new_parameter({'name':'one/two/three/four/same'})
 param3.ramp(2, 100)
 sleep(0.2)
 param3.random(2, 100)
@@ -70,6 +70,11 @@ sleep(0.7)
 param2.ramp(0, 50)
 param2.value = 1
 
+node_1 = param2.parent
+node_2 = param3.parent
+node_3 = node_2.new_child(name="node.3")
+
+
 class TestAll(unittest.TestCase):
 
     def test_a_snapshot(self):
@@ -89,17 +94,17 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(my_device.version, str), True)
         self.assertEqual(my_device.version, '0.1.0')
         self.assertEqual(type(my_device.name), str)
-        self.assertEqual(my_device.name, 'My device')
+        self.assertEqual(my_device.name, 'My_device')
         self.assertEqual(len(get_devices()), 2)
 
 
     def test_nodes(self):
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 3)
+        self.assertEqual(len(my_device.children), 2)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
-        node_1.name = 'node 1 renamed'
+        #node_1.name = 'node 1 renamed'
 
     def test_device_export(self):
         xprt = my_device.export()
@@ -169,15 +174,12 @@ class TestAll(unittest.TestCase):
         self.assertEqual(isinstance(s, list), True)
         s = m_string(s)
         self.assertEqual(isinstance(s, str), True)
-        parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
         parameter.value = 3.2
         parameter.datatype = 'decimal'
         parameter.tags = ['uno','dos']
         parameter.domain = [0,1]
         parameter.clipmode = 'both'
         parameter.unique = 1
-        # create two parameters with the same name must be raised
-        same = my_device.new_parameter({'name':'one/two/three/same'})
         # here, we just assign the parameter as False
         self.assertEqual(same, same)
         self.assertEqual(parameter.value, 1)
