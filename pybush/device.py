@@ -102,7 +102,6 @@ class Device(Node, File):
                 'outputs': out_export
                 }
 
-    # ----------- AUTHOR -------------
     @property
     def author(self):
         """
@@ -114,7 +113,6 @@ class Device(Node, File):
     def author(self, author):
         self._author = author
 
-    # ----------- VERSION -------------
     @property
     def version(self):
         """
@@ -270,7 +268,7 @@ class Device(Node, File):
         """
         # self.read is a method from File Class
         device_dict = self.load(filepath)
-        # TODO : CHECK IF THIS IS A VALID DEVICE FILE
+        # FOR LATER : CHECK IF THIS IS A VALID DEVICE FILE
         # if valid python dict / json file
         if device_dict:
             if __dbug__:
@@ -280,10 +278,10 @@ class Device(Node, File):
                 print('loading device called : ' + filepath)
         else:
             if __dbug__:
-                print('ERROR 901 - file provided is not a valid file' + str(filepath))
+                print('ERROR 901 - file is not valid' + str(filepath))
         try:
             if __dbug__:
-                print('--- new-device : ' + device_dict['name'] + ' --- ')
+                print('new-device : ' + device_dict['name'])
             # iterate each attributes of the selected device
             set_attributes(self, device_dict)
             if __dbug__:
@@ -292,6 +290,5 @@ class Device(Node, File):
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as error:
             if __dbug__:
-                print(error,    "ERROR 902 - device cannot be loaded, \
-                                this is not a valid Device")
+                print(error, "ERROR 902 - this is not a valid Device")
             return False

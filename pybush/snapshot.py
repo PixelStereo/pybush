@@ -19,7 +19,7 @@ class Snapshot(State, Basic):
     def __init__(self, **kwargs):
         super(Snapshot, self).__init__(**kwargs)
         if __dbug__:
-            print('----------------creating a snapshot----------------')
+            print('creating a snapshot')
         # Don't store snapshots or name
         # We only want a state to store, and basics (name, description, tags)
         # for the snapshot

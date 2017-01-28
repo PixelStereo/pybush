@@ -59,13 +59,13 @@ class File(object):
             return False
         else:
             if __dbug__:
-                print("--- loading JSON from " + path)
+                print("loading JSON from " + path)
             loading = load_json(path)
             if loading:
                 # register the path for the current load
                 self.path = path
                 if __dbug__:
-                    print("--- succesfull JSON loading from " + path)
+                    print("succesfull JSON loading from " + path)
                 return loading
             else:
                 if __dbug__:

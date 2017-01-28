@@ -56,7 +56,7 @@ class OutputMIDI(Output):
     def __init__(self, **kwargs):
         super(OutputMIDI, self).__init__()
         if __dbug__:
-            print('------- creating a MIDI output-------')
+            print('creating a MIDI output')
         self._protocol = 'MIDI'
         self._channel = 1
         self._message = 'CC'
@@ -120,7 +120,7 @@ class OutputOSC(Output):
     def __init__(self, **kwargs):
         super(OutputOSC, self).__init__()
         if __dbug__:
-            print('------- creating an OSC output-------')
+            print('creating an OSC output')
         self._protocol = 'OSC'
         self._name = 'OSC Output'
         self._port='127.0.0.1:1234'
