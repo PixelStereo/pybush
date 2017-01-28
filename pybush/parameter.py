@@ -7,7 +7,6 @@ A Parameter is a node, with a value
 So a Parameter inherit from Node Class and just add attributes about value
 """
 
-from pybush.constants import __dbug__
 from pybush.state import State
 from pybush.snapshot import Snapshot
 from pybush.automation import RampGenerator, RandomGenerator

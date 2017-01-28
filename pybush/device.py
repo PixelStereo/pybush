@@ -42,7 +42,6 @@ class Device(Node, File):
         self._final_node = None
 
     def post_print(self, printer):
-        printer = printer[5:]
         printer = 'Device' + printer
         if self.author:
             printer = printer + ' - author :  ' + self.author

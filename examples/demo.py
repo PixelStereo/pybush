@@ -8,16 +8,18 @@ from time import sleep
 from pybush import new_device, get_devices
 
 my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
-
 another_device = new_device(name='My Other device', author='Stereo Pixel', version='0.1.1')
+
+for dev in get_devices():
+	print(dev)
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 output = my_device.new_output(protocol='MIDI')
 node_3 = my_device.new_child(name="node.3")
 param1 = my_device.new_parameter({'name':'param.1'})
-param2 = my_device.new_parameter({'name':'node.1/node.2', 'tags':['lol', 'lal'], 'value':1, 'tags':['init', 'video'], 'datatype':'decimal', 'domain':[0,11], \
-                                'clipmode':'both', 'repetitions':True})
+param2 = my_device.new_parameter({'name':'node.1/node.2', 'value':1, 'tags':['init', 'video'], 'datatype':'decimal', 'domain':[0,11], \
+								'clipmode':'both', 'repetitions':True})
 param3 = my_device.new_parameter({'name':'node.1/node.2/node.3', 'value':-0.5, 'datatype':'decimal', \
-                                'domain':[-1,1], 'clipmode':'low', 'repetitions':False})
+								'domain':[-1,1], 'clipmode':'low', 'repetitions':False})
 
 snap_param3 = param3.snap()
 #print(snap_param3)
