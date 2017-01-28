@@ -139,11 +139,11 @@ class TestAll(unittest.TestCase):
 
     def test_ramp(self):
         announcement('RAMP')
-        a_random = RandomGenerator(param2, 0, 1, 1000, 10)
+        a_random = RandomGenerator(param2, 0, 1, 100, 10)
         for rand in a_random.random():
             self.assertEqual(rand > 0, True)
             self.assertEqual(rand < 11, True)
-        a_ramp = RampGenerator(param3, 0.4, 1.6, 1000, 100)
+        a_ramp = RampGenerator(param3, 0.4, 1.6, 100, 100)
         for step in a_ramp.ramp():
             self.assertEqual(step > 0.4, True)
             self.assertEqual(step < 1.7, True)
