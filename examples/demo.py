@@ -28,9 +28,9 @@ param3.unique = True
 param3.value = 0.5
 snap2_param3 = param3.snap()
 #print(snap2_param3)
-param3.recall(snap_param3)
+#param3.recall(snap_param3)
 #print(param3)
-param3.recall(snap2_param3)
+#param3.recall(snap2_param3)
 #print(param3)
 for snap in param3.snapshots:
 	print(param3.snapshots.index(snap), snap)
