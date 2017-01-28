@@ -23,14 +23,16 @@ class Basic(object):
 
     def __repr__(self):
         printer = 'Basic (name:{name}, tags:{tags}, description:{description})'
-        printer = post_print(printer)
+        printer = self.post_print(printer)
         return printer.format(name=self.name, description=self.description, \
                               tags=self.tags)
 
-    def post_print(printer):
+    def post_print(self, printer):
         """
         must be subclassed
         """
+        if __dbug__:
+            print('nowhere that you cannot found' + self.service)
         return printer
 
     def reset(self):
