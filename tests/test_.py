@@ -24,6 +24,7 @@ def announcement(test):
     print('---TESTING ' + test + ' -----')
     print(' ')
 
+
 my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
@@ -40,6 +41,7 @@ param2 = my_device.new_parameter({  'name':'node.1',
                                     'tags':['un', 'deux']
                                     })
 #node_1.tags=['init', 'video']
+print(param2.parent)
 print(param2)
 param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'value':-0.5, \
@@ -51,9 +53,9 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
 parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
 # create two parameters with the same name must be raised
 same = my_device.new_parameter({'name':'one/two/three/four/same'})
-param3.ramp(2, 100)
-sleep(0.2)
-param3.random(2, 100)
+param3.ramp(2, 30)
+sleep(0.02)
+param3.random(2, 40)
 
 # it is not possible for the moment to snap a device
 """snap_device = my_device.snap()
@@ -61,17 +63,17 @@ print('-----_______---')
 print(snap_device)
 print('-----_______---')"""
 param2.value = 0
-param2.ramp(1, 500)
+param2.ramp(1, 80)
 param3.value = 1
 param3.datatype = 'decimal'
-param3.ramp(0, 500)
-sleep(0.5)
+param3.ramp(0, 60)
+sleep(0.06)
 param3.domain = [0.4, 0.6]
 param3.random(destination=1, duration=700)
-param2.random(1, 700)
+param2.random(1, 70)
 print(param2.value)
 param3.value = 0.5
-sleep(0.7)
+sleep(0.05)
 param2.ramp(0, 50)
 param2.value = 1
 
@@ -104,7 +106,6 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_device.name, 'My_device')
         self.assertEqual(len(get_devices()), 2)
 
-
     def test_nodes(self):
         announcement('NODES')
         xprt_node2 = node_2.export()
@@ -128,6 +129,7 @@ class TestAll(unittest.TestCase):
 
     def test_parameter(self):
         announcement('PARAMETER')
+        self.assertEqual(param2.parent.parameter, param2)
         self.assertEqual(param2.__class__.__name__, 'Parameter')
         self.assertEqual(param2.value, 1)
         self.assertEqual(param2.unique, True)
@@ -149,7 +151,6 @@ class TestAll(unittest.TestCase):
 
     def test_writing_files(self):
         announcement('WRTING / READING FILES')
-        #self.assertEqual(node_1.parameter, param2)
         setattr(node_1, 'parameter', param2)
         write_path = os.path.abspath('./')
         write_path = write_path + '/'
