@@ -9,9 +9,13 @@ This is a logger
 Niveau  Valeur  Usage
 CRITICAL    50  Le programme complet est en train de partir en couille.
 ERROR   40  Une opération a foirée.
-WARNING     30  Pour avertir que quelque chose mérite l’attention : enclenchement d’un mode particulier, detection d’une situation rare, un lib optionelle peut être installée.
-INFO    20  Pour informer de la marche du programme. Par exemple : “Starting CSV parsing”
-DEBUG   10  Pour dumper des information quand vous débuggez. Par exemple savoir ce qu’il y a dans ce putain de dictionnaire. 
+WARNING     30  Pour avertir que quelque chose mérite l’attention
+			enclenchement d’un mode particulier, detection d’une situation rare
+			un lib optionelle peut être installée.
+INFO    20  Pour informer de la marche du programme.
+			Par exemple : “Starting CSV parsing”
+DEBUG   10  Pour dumper des information quand vous débuggez.
+			Par exemple savoir ce qu’il y a dans ce putain de dictionnaire.
 """
 
 import logging
@@ -37,11 +41,14 @@ logger.addHandler(file_handler)
  
 # création d'un second handler qui va rediriger chaque écriture de log
 # sur la console
-steam_handler = logging.StreamHandler()
-steam_handler.setLevel(logging.DEBUG)
-logger.addHandler(steam_handler)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+logger.addHandler(stream_handler)
  
 # Après 3 heures, on peut enfin logguer
 # Il est temps de spammer votre code avec des logs partout :
-logger.info('Hello')
+logger.info('Info')
+logger.debug('Debug')
+logger.error('Error')
+logger.critical('Critical')
 logger.warning('Testing %s', 'foo')
