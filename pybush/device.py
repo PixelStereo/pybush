@@ -74,11 +74,9 @@ class Device(Node, File):
             if out.protocol == self.output.protocol:
                 self._output = out
             else:
-                print('CHANGE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
-                raise BushTypeError('Wait for a ' + self.output.protocol + ',  but receive a', out.protocol)
+                raise BushTypeError(self.output.protocol, out.protocol)
         else:
-            msg = 'Wait for an Output but receive a '
-            raise BushTypeError(msg, out.__class__.__name__)
+            raise BushTypeError('Output', out)
 
     def export(self):
         """
