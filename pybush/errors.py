@@ -15,7 +15,7 @@ class BushTypeError(Exception):
         self.error_code = 1
         dbg = 'Error 10 - Expected {expected} - received {received}'
         received = received=received.__class__.__name__
-        dbg = dbg.format(expected=expected, received)
+        dbg = dbg.format(expected=expected, received=received)
         print(dbg)
 
 class NoOutputError(Exception):
