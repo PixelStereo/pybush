@@ -87,8 +87,8 @@ def prop_list(the_class):
         Error: Not already implemented
     """
     the_class = the_class.__class__
-    return [p for p in dir(the_class) \
-                if isinstance(getattr(the_class, p), property)]
+    return [p for p in dir(the_class)
+            if isinstance(getattr(the_class, p), property)]
 
 
 def prop_dict(the_class):
@@ -171,28 +171,18 @@ def set_attributes(the_instance, the_dict):
     """
     for att, val in the_dict.items():
         # children attribute is for Node Instance
-        if att == 'children':
+        if att == 'children' or att == 'snapshots':
             if the_dict[att]:
-                for child in the_dict[att]:
-                    the_instance.new_child(child)
+                for snap_or_child in the_dict[att]:
+                    the_instance.new_child(snap_or_child)
         elif att == 'parameter':
             if the_dict[att]:
                 the_instance.get_device().new_parameter(val)
-        elif att == 'snapshots':
-            if the_dict[att]:
-                for snap in the_dict[att]:
-                    the_instance.snap(snap)
         elif att == 'outputs':
             for protocol, output in val.items():
                 for out in output:
-                    if protocol == 'OSC':
+                    if protocol == 'OSC' or protocol == 'MIDI':
                         the_instance.new_output(protocol=protocol, **out)
-                        if __dbug__:
-                            print('import creates an OSC output')
-                    if protocol == 'MIDI':
-                        the_instance.new_output(protocol=protocol, **out)
-                        if __dbug__:
-                            print('import creates a MIDI output')
         else:
             try:
                 setattr(the_instance, att, val)
