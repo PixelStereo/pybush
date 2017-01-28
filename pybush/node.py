@@ -32,7 +32,6 @@ class Node(Basic):
         set_attributes(self, kwargs)
 
     def post_print(self, printer):
-        printer = printer[5:]
         printer = 'Node' + printer
         if self.children:
             printer = printer + ' - children :  ' + str(len(self.children))

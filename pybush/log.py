@@ -3,9 +3,7 @@
 
 """
 This is a logger
-"""
 
-"""
 Niveau  Valeur  Usage
 CRITICAL    50  Le programme complet est en train de partir en couille.
 ERROR   40  Une opération a foirée.
@@ -19,7 +17,7 @@ DEBUG   10  Pour dumper des information quand vous débuggez.
 """
 
 import logging
- 
+
 from logging.handlers import RotatingFileHandler
  
 # création de l'objet logger qui va nous servir à écrire dans les logs
