@@ -41,24 +41,19 @@ class Device(Node, File):
         # temporary workaround
         self._final_node = None
 
-    def __repr__(self):
-        printer = 'Node (   author: {author}, \
-                            version: {version}, \
-                            outputs: {outputs}, \
-                            name: {name}, tags: {tags}, \
-                            description: {description}, \
-                            children: {children}, address: {address} \
-                        )'
+    def post_print(self, printer):
+        printer = 'Device' + printer
+        if self.author:
+            printer = printer + ' - author :  ' + self.author
+        if self.version:
+            printer = printer + ' - version :  ' + str(self.version)
         if self.outputs:
-            outs = len(self.outputs)
-        else:
-            outs = self.outputs
-        return printer.format(  name=self.name, tags=self.tags, \
-                                description=self.description, \
-                                children=len(self.children), \
-                                address=self.address, outputs=outs, \
-                                author=self.author, version=self.version
-                                )
+            printer = printer + ' - outputs :  ' + str(len(self.outputs))
+        if self.children:
+            printer = printer + ' - children :  ' + str(len(self.children))
+        if self.address:
+            printer = printer + ' - address :  ' + self.address
+        return printer
 
     @property
     def output(self):
@@ -78,11 +73,9 @@ class Device(Node, File):
             if out.protocol == self.output.protocol:
                 self._output = out
             else:
-                print('CHANGE TYPE OF THE OUTPUT FOR THIS DEVICE', self.name)
-                raise BushTypeError('Wait for a ' + self.output.protocol + ',  but receive a', out.protocol)
+                raise BushTypeError(self.output.protocol, out.protocol)
         else:
-            msg = 'Wait for an Output but receive a '
-            raise BushTypeError(msg, out.__class__.__name__)
+            raise BushTypeError('Output', out)
 
     def export(self):
         """
@@ -108,7 +101,6 @@ class Device(Node, File):
                 'outputs': out_export
                 }
 
-    # ----------- AUTHOR -------------
     @property
     def author(self):
         """
@@ -120,7 +112,6 @@ class Device(Node, File):
     def author(self, author):
         self._author = author
 
-    # ----------- VERSION -------------
     @property
     def version(self):
         """
@@ -205,7 +196,7 @@ class Device(Node, File):
                 print("ERROR - trying to delete an output which not exists \
                       in self._outputs", output)
 
-    def new_parameter(self, dict_import=None, name=None):
+    def new_parameter(self, dict_import):
         """
         create a parameter in the device
         name must be provided.
@@ -237,8 +228,6 @@ class Device(Node, File):
             node.parameter = Parameter(**param_dict)
             return node.parameter
         lock = None
-        if not isinstance(dict_import, dict):
-            dict_import = {'name': name}
         if 'name' in dict_import.keys():
             if '/' in dict_import['name']:
                 # this is a parameter in a child node of the device
@@ -278,7 +267,7 @@ class Device(Node, File):
         """
         # self.read is a method from File Class
         device_dict = self.load(filepath)
-        # TODO : CHECK IF THIS IS A VALID DEVICE FILE
+        # FOR LATER : CHECK IF THIS IS A VALID DEVICE FILE
         # if valid python dict / json file
         if device_dict:
             if __dbug__:
@@ -288,10 +277,10 @@ class Device(Node, File):
                 print('loading device called : ' + filepath)
         else:
             if __dbug__:
-                print('ERROR 901 - file provided is not a valid file' + str(filepath))
+                print('ERROR 901 - file is not valid' + str(filepath))
         try:
             if __dbug__:
-                print('--- new-device : ' + device_dict['name'] + ' --- ')
+                print('new-device : ' + device_dict['name'])
             # iterate each attributes of the selected device
             set_attributes(self, device_dict)
             if __dbug__:
@@ -300,6 +289,5 @@ class Device(Node, File):
         # catch error if file is not valid or if file is not a valide node
         except (IOError, ValueError) as error:
             if __dbug__:
-                print(error,    "ERROR 902 - device cannot be loaded, \
-                                this is not a valid Device")
+                print(error, "ERROR 902 - this is not a valid Device")
             return False
