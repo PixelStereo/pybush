@@ -29,6 +29,7 @@ This is the first thing to create. The trunk is an entry point to access
 branches and leaves.
 
 from pybush import new_trunk
+
 my_app = new_trunk('My App')
 
 Leave Class
@@ -36,17 +37,15 @@ Now that we have a trunk, you can create some leaves.
 
 pos_x = my_app.new_parameter('pos/x')
 
-Two instances of Branch Class are created :
-- 'pos'
-    - 'x'
-pos_x.parent is 'x' instance
-pos_x.parent.parent is 'pos' instance
-pos_x.get_device() is my_app
-my_app.children = ['pos']
-'pos'.children = ['x']
-'x'.state = [pos_x]
+A leave is a Branch with a leaf attributte set to a Leaf Instance
 
-A leave is a Branch with a leaf attribut set to a Leaf Instance
+now this is True :
+
+my_app.children[0].children[0].parameter = pos_x
+
+pos_x.name = 'x'
+
+pos_X.parent.name = 'pos'
 
 You cam call make_state() method for each Branch
 that makes leaves comming back to a certain state 

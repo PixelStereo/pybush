@@ -68,10 +68,10 @@ pybush.state
     :undoc-members:
     :show-inheritance:
 
-pybush.snapshot
----------------
+pybush.value
+------------
 
-.. automodule:: pybush.snapshot
+.. automodule:: pybush.value
     :members:
     :undoc-members:
     :show-inheritance:
