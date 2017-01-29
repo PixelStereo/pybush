@@ -41,20 +41,24 @@ class Device(Node, File):
         # temporary workaround
         self._final_node = None
 
-    def post_print(self, printer):
-        printer = printer[5:]
-        printer = 'Device' + printer
-        if self.author:
-            printer = printer + ' - author :  ' + self.author
-        if self.version:
-            printer = printer + ' - version :  ' + str(self.version)
+    def __repr__(self):
+        printer = 'Node (   author: {author}, \
+                            version: {version}, \
+                            outputs: {outputs}, \
+                            name: {name}, tags: {tags}, \
+                            description: {description}, \
+                            children: {children}, address: {address} \
+                        )'
         if self.outputs:
-            printer = printer + ' - outputs :  ' + str(len(self.outputs))
-        if self.children:
-            printer = printer + ' - children :  ' + str(len(self.children))
-        if self.address:
-            printer = printer + ' - address :  ' + self.address
-        return printer
+            outs = len(self.outputs)
+        else:
+            outs = self.outputs
+        return printer.format(  name=self.name, tags=self.tags, \
+                                description=self.description, \
+                                children=len(self.children), \
+                                address=self.address, outputs=outs, \
+                                author=self.author, version=self.version
+                                )
 
     @property
     def output(self):
@@ -201,7 +205,7 @@ class Device(Node, File):
                 print("ERROR - trying to delete an output which not exists \
                       in self._outputs", output)
 
-    def new_parameter(self, dict_import):
+    def new_parameter(self, dict_import=None, name=None):
         """
         create a parameter in the device
         name must be provided.
@@ -233,6 +237,8 @@ class Device(Node, File):
             node.parameter = Parameter(**param_dict)
             return node.parameter
         lock = None
+        if not isinstance(dict_import, dict):
+            dict_import = {'name': name}
         if 'name' in dict_import.keys():
             if '/' in dict_import['name']:
                 # this is a parameter in a child node of the device

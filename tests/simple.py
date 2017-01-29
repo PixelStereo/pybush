@@ -46,3 +46,7 @@ same = my_device.new_parameter({'name':'one/two/three/four/same'})
 
 print(param2.parent)
 print(my_device)
+
+snp = param3.snap()
+print('--------')
+print(snp)

@@ -19,7 +19,7 @@ class Snapshot(State, Basic):
     def __init__(self, **kwargs):
         super(Snapshot, self).__init__(**kwargs)
         if __dbug__:
-            print('----------------creating a snapshot----------------')
+            print('-- creating a snapshot --')
         # Don't store snapshots or name
         # We only want a state to store, and basics (name, description, tags)
         # for the snapshot
@@ -34,8 +34,15 @@ class Snapshot(State, Basic):
                             raw:{raw}, value:{value}, datatype:{datatype}, \
                             domain:{domain}, clipmode:{clipmode}, \
                             unique:{unique}, tags:{tags})'
-        return printer.format(  name=self.name, description=self.description, \
-                                raw=self.raw, value=self.value, \
-                                datatype=self.datatype, domain=self.domain, \
-                                clipmode=self.clipmode, unique=self.unique, \
+        return printer.format(  name=self.name,
+                                description=self.description, \
+                                raw=self.raw,
+                                value=self.value, \
+                                datatype=self.datatype,
+                                domain=self.domain, \
+                                clipmode=self.clipmode,
+                                unique=self.unique, \
                                 tags=self.tags)
+
+    def post_export(self, export):
+        return export

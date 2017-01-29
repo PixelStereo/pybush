@@ -12,7 +12,7 @@ my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 another_device = new_device(name='My Other device', author='Stereo Pixel', version='0.1.1')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 output = my_device.new_output(protocol='MIDI')
-node_3 = my_device.new_child(name="node.3")
+node3 = my_device.new_child(name="node.3")
 param1 = my_device.new_parameter({'name':'param.1'})
 param2 = my_device.new_parameter({'name':'node.1/node.2', 'tags':['lol', 'lal'], 'value':1, 'tags':['init', 'video'], 'datatype':'decimal', 'domain':[0,11], \
                                 'clipmode':'both', 'repetitions':True})

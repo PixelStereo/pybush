@@ -24,13 +24,14 @@ def announcement(test):
     print('---TESTING ' + test + ' -----')
     print(' ')
 
+# create devices
 my_device = new_device(name='My device', author='Pixel Stereo', version='0.1.0')
 another_device = new_device(name='My device', author='Stereo Pixel', version='0.1.1')
+# create outputs
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
-#node_1 = my_device.new_child(name='node.1')
-#node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
-#param0 = my_device.new_parameter(name='punk one')
+# create parameters
+param0 = my_device.new_parameter(name='punk one')
 param2 = my_device.new_parameter({  'name':'node.1',
                                     'value':1,
                                     'datatype':'decimal',
@@ -39,8 +40,7 @@ param2 = my_device.new_parameter({  'name':'node.1',
                                     'unique':True,
                                     'tags':['un', 'deux']
                                     })
-#node_1.tags=['init', 'video']
-print(param2)
+param2.tags = param2.tags.append(['init', 'video'])
 param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'value':-0.5, \
                                     'datatype':'decimal', \
@@ -51,9 +51,9 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
 parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
 # create two parameters with the same name must be raised
 same = my_device.new_parameter({'name':'one/two/three/four/same'})
-param3.ramp(2, 100)
-sleep(0.2)
-param3.random(2, 100)
+param3.ramp(2, 30)
+sleep(0.04)
+param3.random(2, 30)
 
 # it is not possible for the moment to snap a device
 """snap_device = my_device.snap()
@@ -64,20 +64,19 @@ param2.value = 0
 param2.ramp(1, 500)
 param3.value = 1
 param3.datatype = 'decimal'
-param3.ramp(0, 500)
-sleep(0.5)
+param3.ramp(0, 80)
+sleep(0.1)
 param3.domain = [0.4, 0.6]
-param3.random(destination=1, duration=700)
-param2.random(1, 700)
-print(param2.value)
+param3.random(destination=1, duration=200)
+param2.random(1, 200)
 param3.value = 0.5
-sleep(0.7)
+sleep(0.21)
 param2.ramp(0, 50)
 param2.value = 1
 
-node_1 = param2.parent
-node_2 = param3.parent
-node_3 = node_2.new_child(name="node.3")
+node1 = param2.parent
+node2 = param3.parent
+node3 = node2.new_child(name="node.3")
 
 
 class TestAll(unittest.TestCase):
@@ -85,14 +84,10 @@ class TestAll(unittest.TestCase):
     def test_a_snapshot(self):
         announcement('SNAPSHOT')
         snap_1 = param2.snap()
-        print(snap_1.value)
-        #print(1, param2.value)
-        node_1.value = 212
-        #print(3, param2.value)
+        self.assertEqual(snap_1.value, param2.value)
         snap_2 = param2.snap()
-        #node_1.recall(snap_1)
-        #print(3, param2.value)
-        #self.assertEqual(param2.value, 2)
+        param2.recall(snap_1)
+        self.assertEqual(param2.value, 1)
 
     def test_device(self):
         announcement('DEVICE')
@@ -104,15 +99,14 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_device.name, 'My_device')
         self.assertEqual(len(get_devices()), 2)
 
-
     def test_nodes(self):
         announcement('NODES')
-        xprt_node2 = node_2.export()
+        xprt_node2 = node2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 2)
-        self.assertEqual(len(node_1.children), 1)
-        self.assertEqual(len(node_2.children), 1)
-        #node_1.name = 'node 1 renamed'
+        self.assertEqual(len(my_device.children), 3)
+        self.assertEqual(len(node1.children), 1)
+        self.assertEqual(len(node2.children), 1)
+        node1.name = 'node 1 renamed'
 
     def test_device_export(self):
         announcement('EXPORT')
@@ -123,8 +117,8 @@ class TestAll(unittest.TestCase):
 
     def test_prop_list(self):
         announcement('PROP_LIST')
-        self.assertEqual(len(prop_dict(node_1).keys()), 5)
-        self.assertEqual(len(prop_list(node_1)), 7)
+        self.assertEqual(len(prop_dict(node1).keys()), 5)
+        self.assertEqual(len(prop_list(node1)), 7)
 
     def test_parameter(self):
         announcement('PARAMETER')
@@ -149,8 +143,8 @@ class TestAll(unittest.TestCase):
 
     def test_writing_files(self):
         announcement('WRTING / READING FILES')
-        #self.assertEqual(node_1.parameter, param2)
-        setattr(node_1, 'parameter', param2)
+        #self.assertEqual(node1.parameter, param2)
+        setattr(node1, 'parameter', param2)
         write_path = os.path.abspath('./')
         write_path = write_path + '/'
         my_device.name = 'export-device.name attribute'
@@ -218,9 +212,9 @@ class TestAll(unittest.TestCase):
     def test_address(self):
         announcement('ADDRESSES')
         self.assertEqual(my_device.address, 'My_device')
-        self.assertEqual(node_1.address, 'My_device/node.1')
-        self.assertEqual(node_2.address, 'My_device/node.1/node.2')
-        self.assertEqual(node_3.address, 'My_device/node.1/node.2/node.3')
+        self.assertEqual(node1.address, 'My_device/node.1')
+        self.assertEqual(node2.address, 'My_device/node.1/node.2')
+        self.assertEqual(node3.address, 'My_device/node.1/node.2/node.3')
         self.assertEqual(param2.address, 'My_device/node.1')
         self.assertEqual(param3.address, 'My_device/node.1/node.2')
 
@@ -230,6 +224,7 @@ class TestAll(unittest.TestCase):
             my_device.output = None
         the_exception = cm.exception
         self.assertEqual(the_exception.error_code, 1)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -22,15 +22,8 @@ class Basic(object):
         set_attributes(self, kwargs)
 
     def __repr__(self):
-        printer = 'Basic (name:{name}, tags:{tags}, description:{description})'
+        printer = {'service': self.service, 'attributes': self.export()}
         printer = post_print(printer)
-        return printer.format(name=self.name, description=self.description, \
-                              tags=self.tags)
-
-    def post_print(printer):
-        """
-        must be subclassed
-        """
         return printer
 
     def reset(self):
