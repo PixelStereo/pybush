@@ -35,5 +35,5 @@ The example/demo.py contains a nice exemple to understand what you can do with p
 
 ####Development
 ---
-Development is made on OSX with python 2.7
+Development is made on OSX with python 2.7    
 Continious integration is made on linux for python 2.7 / 3.5 / 3.6 / 3.7
