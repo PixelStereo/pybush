@@ -53,6 +53,7 @@ class RampGenerator(Automation):
         start = CURRENT_TIME()
         last = start
         step = float( (self.destination - self.value) / ( float(self.duration / self.grain) ))
+        print('ramp from ' + str(self.parent.value))
         while (CURRENT_TIME() < (start + self.duration)):
             while (CURRENT_TIME() < last + self.grain):
                 pass # wait
