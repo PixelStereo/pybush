@@ -5,7 +5,7 @@
 Node Class
 The Node is based on the Basic class
 It is the base class of all items in a namespace.
-Device and Parameter are based on the Node Class
+Device and Value are based on the Node Class
 it
 """
 from pybush.constants import __dbug__
@@ -58,7 +58,7 @@ class Node(Basic):
             return bool(self._parameter)
         else:
             if __dbug__:
-                print('ERROR 876 : this is not a Parameter instance, this is a ' + parameter.__class__.__name__)
+                print('ERROR 876 : this is not a Value instance, this is a ' + parameter.__class__.__name__)
             return False
 
     def get_device(self):
@@ -117,7 +117,7 @@ class Node(Basic):
                                 return child
                 # we import a python dict to create the child
                 # be careful about children and parameter
-                # which needs to instanciate Classes Node and Parameter
+                # which needs to instanciate Classes Node and Value
                 the_new_child = Node(parent=self, **dict_import)
                 # Append this child in the self.children list
                 append_child(the_new_child)
@@ -146,14 +146,16 @@ class Node(Basic):
 
     def post_export(self, node):
         """
-        export Node to a json_string/python_dict with all its properties
+        export Node to a dict with all its attributes
         """
         if self.parameter:
             node.setdefault('parameter', self.parameter.export())
+        else:
+            node.setdefault('parameter', None)
         filiation = []
         if self.children:
-            for chili in self.children:
-                filiation.append(chili.export())
+            for child in self.children:
+                filiation.append(child.export())
         node.setdefault('children', filiation)
         return node
 
@@ -172,7 +174,7 @@ class Node(Basic):
             if self.__class__.__name__ is not 'Device':
                 if self.parent:
                     parent_address = (get_address(self.parent))
-                    if self.__class__.__name__ is 'Parameter':
+                    if self.__class__.__name__ is 'Value':
                         address = parent_address
                     else:
                         address = parent_address + '/' + address

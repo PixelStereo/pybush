@@ -84,14 +84,15 @@ node_3 = node_2.new_child(name="node.3")
 
 class TestAll(unittest.TestCase):
 
-    def test_a_snapshot(self):
+    def test_a_state(self):
         announcement('SNAPSHOT')
-        snap_1 = param2.snap()
+        snap_1 = param2.make_state()
+        print(snap_1)
         print(snap_1.value)
         #print(1, param2.value)
         node_1.value = 212
         #print(3, param2.value)
-        snap_2 = param2.snap()
+        snap_2 = param2.make_state()
         #node_1.recall(snap_1)
         #print(3, param2.value)
         #self.assertEqual(param2.value, 2)

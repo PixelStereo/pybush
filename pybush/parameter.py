@@ -8,11 +8,11 @@ So a Parameter inherit from Node Class and just add attributes about value
 """
 
 from pybush.state import State
-from pybush.snapshot import Snapshot
+from pybush.value import Value
 from pybush.automation import RampGenerator, RandomGenerator
 from pybush.functions import set_attributes
 
-class Parameter(State):
+class Parameter(Value):
     """
     A Parameter is always attached to a node.
     It will provide value and value's attributes to its node
@@ -21,9 +21,9 @@ class Parameter(State):
         super(Parameter, self).__init__()
         # IMPORTANT to register parent first
         self._parent = kwargs['parent']
-        # collection of snapshots
-        self._snapshots = []
-        # collection of snapshots
+        # collection of states
+        self._states = []
+        # collection of states
         set_attributes(self, kwargs)
         # this is the player for ramp/random
         self.current_player = None
@@ -37,12 +37,12 @@ class Parameter(State):
                                 raw:{raw}, value:{value}, \
                                 datatype:{datatype}, \
                                 domain:{domain}, clipmode:{clipmode}, \
-                                snapshots:{snapshots}\
+                                states:{states}\
                                 unique:{unique}, tags:{tags})'
         return printer.format(address=self.address, description=self.description, raw=self.raw, \
                               value=self.value, datatype=self.datatype, \
                               domain=self.domain, clipmode=self.clipmode, \
-                              unique=self.unique, tags=self.tags, snapshots=len(self.snapshots))
+                              unique=self.unique, tags=self.tags, states=len(self.states))
 
     @property
     def name(self):
@@ -82,16 +82,16 @@ class Parameter(State):
     def tags(self, tags):
         self.parent.tags = tags
 
-    def post_export(self, state):
+    def post_export(self, export):
         """
         export the Parameter to a json_string/python_dict with all its properties
-        It just adds snapshots to the state export
+        It just adds states to the state export
         """
         snaps = []
-        for snap in self.snapshots:
+        for snap in self.states:
             snaps.append(snap.export())
-        state.setdefault('snapshots', snaps)
-        return state
+        export.setdefault('states', snaps)
+        return export
 
     def ramp(self, destination=1, duration=1000, grain=10):
         """
@@ -126,38 +126,38 @@ class Parameter(State):
     def parent(self, parent):
         self._parent = parent
 
-    def snap(self, the_snap=None):
+    def make_state(self, the_snap=None):
         """
         create a new event for this scenario
         """
         if not the_snap:
             the_snap = self.export()
         if isinstance(the_snap, dict):
-            # if this is a dict, please create a snapshot
+            # if this is a dict, please create a state
             # it is a dict for a new snap or for an imported snap
             the_snap.setdefault('parent', self)
-            the_snap = Snapshot(**the_snap)
-        if isinstance(the_snap, Snapshot):
-            # add the snapshot to the snapshots list
-            self._snapshots.append(the_snap)
+            the_snap = State(**the_snap)
+        if isinstance(the_snap, State):
+            # add the state to the states list
+            self._states.append(the_snap)
             return the_snap
         else:
             return None
 
     @property
-    def snapshots(self):
+    def states(self):
         """
         All the events of this scenario
         """
-        return self._snapshots
+        return self._states
 
     def recall(self, snap):
         """
-        recall a snapshot of the parameter
+        recall a state of the parameter
         """
         if isinstance(snap, dict):
             pass
-        elif isinstance(snap, State) or isinstance(snap, Snapshot):
+        elif isinstance(snap, State) or isinstance(snap, State):
             snap = snap.export()
         else:
             print('ERROR 76543')

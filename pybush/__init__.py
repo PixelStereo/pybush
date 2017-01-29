@@ -2,41 +2,67 @@
 # -*- coding: utf-8 -*-
 
 """
-This package contains useful classes designed to organize your Application
-It allows you to interact with various protocols from/to your app
-It works as a project manager for writing inter/multi-media scenario.
+This package contains useful classes designed to organize your Application.
 
-As a bush, pybush model is a tree graph, with branches and leaves.
+It allows you to interact with various protocols from/to your app.
+For now, only OSC is implemented, but the goal is to support at least :
+- OSC
+- Minuit
+- PJ-Link
+- MIDI
+- DMX / ARTNET
+- Serial
 
-Here everything is based on a Node concept
-We have an abstract base Class : NodeAbstract
+A few apps that might use pybush :
+- Configurable Bridge between protocols
+- Inter-media sequencer
+- IOT embedded app
+- Show controler
 
-The 'root' Node is a class called Device.
-This is the first thing to create.
-The device is an entry to acces its children or its sibling (both parameters)
-through different protocols. In your application, you can create any nodes
-or directly any parameters you want.
+Don't beat about the bush, it is lib for writing inter/multi-media scenario.
 
-In each Node, you can create another nodes.
-Each Node can contain a value. If it does, it is a Parameter.
-It is just a Node with a value (and attributes relative to the value)
-When you create a parameter, it automatically creates a node, as it is bassed
-on the Node Class.
-So you can even create another node or another parameter under a node
+As a bush, pybush model is a tree graph, with one and only one trunk.
+A Trunk might conatain branches and leaves.
 
-Node base class has at least 1 property which is a name.
+Trunk Class
+This is the first thing to create. The trunk is an entry point to access
+branches and leaves.
+
+from pybush import new_trunk
+my_app = new_trunk('My App')
+
+Leave Class
+Now that we have a trunk, you can create some leaves.
+
+pos_x = my_app.new_parameter('pos/x')
+
+Two instances of Branch Class are created :
+- 'pos'
+    - 'x'
+pos_x.parent is 'x' instance
+pos_x.parent.parent is 'pos' instance
+pos_x.get_device() is my_app
+my_app.children = ['pos']
+'pos'.children = ['x']
+'x'.state = [pos_x]
+
+A leave is a Branch with a leaf attribut set to a Leaf Instance
+
+You cam call make_state() method for each Branch
+that makes leaves comming back to a certain state 
 
 Name must be unique in the namespace.
 When you create a name, it will raise an error if there is already
 the same name.
+
 Nodes are used to organize your namespace.
 Leaves are used for parameters and controlers.
 - Parameter : It is a string, integer, boolean, float or list with a state.
 - Controler : It is the result of a computation (algorythm/remote/controler)
 
-There is others optionnals properties for each nodes, which are :
+There is others optionnals properties for each branch / state / trunk:
 - tags : tags are un unordered list of strings.
-
+- description : description for the object
 
 -------------------------------------------------------------------------------
 

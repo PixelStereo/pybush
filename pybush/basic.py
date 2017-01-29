@@ -14,6 +14,8 @@ class Basic(object):
     """
     def __init__(self, **kwargs):
         super(Basic, self).__init__()
+        if 'children' in kwargs.keys():
+            kwargs.pop('children')
         # initialise attributes/properties of this node
         self._description = None
         self._tags = []

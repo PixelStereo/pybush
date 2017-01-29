@@ -9,6 +9,14 @@ from pybush import new_device
 
 my_device = new_device(name='millumin', author='Pixel Stereo', version='0.1.0')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:5000')
+opacity = my_device.new_parameter({
+									'name':'Layer/opacity',
+									'value':0.,
+									'tags':['millumin', 'video'],
+									'datatype':'decimal',
+									'domain':[0,1],
+									'clipmode':'both',
+									'unique':True})
 
 column = my_device.new_parameter({
 									'name':'action/launchColumn',
@@ -19,21 +27,10 @@ column = my_device.new_parameter({
 									'clipmode':'low',
 									'unique':False})
 
-state = column.make_state()
-column.value = 12
-state = column.make_state()
-print('----')
-print(column.states[0])
-
-opacity = my_device.new_parameter({
-									'name':'test/opacity',
-									'value':0.,
-									'tags':['millumin', 'video'],
-									'datatype':'decimal',
-									'domain':[0,1],
-									'clipmode':'both',
-									'unique':True})
-
-from pprint import pprint
-pprint(column.export())
-
+opacity.ramp(1, 800)
+sleep(1)
+column.value = 3
+sleep(2)
+column.value = 2
+opacity.ramp(0, 1000)
+sleep(2)
