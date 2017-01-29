@@ -25,3 +25,5 @@ class NoOutputError(Exception):
     def __init__(self):
         super(NoOutputError, self).__init__()
         self.error_code = 401
+        dbg = 'Error 40 - No output for Device'
+        print(dbg)

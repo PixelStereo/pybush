@@ -9,6 +9,7 @@ import liblo
 from pybush.constants import __dbug__
 from pybush.file import File
 from pybush.functions import check_type
+from pybush.errors import NoOutputError
 
 
 class State(File):
@@ -81,28 +82,32 @@ class State(File):
         might be used to send it to network or other protocols
         """
         for out in self.parent.get_device().outputs:
-            split = out.port.split(':')
-            ip_add = split[0]
-            udp = split[1]
             try:
-                target = liblo.Address(ip_add, int(udp))
+                split = out.port.split(':')
+                ip_add = split[0]
+                udp = split[1]
+                try:
+                    target = liblo.Address(ip_add, int(udp))
+                    if __dbug__ >= 3:
+                        print('connect to : ' + ip_add + ':' + str(udp))
+                except liblo.AddressError as err:
+                    if __dbug__ >= 3:
+                        print('liblo.AddressError' + str(err))
+                msg = liblo.Message('/' + self.address)
+                if isinstance(self.value, list):
+                    # this is a list of values to send
+                    for arg in self.value:
+                        arg = check_type(arg)
+                        msg.add(arg)
+                else:
+                    # this is a single value to send
+                    msg.add(self.value)
+                liblo.send(target, msg)
                 if __dbug__ >= 3:
-                    print('connect to : ' + ip_add + ':' + str(udp))
-            except liblo.AddressError as err:
-                if __dbug__ >= 3:
-                    print('liblo.AddressError' + str(err))
-            msg = liblo.Message('/' + self.address)
-            if isinstance(self.value, list):
-                # this is a list of values to send
-                for arg in self.value:
-                    arg = check_type(arg)
-                    msg.add(arg)
-            else:
-                # this is a single value to send
-                msg.add(self.value)
-            liblo.send(target, msg)
-            if __dbug__ >= 3:
-                print('update ' + self.name + ' to value ' + str(self.value))
+                    print('update ' + self.name + ' to value ' + str(self.value))
+                return True
+            except NoOutputError:
+                return False
 
     @property
     def value(self):
