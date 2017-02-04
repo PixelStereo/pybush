@@ -40,6 +40,14 @@ param2 = my_device.new_parameter({  'name':'node.1',
                                     'unique':True,
                                     'tags':['un', 'deux']
                                     })
+symol_one = my_device.new_parameter({  'name':'a symbol',
+                                    'value':1,
+                                    'datatype':'string',
+                                    'domain':['uno', 'dos'], \
+                                    'clipmode':'both',
+                                    'unique':True,
+                                    'tags':['symbol', 'param']
+                                    })
 #node_1.tags=['init', 'video']
 print(param2.parent)
 print(param2)
@@ -62,6 +70,8 @@ param3.random(2, 40)
 print('-----_______---')
 print(snap_device)
 print('-----_______---')"""
+symol_one.value = 'uno'
+symol_one.value = 'ein'
 param2.value = 0
 param2.ramp(1, 80)
 param3.value = 1
@@ -111,7 +121,7 @@ class TestAll(unittest.TestCase):
         announcement('NODES')
         xprt_node2 = node_2.export()
         self.assertEqual(isinstance(xprt_node2, dict), True)
-        self.assertEqual(len(my_device.children), 2)
+        self.assertEqual(len(my_device.children), 3)
         self.assertEqual(len(node_1.children), 1)
         self.assertEqual(len(node_2.children), 1)
         #node_1.name = 'node 1 renamed'
