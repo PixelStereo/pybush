@@ -6,8 +6,10 @@ Animation's library
 """
 
 import multiprocessing
+from datetime import datetime
 from time import time
 from random import uniform
+from pybush.constants import __dbug__
 
 CURRENT_TIME = lambda: time() * 1000
 
@@ -44,7 +46,11 @@ class RampGenerator(Automation):
 
     def run(self):
         for step in self.ramp():
+            if __dbug__ > 3:
+                print(datetime.now())
             self.parent.value = step
+        if __dbug__ > 3:
+            print(datetime.now())
 
     def ramp(self):
         """
@@ -52,8 +58,11 @@ class RampGenerator(Automation):
         """
         start = CURRENT_TIME()
         last = start
-        step = float( (self.destination - self.value) / ( float(self.duration / self.grain) ))
-        print('ramp from ' + str(self.parent.value))
+        step = float( (self.destination - self.value) / ( float((self.duration+self.grain) / self.grain) ))
+        if __dbug__ > 3:
+            print('ramp from ' + str(self.parent.value) + ' with a step of ' + str(step))
+        self.value += step
+        self.parent.value += step
         while (CURRENT_TIME() < (start + self.duration)):
             while (CURRENT_TIME() < last + self.grain):
                 pass # wait
