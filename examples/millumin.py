@@ -34,12 +34,13 @@ column = my_device.new_parameter({
 
 sleep(0.1)
 # just send a value
-column.value = 2
-
-# make a ramp
-#column.ramp(7, 1000, 200)
-sleep(0.1)
-column.random(2, 1000, 100)
+column.value = 0
+sleep(0.05)
+# make a ramp$
+column.ramp(20, 2000)
+quit()
+sleep(1.1)
+column.random(2, 1000)
 sleep(1.1)
 # with silent activated, value is internally update,
 # but the value is not spread to the world
