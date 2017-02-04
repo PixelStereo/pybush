@@ -76,8 +76,11 @@ class RandomGenerator(Automation):
         super(RandomGenerator, self).__init__(parent, origin, destination, duration, grain)
 
     def run(self):
+        self.parent.value = uniform(self.parent.domain[0], self.parent.domain[1])
         for step in self.random():
             self.parent.value = step
+        from time import sleep
+        sleep(float(self.grain)/1000)
         self.parent.value = self.destination
 
     def random(self):
@@ -86,7 +89,7 @@ class RandomGenerator(Automation):
         """
         start = CURRENT_TIME()
         last = start
-        while (CURRENT_TIME() < (start + self.duration)):
+        while (CURRENT_TIME() < (start + (self.duration-self.grain))):
             while (CURRENT_TIME() < last + self.grain):
                 pass # wait
             last = CURRENT_TIME()
