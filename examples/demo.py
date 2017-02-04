@@ -36,4 +36,5 @@ opacity = my_device.new_parameter({
 
 from pprint import pprint
 pprint(column.export())
+pprint(my_device.export())
 
