@@ -24,6 +24,7 @@ class Value(object):
         self._value = None
         self._clipmode = None
         self._domain = None
+        self._silent = False
         self._unique = None
         self._datatype = None
         self._raw = None
@@ -78,7 +79,6 @@ class Value(object):
     def description(self, description):
         self.parent.description = description
 
-
     @property
     def tags(self):
         """
@@ -88,6 +88,16 @@ class Value(object):
     @tags.setter
     def tags(self, tags):
         self.parent.tags = tags
+
+    @property
+    def silent(self):
+        """
+        address
+        """
+        return self._silent
+    @silent.setter
+    def silent(self, silent):
+        self._silent = silent
 
     @property
     def value(self):
@@ -108,6 +118,8 @@ class Value(object):
     @value.setter
     def value(self, value):
         self._value = value
+        if self.silent or not self.parent.get_device().outputs:
+            return
         self.update()
 
     def clip(self, value):
