@@ -51,7 +51,6 @@ class Value(object):
         """
         return self._value
 
-
     @property
     def name(self):
         """
@@ -234,11 +233,11 @@ class Value(object):
         state = self.post_export(state)
         return state
 
-    def post_export(self, node):
+    def post_export(self, state):
         """
         append Value to a dict with all its attributes
         """
-        pass
+        return state
 
     def ramp(self, destination=1, duration=1000, grain=10):
         """
