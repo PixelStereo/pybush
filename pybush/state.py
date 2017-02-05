@@ -23,24 +23,21 @@ class State(Value, Basic):
         set_attributes(self, kwargs)
 
     def __repr__(self):
-        printer = 'State (name:{name}, description:{description}, \
-                            raw:{raw}, value:{value}, datatype:{datatype}, \
-                            domain:{domain}, clipmode:{clipmode}, \
-                            unique:{unique}, tags:{tags})'
-        return printer.format(  name=self.name, description=self.description, \
-                                raw=self.raw, value=self.value, \
-                                datatype=self.datatype, domain=self.domain, \
-                                clipmode=self.clipmode, unique=self.unique, \
-                                tags=self.tags)
-
-    def export(self):
-        """
-        export a state
-        """
-        state = {}
-        state.setdefault('value', self.value)
-        state.setdefault('domain', self.domain)
-        state.setdefault('datatype', self.datatype)
-        state.setdefault('clipmode', self.clipmode)
-        state.setdefault('unique', self.unique)
-        return state
+        printer =     'State(name:{name}, '\
+                            'description:{description}, '\
+                            'tags:{tags}, '\
+                            'raw:{raw}, '\
+                            'value:{value}, '\
+                            'datatype:{datatype}, '\
+                            'domain:{domain}, '\
+                            'clipmode:{clipmode}, '\
+                        'unique:{unique})'
+        return printer.format(  name=self.name,\
+                                description=self.description, \
+                                tags=self.tags,\
+                                raw=self.raw,\
+                                value=self.value, \
+                                datatype=self.datatype,
+                                domain=self.domain, \
+                                clipmode=self.clipmode, \
+                                unique=self.unique)
