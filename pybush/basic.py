@@ -14,6 +14,7 @@ class Basic(object):
     """
     def __init__(self, **kwargs):
         super(Basic, self).__init__()
+        # this is not really clean.
         if 'children' in kwargs.keys():
             kwargs.pop('children')
         # initialise attributes/properties of this node
@@ -24,23 +25,26 @@ class Basic(object):
         set_attributes(self, kwargs)
 
     def __repr__(self):
-        printer = ' (name:{name}, tags:{tags}, description:{description})'
+        printer = '(name:{name}, '
+        'description:{description}, '
+        'tags:{tags})'
         printer = self.post_print(printer)
-        return printer.format(name=self.name, description=self.description, \
-                              tags=self.tags)
+        return printer.format(  name=self.name,
+                                description=self.description, \
+                                tags=self.tags)
 
-    def post_print(self, printer):
+    @property
+    def name(self):
         """
-        must be subclassed
+        name of the node
         """
-        printer = 'Basic' + printer
-        return printer
-
-    def reset(self):
-        """
-        Clear the content of the node
-        """
-        pass
+        return self._name
+    @name.setter
+    def name(self, name):
+        if name:
+            '_'.join([i if ord(i) < 128 else ' ' for i in name])
+            name = name.replace(" ", "_")
+        self._name = name
 
     @property
     def description(self):
@@ -55,13 +59,6 @@ class Basic(object):
     @description.setter
     def description(self, description):
         self._description = description
-
-    @property
-    def service(self):
-        """
-        Return the service of the node
-        """
-        return self.__class__.__name__
 
     @property
     def tags(self):
@@ -82,6 +79,7 @@ class Basic(object):
                 print('already in')
         else:
             self._tags.append(tag)
+
     def del_tag(self, tag):
         """
         del a tag for this node
@@ -91,6 +89,12 @@ class Basic(object):
         else:
             if __dbug__ >= 3:
                 print('not in')
+    @property
+    def service(self):
+        """
+        Return the service of the node
+        """
+        return self.__class__.__name__
 
     def export(self):
         """
@@ -109,15 +113,15 @@ class Basic(object):
         """
         pass
 
-    @property
-    def name(self):
+    def post_print(self, printer):
         """
-        name of the node
+        must be subclassed
         """
-        return self._name
-    @name.setter
-    def name(self, name):
-        if name:
-            '_'.join([i if ord(i) < 128 else ' ' for i in name])
-            name = name.replace(" ", "_")
-        self._name = name
+        printer = 'Basic' + printer
+        return printer
+
+    def reset(self):
+        """
+        Clear the content of the node
+        """
+        pass
