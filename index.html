@@ -1,0 +1,1049 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pybush &mdash; pybush 0+untagged.66.g2e47692 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pybush 0+untagged.66.g2e47692 documentation" href="#"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> pybush
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.66.g2e47692
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pybush</a><ul>
+<li><a class="reference internal" href="#changelog">Changelog:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index">Index</a></li>
+<li><a class="reference internal" href="#modules">Modules</a><ul>
+<li><a class="reference internal" href="#module-pybush.constants">pybush.constants</a></li>
+<li><a class="reference internal" href="#module-pybush.output">pybush.output</a></li>
+<li><a class="reference internal" href="#module-pybush.device">pybush.device</a></li>
+<li><a class="reference internal" href="#module-pybush.file">pybush.file</a></li>
+<li><a class="reference internal" href="#module-pybush.node">pybush.node</a></li>
+<li><a class="reference internal" href="#module-pybush.parameter">pybush.parameter</a></li>
+<li><a class="reference internal" href="#module-pybush.state">pybush.state</a></li>
+<li><a class="reference internal" href="#module-pybush.value">pybush.value</a></li>
+<li><a class="reference internal" href="#module-pybush.automation">pybush.automation</a></li>
+<li><a class="reference internal" href="#module-pybush.functions">pybush.functions</a></li>
+<li><a class="reference internal" href="#module-pybush.errors">pybush.errors</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">pybush</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>pybush</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pybush">
+<span id="pybush"></span><h1>pybush<a class="headerlink" href="#module-pybush" title="Permalink to this headline">¶</a></h1>
+<p>This package contains useful classes designed to organize your Application.</p>
+<p>It allows you to interact with various protocols from/to your app.
+For now, only OSC is implemented, but the goal is to support at least :
+- OSC
+- Minuit
+- PJ-Link
+- MIDI
+- DMX / ARTNET
+- Serial</p>
+<p>A few apps that might use pybush :
+- Configurable Bridge between protocols
+- Inter-media sequencer
+- IOT embedded app
+- Show controler</p>
+<p>Don&#8217;t beat about the bush, it is lib for writing inter/multi-media scenario.</p>
+<p>As a bush, pybush model is a tree graph, with one and only one trunk.
+A Trunk might conatain branches and leaves.</p>
+<p>Trunk Class
+This is the first thing to create. The trunk is an entry point to access
+branches and leaves.</p>
+<p>from pybush import new_trunk</p>
+<p>my_app = new_trunk(&#8216;My App&#8217;)</p>
+<p>Leave Class
+Now that we have a trunk, you can create some leaves.</p>
+<p>pos_x = my_app.new_parameter(&#8216;pos/x&#8217;)</p>
+<p>A leave is a Branch with a leaf attributte set to a Leaf Instance</p>
+<p>now this is True :</p>
+<p>my_app.children[0].children[0].parameter = pos_x</p>
+<p>pos_x.name = &#8216;x&#8217;</p>
+<p>pos_X.parent.name = &#8216;pos&#8217;</p>
+<p>You cam call make_state() method for each Branch
+that makes leaves comming back to a certain state</p>
+<p>Name must be unique in the namespace.
+When you create a name, it will raise an error if there is already
+the same name.</p>
+<p>Nodes are used to organize your namespace.
+Leaves are used for parameters and controlers.
+- Parameter : It is a string, integer, boolean, float or list with a state.
+- Controler : It is the result of a computation (algorythm/remote/controler)</p>
+<p>There is others optionnals properties for each branch / state / trunk:
+- tags : tags are un unordered list of strings.
+- description : description for the object</p>
+<hr class="docutils" />
+<blockquote>
+<div>Copyright (c) 2015 - 2017 Pixel Stereo</div></blockquote>
+<hr class="docutils" />
+<div class="section" id="changelog">
+<h2>Changelog:<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>v0.1.3 - Jan. 16th 2017</dt>
+<dd><ul class="first last">
+<li>Parameters are into a Device, and no more an application</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>v0.1.2 - Jan. 15th 2017</dt>
+<dd><ul class="first last">
+<li>Add two animations for parameters (ramp and random)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>v0.1.1 - Apr. 6th 2016</dt>
+<dd><ul class="first last">
+<li>First draft</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="function">
+<dt id="pybush.get_devices">
+<code class="descclassname">pybush.</code><code class="descname">get_devices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.get_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of devices</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.new_device">
+<code class="descclassname">pybush.</code><code class="descname">new_device</code><span class="sig-paren">(</span><em>dict_import=None</em>, <em>name=None</em>, <em>tags=None</em>, <em>version=None</em>, <em>author=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.new_device" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create a new device</dt>
+<dd>:return node object if successful
+:return False if name is not valid (already exists or is not provided)</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="index">
+<h1>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+</ul>
+</div>
+<div class="section" id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pybush.constants">
+<span id="pybush-constants"></span><h2>pybush.constants<a class="headerlink" href="#module-pybush.constants" title="Permalink to this headline">¶</a></h2>
+<p>Contains constants for the package, accessible from any module</p>
+</div>
+<div class="section" id="module-pybush.output">
+<span id="pybush-output"></span><h2>pybush.output<a class="headerlink" href="#module-pybush.output" title="Permalink to this headline">¶</a></h2>
+<p>Implements output for scenario-events
+An ouput is an object that can send-out commands.
+Maybe we might use some plug in pybush
+to have in/out access for a bunch of nodes (pybush / a bush)</p>
+<dl class="class">
+<dt id="pybush.output.Output">
+<em class="property">class </em><code class="descclassname">pybush.output.</code><code class="descname">Output</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.output.Output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybush.basic.Basic</span></code></p>
+<p>Abstract class
+Create a new output for a device</p>
+<dl class="method">
+<dt id="pybush.output.Output.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.output.Output.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>export Node to a json_string/python_dict with all its properties</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.output.Output.port">
+<code class="descname">port</code><a class="headerlink" href="#pybush.output.Output.port" title="Permalink to this definition">¶</a></dt>
+<dd><p>A port contains all informations need to sent a message to this output</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.output.Output.protocol">
+<code class="descname">protocol</code><a class="headerlink" href="#pybush.output.Output.protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protocol property is used to navigate between outputs</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybush.output.OutputMIDI">
+<em class="property">class </em><code class="descclassname">pybush.output.</code><code class="descname">OutputMIDI</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.output.OutputMIDI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.output.Output" title="pybush.output.Output"><code class="xref py py-class docutils literal"><span class="pre">pybush.output.Output</span></code></a></p>
+<p>Creates an output port for Midi Device.
+A Midi Device can handle all type of Midi messages</p>
+<dl class="attribute">
+<dt id="pybush.output.OutputMIDI.channel">
+<code class="descname">channel</code><a class="headerlink" href="#pybush.output.OutputMIDI.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The MIDI Channel used to send out the message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.output.OutputMIDI.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.output.OutputMIDI.export" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.output.OutputMIDI.message">
+<code class="descname">message</code><a class="headerlink" href="#pybush.output.OutputMIDI.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>The MIDI message
+CONTROL
+NOTE
+PGM</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybush.output.OutputOSC">
+<em class="property">class </em><code class="descclassname">pybush.output.</code><code class="descname">OutputOSC</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.output.OutputOSC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.output.Output" title="pybush.output.Output"><code class="xref py py-class docutils literal"><span class="pre">pybush.output.Output</span></code></a></p>
+<p>OutputUdp is a based class for all UDP based output
+You can use it if you want to send raw UDP.
+If you want to send OSC through UDP, please use OutputOsc
+as it checks if your OSC messages are correctly formatted.
+We might create a new class : OutputOsc as a subclass of OutputUdp.
+It should be used to double check
+that you send a correct OSC format message/bundle.</p>
+<dl class="method">
+<dt id="pybush.output.OutputOSC.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.output.OutputOSC.export" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.device">
+<span id="pybush-device"></span><h2>pybush.device<a class="headerlink" href="#module-pybush.device" title="Permalink to this headline">¶</a></h2>
+<p>Device Class might also be called Fixture Class.
+It describe a device, an instrument, a pixel, a bunch of parameters.
+A Device has some parameters and/or nodes
+A Device has some protocol/plugin for input/output
+(you can override device.input/output by provinding parameter.input/output)</p>
+<dl class="class">
+<dt id="pybush.device.Device">
+<em class="property">class </em><code class="descclassname">pybush.device.</code><code class="descname">Device</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.node.Node" title="pybush.node.Node"><code class="xref py py-class docutils literal"><span class="pre">pybush.node.Node</span></code></a>, <a class="reference internal" href="#pybush.file.File" title="pybush.file.File"><code class="xref py py-class docutils literal"><span class="pre">pybush.file.File</span></code></a></p>
+<p>Device Class represent a fixture, a unit
+Device inherit from Node
+Device Class creates author and version attributes
+It inherits from File Class. It adds write(), read() functions.
+That export/import json files for any Node with all its chidren</p>
+<dl class="attribute">
+<dt id="pybush.device.Device.author">
+<code class="descname">author</code><a class="headerlink" href="#pybush.device.Device.author" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current author of the device</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.del_output">
+<code class="descname">del_output</code><span class="sig-paren">(</span><em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.del_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>delete an output of this device</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>export Node to a json_string/python_dict with all its properties</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.getoutputs">
+<code class="descname">getoutputs</code><span class="sig-paren">(</span><em>protocol</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.getoutputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of available output for this protocol</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.getprotocols">
+<code class="descname">getprotocols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.getprotocols" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the protocols available for this device</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.new_output">
+<code class="descname">new_output</code><span class="sig-paren">(</span><em>protocol='OSC'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.new_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new output for this device</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>args:</dt>
+<dd>Mandatory argument is the protocol
+you want to use for this output
+(OSC, MIDI, serial, ArtNet)</dd>
+<dt>rtype:</dt>
+<dd>Output object</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.new_parameter">
+<code class="descname">new_parameter</code><span class="sig-paren">(</span><em>dict_import</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.new_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a parameter in the device
+name must be provided.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.device.Device.output">
+<code class="descname">output</code><a class="headerlink" href="#pybush.device.Device.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>The port to output this device
+Initialised to the first output</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.device.Device.outputs">
+<code class="descname">outputs</code><a class="headerlink" href="#pybush.device.Device.outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a list of outputs of this device</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.post_print">
+<code class="descname">post_print</code><span class="sig-paren">(</span><em>printer</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.post_print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybush.device.Device.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.device.Device.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fillin Bush with objects created from a json file</p>
+<p>Creates Outputs obects
+First, dump attributes, then outputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if file formatting is correct, False otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.device.Device.version">
+<code class="descname">version</code><a class="headerlink" href="#pybush.device.Device.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current version of the device</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.file">
+<span id="pybush-file"></span><h2>pybush.file<a class="headerlink" href="#module-pybush.file" title="Permalink to this headline">¶</a></h2>
+<p>File Class is an abstract class to add read/write json files</p>
+<dl class="class">
+<dt id="pybush.file.File">
+<em class="property">class </em><code class="descclassname">pybush.file.</code><code class="descname">File</code><span class="sig-paren">(</span><em>path=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.file.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract class</p>
+<p>Implements read and write methods
+Implements path attribute
+Instance must have import / export / reset methods
+Instance must have name attribute</p>
+<dl class="attribute">
+<dt id="pybush.file.File.file_extention">
+<code class="descname">file_extention</code><a class="headerlink" href="#pybush.file.File.file_extention" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the file extention</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.file.File.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.file.File.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a Node file from hard drive. Must be valid.
+if valid it will be loaded and return True, otherwise, it will return False</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param path:</th><td class="field-body">Filepath to read from.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type path:</th><td class="field-body">string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body">Boolean</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">True if the node has been correctly loaded, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.file.File.path">
+<code class="descname">path</code><a class="headerlink" href="#pybush.file.File.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>the path on the hard drive where this file has been loaded</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.file.File.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>savepath=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.file.File.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a node on the hard drive.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.node">
+<span id="pybush-node"></span><h2>pybush.node<a class="headerlink" href="#module-pybush.node" title="Permalink to this headline">¶</a></h2>
+<p>Node Class
+The Node is based on the Basic class
+It is the base class of all items in a namespace.
+Device and Value are based on the Node Class
+it</p>
+<dl class="class">
+<dt id="pybush.node.Node">
+<em class="property">class </em><code class="descclassname">pybush.node.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.node.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pybush.basic.Basic</span></code></p>
+<p>Base Class for all item in the namespace.
+It offers a way to have information / notification / functions
+about the namespace hierarchy
+It inherits from Basic Class. It adds name, description and tags functions.
+That export/import json files for any Node with all its chidren</p>
+<dl class="attribute">
+<dt id="pybush.node.Node.address">
+<code class="descname">address</code><a class="headerlink" href="#pybush.node.Node.address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current address of the node</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.node.Node.children">
+<code class="descname">children</code><a class="headerlink" href="#pybush.node.Node.children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the children registered to this node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.node.Node.get_device">
+<code class="descname">get_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.node.Node.get_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the root device of this node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.node.Node.new_child">
+<code class="descname">new_child</code><span class="sig-paren">(</span><em>dict_import=None</em>, <em>name=None</em>, <em>description=None</em>, <em>tags=None</em>, <em>children=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.node.Node.new_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Node in its parent</p>
+<dl class="docutils">
+<dt>You can</dt>
+<dd>:return node object if successful
+:return False if name is not valid (already exists or is not provided)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.node.Node.new_child_post_action">
+<code class="descname">new_child_post_action</code><span class="sig-paren">(</span><em>dict_import</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.node.Node.new_child_post_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>might be subclassed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.node.Node.parameter">
+<code class="descname">parameter</code><a class="headerlink" href="#pybush.node.Node.parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>parameter of the node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.node.Node.post_export">
+<code class="descname">post_export</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.node.Node.post_export" title="Permalink to this definition">¶</a></dt>
+<dd><p>export Node to a dict with all its attributes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.node.Node.post_print">
+<code class="descname">post_print</code><span class="sig-paren">(</span><em>printer</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.node.Node.post_print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.parameter">
+<span id="pybush-parameter"></span><h2>pybush.parameter<a class="headerlink" href="#module-pybush.parameter" title="Permalink to this headline">¶</a></h2>
+<p>A Parameter is a node, with a value
+So a Parameter inherit from Node Class and just add attributes about value</p>
+<dl class="class">
+<dt id="pybush.parameter.Parameter">
+<em class="property">class </em><code class="descclassname">pybush.parameter.</code><code class="descname">Parameter</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.parameter.Parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.value.Value" title="pybush.value.Value"><code class="xref py py-class docutils literal"><span class="pre">pybush.value.Value</span></code></a></p>
+<p>A Parameter is always attached to a node.
+It will provide value and value&#8217;s attributes to its node</p>
+<dl class="attribute">
+<dt id="pybush.parameter.Parameter.address">
+<code class="descname">address</code><a class="headerlink" href="#pybush.parameter.Parameter.address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.parameter.Parameter.description">
+<code class="descname">description</code><a class="headerlink" href="#pybush.parameter.Parameter.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybush.parameter.Parameter.make_state">
+<code class="descname">make_state</code><span class="sig-paren">(</span><em>the_snap=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.parameter.Parameter.make_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a new event for this scenario</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.parameter.Parameter.name">
+<code class="descname">name</code><a class="headerlink" href="#pybush.parameter.Parameter.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.parameter.Parameter.parent">
+<code class="descname">parent</code><a class="headerlink" href="#pybush.parameter.Parameter.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>parent of the node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.parameter.Parameter.post_export">
+<code class="descname">post_export</code><span class="sig-paren">(</span><em>export</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.parameter.Parameter.post_export" title="Permalink to this definition">¶</a></dt>
+<dd><p>export the Parameter to a json_string/python_dict with all its properties
+It just adds states to the state export</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.parameter.Parameter.ramp">
+<code class="descname">ramp</code><span class="sig-paren">(</span><em>destination=1</em>, <em>duration=1000</em>, <em>grain=10</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.parameter.Parameter.ramp" title="Permalink to this definition">¶</a></dt>
+<dd><p>ramp is an animation that drive from the current value to another in a certain time
+destination : value to reach
+duration : duration of the ramp
+grain : time between each grain</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.parameter.Parameter.random">
+<code class="descname">random</code><span class="sig-paren">(</span><em>destination=1</em>, <em>duration=1000</em>, <em>grain=10</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.parameter.Parameter.random" title="Permalink to this definition">¶</a></dt>
+<dd><p>random is an animation that generate pseudo random valuesin a certain time
+duration : duration of the ramp
+grain : time between each grain</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.parameter.Parameter.recall">
+<code class="descname">recall</code><span class="sig-paren">(</span><em>snap</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.parameter.Parameter.recall" title="Permalink to this definition">¶</a></dt>
+<dd><p>recall a state of the parameter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.parameter.Parameter.states">
+<code class="descname">states</code><a class="headerlink" href="#pybush.parameter.Parameter.states" title="Permalink to this definition">¶</a></dt>
+<dd><p>All the events of this scenario</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.parameter.Parameter.tags">
+<code class="descname">tags</code><a class="headerlink" href="#pybush.parameter.Parameter.tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>address</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.state">
+<span id="pybush-state"></span><h2>pybush.state<a class="headerlink" href="#module-pybush.state" title="Permalink to this headline">¶</a></h2>
+<p>A State is a copy of a Value at a certain state</p>
+<dl class="class">
+<dt id="pybush.state.State">
+<em class="property">class </em><code class="descclassname">pybush.state.</code><code class="descname">State</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.state.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.value.Value" title="pybush.value.Value"><code class="xref py py-class docutils literal"><span class="pre">pybush.value.Value</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">pybush.basic.Basic</span></code></p>
+<p>A State is afrozen state of a param</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.value">
+<span id="pybush-value"></span><h2>pybush.value<a class="headerlink" href="#module-pybush.value" title="Permalink to this headline">¶</a></h2>
+<p>Value
+A Value can be integer - decimal - string - array</p>
+<dl class="class">
+<dt id="pybush.value.Integer">
+<em class="property">class </em><code class="descclassname">pybush.value.</code><code class="descname">Integer</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.value.Numeric" title="pybush.value.Numeric"><code class="xref py py-class docutils literal"><span class="pre">pybush.value.Numeric</span></code></a></p>
+<p>An Integer is a numeric integer value</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pybush.value.Numeric">
+<em class="property">class </em><code class="descclassname">pybush.value.</code><code class="descname">Numeric</code><span class="sig-paren">(</span><em>value=None</em>, <em>domain=None</em>, <em>clipmode=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Numeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.value.Value" title="pybush.value.Value"><code class="xref py py-class docutils literal"><span class="pre">pybush.value.Value</span></code></a></p>
+<p>A numeric value might be a decimal or an integer.
+It can support automation</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pybush.value.Value">
+<em class="property">class </em><code class="descclassname">pybush.value.</code><code class="descname">Value</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A Value is an abstract class for creating a typed value
+It provides value attributes</p>
+<dl class="attribute">
+<dt id="pybush.value.Value.address">
+<code class="descname">address</code><a class="headerlink" href="#pybush.value.Value.address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybush.value.Value.clip">
+<code class="descname">clip</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value.clip" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>clip a value to its domain according to its clipmode</dt>
+<dd>:return cliped value</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.clipmode">
+<code class="descname">clipmode</code><a class="headerlink" href="#pybush.value.Value.clipmode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current clipmode of the parameter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.datatype">
+<code class="descname">datatype</code><a class="headerlink" href="#pybush.value.Value.datatype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current datatype of the parameter
+could be None (default), or string, integer, decimal</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.description">
+<code class="descname">description</code><a class="headerlink" href="#pybush.value.Value.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.domain">
+<code class="descname">domain</code><a class="headerlink" href="#pybush.value.Value.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current domain of the parameter</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.value.Value.export">
+<code class="descname">export</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>export the Value to a json_string/python_dict with all its properties</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.name">
+<code class="descname">name</code><a class="headerlink" href="#pybush.value.Value.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.parent">
+<code class="descname">parent</code><a class="headerlink" href="#pybush.value.Value.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current parent of the parameter</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.value.Value.post_export">
+<code class="descname">post_export</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value.post_export" title="Permalink to this definition">¶</a></dt>
+<dd><p>append Value to a dict with all its attributes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.value.Value.ramp">
+<code class="descname">ramp</code><span class="sig-paren">(</span><em>destination=1</em>, <em>duration=1000</em>, <em>grain=10</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value.ramp" title="Permalink to this definition">¶</a></dt>
+<dd><p>ramp is an animation that drive from the current value to another in a certain time
+destination : value to reach
+duration : duration of the ramp
+grain : time between each grain</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.value.Value.random">
+<code class="descname">random</code><span class="sig-paren">(</span><em>destination=1</em>, <em>duration=1000</em>, <em>grain=10</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value.random" title="Permalink to this definition">¶</a></dt>
+<dd><p>random is an animation that generate pseudo random valuesin a certain time
+duration : duration of the ramp
+grain : time between each grain</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.raw">
+<code class="descname">raw</code><a class="headerlink" href="#pybush.value.Value.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>raw value without rangeClipmode or rangeBoundsneither than datatype</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.silent">
+<code class="descname">silent</code><a class="headerlink" href="#pybush.value.Value.silent" title="Permalink to this definition">¶</a></dt>
+<dd><p>address</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.tags">
+<code class="descname">tags</code><a class="headerlink" href="#pybush.value.Value.tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>address</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.unique">
+<code class="descname">unique</code><a class="headerlink" href="#pybush.value.Value.unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter repetitions of the parameter</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.value.Value.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.value.Value.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>update is called when value is updated
+might be used to send it to network or other protocols</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybush.value.Value.value">
+<code class="descname">value</code><a class="headerlink" href="#pybush.value.Value.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current value of the parameter</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.automation">
+<span id="pybush-automation"></span><h2>pybush.automation<a class="headerlink" href="#module-pybush.automation" title="Permalink to this headline">¶</a></h2>
+<p>Animation&#8217;s library</p>
+<dl class="class">
+<dt id="pybush.automation.Automation">
+<em class="property">class </em><code class="descclassname">pybush.automation.</code><code class="descname">Automation</code><span class="sig-paren">(</span><em>parent</em>, <em>value=0</em>, <em>destination=1</em>, <em>duration=1000</em>, <em>grain=10</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.Automation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">multiprocessing.context.Process</span></code></p>
+<p>This is an abstact class for an Automation
+You can automate parameter in this way :
+- update parameter.value
+- parameter.ramp(destination=1, duration=1000, grain=10) update parameter.value each 10 ms if grain == 10
+- parameter.random(destination=1, duration=1000, grain=10)</p>
+<p>A Player that play things</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.automation.CURRENT_TIME">
+<code class="descclassname">pybush.automation.</code><code class="descname">CURRENT_TIME</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.CURRENT_TIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pybush.automation.RampGenerator">
+<em class="property">class </em><code class="descclassname">pybush.automation.</code><code class="descname">RampGenerator</code><span class="sig-paren">(</span><em>parent</em>, <em>origin</em>, <em>destination</em>, <em>duration</em>, <em>grain</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.RampGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.automation.Automation" title="pybush.automation.Automation"><code class="xref py py-class docutils literal"><span class="pre">pybush.automation.Automation</span></code></a></p>
+<p>Instanciate a thread for Playing a ramp
+step every 10 ms
+Allow to do several ramps in a same device / scenario / event
+:param target:</p>
+<dl class="method">
+<dt id="pybush.automation.RampGenerator.ramp">
+<code class="descname">ramp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.RampGenerator.ramp" title="Permalink to this definition">¶</a></dt>
+<dd><p>linear interpolation from a value to another in a certain time</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.automation.RampGenerator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.RampGenerator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybush.automation.RandomGenerator">
+<em class="property">class </em><code class="descclassname">pybush.automation.</code><code class="descname">RandomGenerator</code><span class="sig-paren">(</span><em>parent</em>, <em>origin</em>, <em>destination</em>, <em>duration</em>, <em>grain</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.RandomGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybush.automation.Automation" title="pybush.automation.Automation"><code class="xref py py-class docutils literal"><span class="pre">pybush.automation.Automation</span></code></a></p>
+<p>Instanciate a thread for Playing a ramp</p>
+<p>step every 10 ms</p>
+<p>Allow to do several ramps in a same device / scenario / event</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>target</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="pybush.automation.RandomGenerator.random">
+<code class="descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.RandomGenerator.random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate pseudo-random values in a certain range during a certain time</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybush.automation.RandomGenerator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybush.automation.RandomGenerator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.functions">
+<span id="pybush-functions"></span><h2>pybush.functions<a class="headerlink" href="#module-pybush.functions" title="Permalink to this headline">¶</a></h2>
+<p>Bunch of functions usefull for types, or namespace assertions</p>
+<dl class="function">
+<dt id="pybush.functions.check_type">
+<code class="descclassname">pybush.functions.</code><code class="descname">check_type</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.check_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an unicode into its original type</p>
+<dl class="docutils">
+<dt>data:</dt>
+<dd>an integer or float encoded as a string</dd>
+<dt>Returns:</dt>
+<dd>an integer or a float
+if it is a list, the first item is returned</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.load_json">
+<code class="descclassname">pybush.functions.</code><code class="descname">load_json</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.load_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a Json file from a file from hard drive
+it will return the contant as a python dict</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.m_bool">
+<code class="descclassname">pybush.functions.</code><code class="descname">m_bool</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.m_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform to a bool if it is not already</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.m_int">
+<code class="descclassname">pybush.functions.</code><code class="descname">m_int</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.m_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>transform a list or string into an integer</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.m_string">
+<code class="descclassname">pybush.functions.</code><code class="descname">m_string</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.m_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>transform to a string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.prop_dict">
+<code class="descclassname">pybush.functions.</code><code class="descname">prop_dict</code><span class="sig-paren">(</span><em>the_class</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.prop_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a dict of properties presents in a class, with their values</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>an object that is an instance of a class.
+We will check what properties exists for this class</dd>
+<dt>Returns:</dt>
+<dd>A dict with all properties and their values</dd>
+<dt>Raises:</dt>
+<dd>Error: Not already implemented</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.prop_list">
+<code class="descclassname">pybush.functions.</code><code class="descname">prop_list</code><span class="sig-paren">(</span><em>the_class</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.prop_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a list of properties presents in a class</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>an object that is an instance of a class.
+We will check what properties exists for this class</dd>
+<dt>Returns:</dt>
+<dd>A list with all properties</dd>
+<dt>Raises:</dt>
+<dd>Error: Not already implemented</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.set_attributes">
+<code class="descclassname">pybush.functions.</code><code class="descname">set_attributes</code><span class="sig-paren">(</span><em>the_instance</em>, <em>the_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.set_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>set value for attribute
+catch error if needed</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybush.functions.spacelessify">
+<code class="descclassname">pybush.functions.</code><code class="descname">spacelessify</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.functions.spacelessify" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove all special signs
+you can have letters, numbers and dot
+replace space by underscores</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybush.errors">
+<span id="pybush-errors"></span><h2>pybush.errors<a class="headerlink" href="#module-pybush.errors" title="Permalink to this headline">¶</a></h2>
+<p>All the Exceptions declared by the package are here</p>
+<dl class="exception">
+<dt id="pybush.errors.BushTypeError">
+<em class="property">exception </em><code class="descclassname">pybush.errors.</code><code class="descname">BushTypeError</code><span class="sig-paren">(</span><em>expected</em>, <em>received</em><span class="sig-paren">)</span><a class="headerlink" href="#pybush.errors.BushTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Waiting for an object of class &#8216;expected&#8217;
+but received an object of class &#8216;received&#8217;</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pybush.errors.NoOutputError">
+<em class="property">exception </em><code class="descclassname">pybush.errors.</code><code class="descname">NoOutputError</code><a class="headerlink" href="#pybush.errors.NoOutputError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>There is no output in this device</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Pixel Stereo.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0+untagged.66.g2e47692',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
