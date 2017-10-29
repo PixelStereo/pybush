@@ -8,16 +8,6 @@ from pybush import new_device
 my_device = new_device(name='test device', author='Pixel Stereo', version='0.1.0')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:5000')
 
-my_int = my_device.new_parameter({
-									'name':'test/int',
-									'value':1,
-									'tags':['int', 'no_dot'],
-									'datatype':'integer',
-									'domain':[1,35],
-									'clipmode':'low',
-									'unique':False})
-
-
 my_float = my_device.new_parameter({
 									'name':'test/float',
 									'value':0.2,
@@ -27,8 +17,5 @@ my_float = my_device.new_parameter({
 									'clipmode':'both',
 									'unique':True})
 
-from pprint import pprint
-pprint(my_int.export())
-pprint(my_float.export())
-pprint(my_device.export())
-
+my_float.value = 0
+my_float.ramp(1, 100)

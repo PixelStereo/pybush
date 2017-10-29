@@ -45,8 +45,7 @@ class Output(Basic):
         """
         export Node to a json_string/python_dict with all its properties
         """
-        # must be sub-classed
-        pass
+        return {'name':self.name, 'port':self.port}
 
 class OutputMIDI(Output):
     """
@@ -66,45 +65,6 @@ class OutputMIDI(Output):
                                 channel:{channel}, message:{message})'
         return printer.format(name=self.name, port=self.port, \
                                 channel=self.channel, message=self.message)
-
-    def export(self):
-        return {'name':self.name, 'port':self.port,'channel':self.channel, \
-                'message':self.message}
-
-    @property
-    def channel(self):
-        """
-        The MIDI Channel used to send out the message
-        """
-        return self._channel
-    @channel.setter
-    def channel(self, value):
-        flag = False
-        if isinstance(value, int):
-            if value > 0 and value < 17:
-                flag = True
-        if flag:
-            self._channel = value
-            return True
-        else:
-            return False
-
-    @property
-    def message(self):
-        """
-        The MIDI message
-        CONTROL
-        NOTE
-        PGM
-        """
-        return self._message
-    @message.setter
-    def message(self, value):
-        if value == 'CONTROL' or value == 'NOTE' or value == 'PGM':
-            self._message = value
-            return True
-        else:
-            return False
 
 
 class OutputOSC(Output):
@@ -130,6 +90,3 @@ class OutputOSC(Output):
     def __repr__(self):
         printer = 'OSC Output (name:{name}, port:{port})'
         return printer.format(name=self.name, port=self.port)
-
-    def export(self):
-        return {'name':self.name, 'port':self.port}

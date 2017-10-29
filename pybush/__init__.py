@@ -12,6 +12,7 @@ For now, only OSC is implemented, but the goal is to support at least :
 - MIDI
 - DMX / ARTNET
 - Serial
+- libossia
 
 A few apps that might use pybush :
 - Configurable Bridge between protocols
