@@ -2,10 +2,16 @@ sudo: required
 dist: trusty
 language: python
 python:
+- "2.6"
 - "2.7"
+- "3.2"
+- "3.3"
+- "3.4"
 - "3.5"
-- "3.5"
+- "3.5-dev"
 - "3.6"
+- "3.6-dev"
+- "3.7-dev"
 - "nightly"
 install:
 - sudo apt-get update
@@ -13,9 +19,8 @@ install:
 - sudo apt-get -qq install python-setuptools liblo-dev liblo-tools
 # upgrade pip itself
 - pip install --upgrade pip
-# cython is required for pyliblo
-- pip install Cython
-- pip install -r requirements.txt
+# install pybush
+- pip install -e .
 # check the tests coverage
 - pip install coverage
 # install codacy tools

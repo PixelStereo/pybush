@@ -20,7 +20,7 @@ setup(
   author = 'Pixel Stereo',
   url='https://github.com/PixelStereo/pybush',
   download_url = 'https://github.com/PixelStereo/pybush/tarball/' + __version__,
-  install_requires=['Cython', 'pyliblo>=0.9.2', 'simplejson>=3.8.1', 'sphinx_rtd_theme>=0.1.9'],
+  install_requires=['pyliblo>=0.9.2', 'simplejson>=3.8.1', 'sphinx_rtd_theme>=0.1.9'],
   classifiers = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Developers',
