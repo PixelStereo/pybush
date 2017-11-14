@@ -8,7 +8,6 @@ A Value can be integer - decimal - string - array
 """
 import liblo
 from pybush.functions import set_attributes
-from pybush.automation import RampGenerator, RandomGenerator
 from pybush.errors import NoOutputError
 from pybush.constants import __dbug__
 
@@ -238,29 +237,8 @@ class Value(object):
         append Value to a dict with all its attributes
         """
         return state
-
-    def ramp(self, destination=1, duration=1000, grain=10):
-        """
-        ramp is an animation that drive from the current value to another in a certain time
-        destination : value to reach
-        duration : duration of the ramp
-        grain : time between each grain
-        """
-        if self._current_player:
-            self._current_player.terminate()
-        self._current_player = RampGenerator(self, self.value, destination, duration, grain)
         return self._current_player
 
-    def random(self, destination=1, duration=1000, grain=10):
-        """
-        random is an animation that generate pseudo random valuesin a certain time
-        duration : duration of the ramp
-        grain : time between each grain
-        """
-        if self._current_player:
-            self._current_player.terminate()
-        self._current_player = RandomGenerator(self, self.value, destination, duration, grain)
-        return self._current_player
 
 class Numeric(Value):
     """

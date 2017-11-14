@@ -9,8 +9,8 @@ So a Parameter inherit from Node Class and just add attributes about value
 
 from pybush.state import State
 from pybush.value import Value
-from pybush.automation import RampGenerator, RandomGenerator
 from pybush.functions import set_attributes
+
 
 class Parameter(Value):
     """
@@ -25,8 +25,6 @@ class Parameter(Value):
         self._states = []
         # collection of states
         set_attributes(self, kwargs)
-        # this is the player for ramp/random
-        self.current_player = None
 
     def __repr__(self):
         """
@@ -92,29 +90,6 @@ class Parameter(Value):
             snaps.append(snap.export())
         export.setdefault('states', snaps)
         return export
-
-    def ramp(self, destination=1, duration=1000, grain=10):
-        """
-        ramp is an animation that drive from the current value to another in a certain time
-        destination : value to reach
-        duration : duration of the ramp
-        grain : time between each grain
-        """
-        if self.current_player:
-            self.current_player.terminate()
-        self.current_player = RampGenerator(self, self.value, destination, duration, grain)
-        return self.current_player
-
-    def random(self, destination=1, duration=1000, grain=10):
-        """
-        random is an animation that generate pseudo random valuesin a certain time
-        duration : duration of the ramp
-        grain : time between each grain
-        """
-        if self.current_player:
-            self.current_player.terminate()
-        self.current_player = RandomGenerator(self, self.value, destination, duration, grain)
-        return self.current_player
 
     @property
     def parent(self):

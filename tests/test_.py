@@ -15,7 +15,6 @@ from pybush.functions import m_bool, m_int, m_string, prop_list, prop_dict
 from pybush import new_device, get_devices
 from pybush.errors import BushTypeError, NoOutputError
 
-from pybush.automation import RampGenerator, RandomGenerator
 
 __dbug__ = 4
 
@@ -61,9 +60,7 @@ param3 = my_device.new_parameter({  'name':'node.1/node.2',
 parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
 # create two parameters with the same name must be raised
 same = my_device.new_parameter({'name':'one/two/three/four/same'})
-param3.ramp(2, 30)
 sleep(0.02)
-param3.random(2, 40)
 
 # it is not possible for the moment to snap a device
 """snap_device = my_device.snap()
@@ -73,18 +70,11 @@ print('-----_______---')"""
 symol_one.value = 'uno'
 symol_one.value = 'ein'
 param2.value = 0
-param2.ramp(1, 80)
 param3.value = 1
 param3.datatype = 'decimal'
-param3.ramp(0, 60)
-sleep(0.06)
 param3.domain = [0.4, 0.6]
-param3.random(destination=1, duration=700)
-param2.random(1, 70)
 print(param2.value)
 param3.value = 0.5
-sleep(0.05)
-param2.ramp(0, 50)
 param2.value = 1
 
 node_1 = param2.parent
@@ -147,18 +137,6 @@ class TestAll(unittest.TestCase):
         self.assertEqual(param2.datatype, 'decimal')
         self.assertEqual(param2.clipmode, 'both')
         self.assertEqual(param2.domain, [0, 11])
-
-    def test_ramp(self):
-        announcement('RAMP')
-        a_random = RandomGenerator(param2, 0, 1, 100, 10)
-        for rand in a_random.random():
-            self.assertEqual(rand > 0, True)
-            self.assertEqual(rand < 11, True)
-        a_ramp = RampGenerator(param3, 0.4, 1.6, 100, 100)
-        for step in a_ramp.ramp():
-            self.assertEqual(step > 0.4, True)
-            self.assertEqual(step < 1.7, True)
-        #self.assertEqual(next(a_ramp), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
     def test_writing_files(self):
         announcement('WRTING / READING FILES')

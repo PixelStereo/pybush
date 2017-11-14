@@ -74,6 +74,9 @@ There is others optionnals properties for each branch / state / trunk:
 Changelog:
 -------------------------------------------------------------------------------
 
+- v0.2.0 - work in progress
+    - pybush is only a tree organisation, it does not contain any animation
+
 - v0.1.3 - Jan. 16th 2017
     - Parameters are into a Device, and no more an application
 
