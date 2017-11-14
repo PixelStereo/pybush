@@ -19,6 +19,8 @@ install:
 - sudo apt-get -qq install python-setuptools liblo-dev liblo-tools
 # upgrade pip itself
 - pip install --upgrade pip
+# need to compile pyliblo
+- pip install Cython
 # install pybush
 - pip install -e .
 # check the tests coverage
