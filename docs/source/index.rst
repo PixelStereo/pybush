@@ -13,17 +13,18 @@ Index
 Modules
 =======
 
-pybush.constants
+pybush.basic
 ----------------
 
-.. automodule:: pybush.constants
+.. automodule:: pybush.basic
     :members:
     :undoc-members:
     :show-inheritance:
 
-pybush.output
--------------
-.. automodule:: pybush.output
+pybush.constants
+----------------
+
+.. automodule:: pybush.constants
     :members:
     :undoc-members:
     :show-inheritance:
@@ -36,6 +37,14 @@ pybush.device
     :undoc-members:
     :show-inheritance:
 
+pybush.errors
+-------------
+
+.. automodule:: pybush.errors
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pybush.file
 -----------
 
@@ -44,10 +53,33 @@ pybush.file
     :undoc-members:
     :show-inheritance:
 
+pybush.functions
+----------------
+
+.. automodule:: pybush.functions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pybush.log
+----------------
+
+.. automodule:: pybush.log
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pybush.node
 -----------
 
 .. automodule:: pybush.node
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pybush.output
+-------------
+.. automodule:: pybush.output
     :members:
     :undoc-members:
     :show-inheritance:
@@ -72,31 +104,6 @@ pybush.value
 ------------
 
 .. automodule:: pybush.value
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pybush.automation
------------------
-
-.. automodule:: pybush.automation
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pybush.functions
-----------------
-
-.. automodule:: pybush.functions
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-pybush.errors
--------------
-
-.. automodule:: pybush.errors
     :members:
     :undoc-members:
     :show-inheritance:

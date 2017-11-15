@@ -2,18 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-This is a logger
+Log functions
 
-Niveau  Valeur  Usage
-CRITICAL    50  Le programme complet est en train de partir en couille.
-ERROR   40  Une opération a foirée.
-WARNING     30  Pour avertir que quelque chose mérite l’attention
-			enclenchement d’un mode particulier, detection d’une situation rare
-			un lib optionelle peut être installée.
-INFO    20  Pour informer de la marche du programme.
-			Par exemple : “Starting CSV parsing”
-DEBUG   10  Pour dumper des information quand vous débuggez.
-			Par exemple savoir ce qu’il y a dans ce putain de dictionnaire.
+CRITICAL / ERROR / WARNING / INFO / DEBUG
 """
 
 import logging
