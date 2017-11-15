@@ -34,7 +34,7 @@ midi_output = my_device.new_output(protocol='MIDI')
 param2 = my_device.new_parameter({  'name':'node.1',
                                     'value':1,
                                     'datatype':'decimal',
-                                    'domain':[0,11], \
+                                    'domain':[0, 11], \
                                     'clipmode':'both',
                                     'unique':True,
                                     'tags':['un', 'deux']
@@ -53,7 +53,7 @@ print(param2)
 param3 = my_device.new_parameter({  'name':'node.1/node.2',
                                     'value':-0.5, \
                                     'datatype':'decimal', \
-                                    'domain':[-1,1], \
+                                    'domain':[-1, 1], \
                                     'clipmode':'low', \
                                     'unique':False \
                                     })
