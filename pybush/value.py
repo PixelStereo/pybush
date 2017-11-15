@@ -126,13 +126,15 @@ class Value(object):
             :return cliped value
         """
         if self.clipmode == 'low' or self.clipmode == 'both':
-            if len(self.domain) > 0:
-                if value < self.domain[0]:
-                    value = self.domain[0]
+            if self.domain:
+                if len(self.domain) > 0:
+                    if value < self.domain[0]:
+                        value = self.domain[0]
         if self.clipmode == 'high' or self.clipmode == 'both':
-            if len(self.domain) > 1:
-                if value > self.domain[1]:
-                    value = self.domain[1]
+            if self.domain:
+                if len(self.domain) > 1:
+                    if value > self.domain[1]:
+                        value = self.domain[1]
         return value
 
     def update(self):
