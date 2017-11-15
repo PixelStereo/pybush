@@ -70,6 +70,7 @@ class Node(Basic):
             """
             get the parent of the current node
             """
+            print(asker)
             asker = asker.parent
             return asker
         while asker.service != 'Device':

@@ -150,7 +150,8 @@ class TestAll(unittest.TestCase):
         self.assertEqual(my_device.write(), False)
         filepath = os.path.abspath('export-test_device.bush')
         device = new_device()
-        print(device.read(filepath))
+        read_result = device.read(filepath)
+        print(read_result)
 
     def test_modular_functions(self):
         announcement('MODULAR FUNCTIONS')
