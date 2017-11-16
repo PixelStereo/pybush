@@ -8,7 +8,7 @@
 =====
 #### Python Modular framework for real-time OSC applications
 
-[![PyPI version](https://badge.fury.io/py/pyossia.svg)](https://badge.fury.io/py/pyossia)
+[![PyPI version](https://badge.fury.io/py/pybush.svg)](https://badge.fury.io/py/pybush)
 
 **pybush** can be defined as a framework for creating applications that can be easily accessed through OSC (Open Sound Control) messages.
 
