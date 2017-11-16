@@ -6,7 +6,7 @@
 [![Issue Count](https://codeclimate.com/github/PixelStereo/pybush/badges/issue_count.svg)](https://codeclimate.com/github/PixelStereo/pybush)
 [![Code Health](https://landscape.io/github/PixelStereo/pybush/master/landscape.svg?style=flat)](https://landscape.io/github/PixelStereo/pybush/master) 
 =====
-####Python Modular framework for real-time OSC applications
+#### Python Modular framework for real-time OSC applications
 
 [![PyPI version](https://badge.fury.io/py/pyossia.svg)](https://badge.fury.io/py/pyossia)
 
@@ -21,7 +21,7 @@ For the moment, **pybush** is will be capable of:
 -  Save projects to json files
 
 
-####Documentation
+#### Documentation
 ---
 Documentation is available online [on this page](http://pixelstereo.github.io/pybush)    
 
@@ -31,11 +31,11 @@ If you need/want to build the documentation from the repo, here are the steps :
     cd docs/source
     make html
 
-####QuickStart
+#### QuickStart
 ---
 The example/demo.py contains a nice exemple to understand what you can do with pybush package.
 
-####Development
+#### Development
 ---
 Development is made on OSX with python 2.7    
 Continious integration is made on linux for python 2.7 / 3.5 / 3.6 / 3.7
