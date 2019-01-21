@@ -30,8 +30,8 @@ output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 midi_output = my_device.new_output(protocol='MIDI')
 #node_1 = my_device.new_child(name='node.1')
 #node_2 = node_1.new_child(name='node.2', tags=['lol', 'lal'])
-#param0 = my_device.new_parameter(name='punk one')
-param2 = my_device.new_parameter({  'name':'node.1',
+#param0 = my_device.add_param(name='punk one')
+param2 = my_device.add_param({  'name':'node.1',
                                     'value':1,
                                     'datatype':'decimal',
                                     'domain':[0, 11], \
@@ -39,7 +39,7 @@ param2 = my_device.new_parameter({  'name':'node.1',
                                     'unique':True,
                                     'tags':['un', 'deux']
                                     })
-symol_one = my_device.new_parameter({  'name':'a symbol',
+symol_one = my_device.add_param({  'name':'a symbol',
                                     'value':1,
                                     'datatype':'string',
                                     'domain':['uno', 'dos'], \
@@ -50,16 +50,16 @@ symol_one = my_device.new_parameter({  'name':'a symbol',
 #node_1.tags=['init', 'video']
 print(param2.parent)
 print(param2)
-param3 = my_device.new_parameter({  'name':'node.1/node.2',
+param3 = my_device.add_param({  'name':'node.1/node.2',
                                     'value':-0.5, \
                                     'datatype':'decimal', \
                                     'domain':[-1, 1], \
                                     'clipmode':'low', \
                                     'unique':False \
                                     })
-parameter = my_device.new_parameter({'name':'/one/two/three/four/five/polo'})
+parameter = my_device.add_param({'name':'/one/two/three/four/five/polo'})
 # create two parameters with the same name must be raised
-same = my_device.new_parameter({'name':'one/two/three/four/same'})
+same = my_device.add_param({'name':'one/two/three/four/same'})
 sleep(0.02)
 
 # it is not possible for the moment to snap a device
