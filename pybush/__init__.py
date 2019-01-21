@@ -36,7 +36,7 @@ my_app = new_trunk('My App')
 Leave Class
 Now that we have a trunk, you can create some leaves.
 
-pos_x = my_app.new_parameter('pos/x')
+pos_x = my_app.add_param('pos/x')
 
 A leave is a Branch with a leaf attributte set to a Leaf Instance
 

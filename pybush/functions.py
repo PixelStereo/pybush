@@ -177,7 +177,7 @@ def set_attributes(the_instance, the_dict):
                     the_instance.new_child(snap_or_child)
         elif att == 'parameter':
             if the_dict[att]:
-                the_instance.get_device().new_parameter(val)
+                the_instance.get_device().add_param(val)
         elif att == 'outputs':
             for protocol, output in val.items():
                 for out in output:

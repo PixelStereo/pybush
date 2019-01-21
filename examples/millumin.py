@@ -9,7 +9,7 @@ from pybush import new_device
 
 my_device = new_device(name='millumin', author='Pixel Stereo', version='0.1.0')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
-"""opacity = my_device.new_parameter({
+"""opacity = my_device.add_param({
 									'name':'Layer/opacity',
 									'value':0.,
 									'tags':['millumin', 'video'],
@@ -22,7 +22,7 @@ output = my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 # TODO
 # don't push value when creating parameter
 # make it silent?
-column = my_device.new_parameter({
+column = my_device.add_param({
 									'name':'action/launchColumn',
 									'value':1,
 									'tags':['millumin', 'video'],

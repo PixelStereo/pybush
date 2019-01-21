@@ -196,11 +196,21 @@ class Device(Node, File):
                 print("ERROR - trying to delete an output which not exists \
                       in self._outputs", output)
 
-    def new_parameter(self, dict_import):
+    def new_parameter(self, the_name, **kwargs):
+        """
+        create a parameter with kwargs
+        """
+        kwargs['name'] = the_name
+        new_param = self.add_param(kwargs)
+        return new_param
+
+    def add_param(self, dict_import):
         """
         create a parameter in the device
         name must be provided.
+        - name : mandatory
         """
+        print(dict_import)
         self._final_node = self
 
         def _create_node():

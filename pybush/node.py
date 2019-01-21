@@ -54,7 +54,7 @@ class Node(Basic):
             self._parameter = parameter
             return True
         elif parameter.__class__.__name__ == 'dict':
-            self._parameter = self.get_device().new_parameter(parameter)
+            self._parameter = self.get_device().add_param(parameter)
             return bool(self._parameter)
         else:
             if __dbug__:

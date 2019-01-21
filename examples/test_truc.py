@@ -8,7 +8,7 @@ from pybush import new_device
 my_device = new_device(name='test device', author='Pixel Stereo', version='0.1.0')
 output = my_device.new_output(protocol='OSC', port='127.0.0.1:5000')
 
-my_float = my_device.new_parameter({
+my_float = my_device.add_param({
 									'name':'test/float',
 									'value':0.2,
 									'tags':['float', 'decimal'],
