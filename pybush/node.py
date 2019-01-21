@@ -170,8 +170,6 @@ class Node(Basic):
             recursive function to get into parent's hierarchy
             """
             address = spacelessify(self.name)
-            if not address:
-                address = 'no_address'
             if self.__class__.__name__ is not 'Device':
                 if self.parent:
                     parent_address = (get_address(self.parent))
@@ -179,6 +177,8 @@ class Node(Basic):
                         address = parent_address
                     else:
                         address = parent_address + '/' + address
+            else:
+                address = ''
             return address
         return get_address(self)
     @address.setter

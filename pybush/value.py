@@ -154,7 +154,8 @@ class Value(object):
                 except liblo.AddressError as err:
                     if __dbug__ >= 3:
                         print('liblo.AddressError' + str(err))
-                msg = liblo.Message('/' + self.address)
+                #msg = liblo.Message('/' + self.address)
+                msg = liblo.Message(self.address)
                 if isinstance(self.value, list):
                     # this is a list of values to send
                     for arg in self.value:
