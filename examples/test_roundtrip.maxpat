@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 40.0, 121.0, 426.0, 495.0 ],
+		"rect" : [ 1384.0, 215.0, 282.0, 439.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -44,8 +44,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 12.0, 324.0, 136.0, 22.0 ],
-					"text" : "prepend /test_device/int"
+					"patching_rect" : [ 12.0, 324.0, 72.0, 22.0 ],
+					"text" : "prepend /int"
 				}
 
 			}
@@ -102,8 +102,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 12.0, 84.0, 119.0, 22.0 ],
-					"text" : "route /test_device/int"
+					"patching_rect" : [ 12.0, 84.0, 55.0, 22.0 ],
+					"text" : "route /int"
 				}
 
 			}
