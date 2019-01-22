@@ -70,7 +70,6 @@ class Node(Basic):
             """
             get the parent of the current node
             """
-            print(asker)
             asker = asker.parent
             return asker
         while asker.service != 'Device':
@@ -179,6 +178,8 @@ class Node(Basic):
                         address = parent_address
                     else:
                         address = parent_address + '/' + address
+            else:
+                address = '/' + address
             return address
         return get_address(self)
     @address.setter
