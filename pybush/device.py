@@ -16,7 +16,7 @@ from pybush.parameter import Parameter
 from pybush.functions import prop_list, set_attributes
 from pybush.file import File
 from pybush.output import OutputOSC, OutputMIDI
-
+import liblo
 
 class Device(Node, File):
     """
@@ -157,6 +157,49 @@ class Device(Node, File):
         else:
             return protocols
 
+    def getparameters(self):
+        parameters = []
+        def get_children(truc):
+            if truc.children:
+                for child in truc.children:
+                    if child.parameter:
+                        parameters.append(child.parameter)
+                    if child.__class__.__name__ == 'Node':
+                        get_children(child)
+        get_children(self)
+        return parameters
+
+    def new_input(self, protocol="OSC", **kwargs):
+        """
+        Create a new input for this device
+
+            args:
+                Mandatory argument is the protocol
+                you want to use for this output
+                (OSC, MIDI, serial, ArtNet)
+            rtype:
+                input object
+        """
+        if not self._inputs:
+            self._inputs = []
+        taille = len(self._inputs)
+        if protocol == "OSC":
+            the_input = 'OSC'
+            self.osc_server = liblo.ServerThread(1235)
+            for param in self.getparameters():
+                self.osc_server.add_method(param.address, 'i', param.listen)
+            self.osc_server.start()
+        elif protocol == "MIDI":
+            the_input = InputMIDI()
+        else:
+            the_input = None
+        if the_input:
+            set_attributes(the_input, kwargs)
+            self._inputs.append(the_input)
+            return self._inputs[taille]
+        else:
+            return False
+
     def new_output(self, protocol="OSC", **kwargs):
         """
         Create a new output for this device
@@ -210,7 +253,6 @@ class Device(Node, File):
         name must be provided.
         - name : mandatory
         """
-        print(dict_import)
         self._final_node = self
 
         def _create_node():
