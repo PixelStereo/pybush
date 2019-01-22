@@ -120,6 +120,13 @@ class Value(object):
             return
         self.update()
 
+    def listen(self, address, value):
+        """
+        listen value through an input / protocol
+        """
+        self._value = value[0]
+        print(address, value[0])
+
     def clip(self, value):
         """
         clip a value to its domain according to its clipmode
