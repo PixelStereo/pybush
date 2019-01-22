@@ -66,7 +66,7 @@ There is others optionnals properties for each branch / state / trunk:
 
 -------------------------------------------------------------------------------
 
-    Copyright (c) 2015 - 2017 Pixel Stereo
+    Copyright (c) 2015 - 2019 Pixel Stereo
 
 -------------------------------------------------------------------------------
 
