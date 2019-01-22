@@ -5,10 +5,11 @@
 from time import sleep
 from pybush import new_device
 
-My_device = new_device(name='test device', author='Pixel Stereo', version='0.1.0')
-output = My_device.new_output(protocol='OSC', port='127.0.0.1:5000')
+my_device = new_device(name='test device', author='Pixel Stereo', version='0.1.0')
+my_device.new_output(protocol='OSC', port='127.0.0.1:1234')
 
-my_int = My_device.add_param({
+
+my_int = my_device.add_param({
 									'name':'int',
 									'value':8,
 									'tags':['int', 'no_dot'],
@@ -16,6 +17,8 @@ my_int = My_device.add_param({
 									'domain':[1,35],
 									'clipmode':'low',
 									'unique':False})
+
+my_device.new_input(protocol='OSC', port=1235)
 
 try:
     print("Press CMD+C to exit")

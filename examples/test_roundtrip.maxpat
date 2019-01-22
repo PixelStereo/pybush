@@ -44,8 +44,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 12.0, 324.0, 72.0, 22.0 ],
-					"text" : "prepend /int"
+					"patching_rect" : [ 12.0, 324.0, 136.0, 22.0 ],
+					"text" : "prepend /test_device/int"
 				}
 
 			}
@@ -56,7 +56,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 12.0, 380.0, 135.0, 22.0 ],
-					"text" : "udpsend localhost 5555"
+					"text" : "udpsend localhost 1235"
 				}
 
 			}
@@ -102,8 +102,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 12.0, 84.0, 55.0, 22.0 ],
-					"text" : "route /int"
+					"patching_rect" : [ 12.0, 84.0, 119.0, 22.0 ],
+					"text" : "route /test_device/int"
 				}
 
 			}
@@ -115,7 +115,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 12.0, 9.0, 97.0, 22.0 ],
-					"text" : "udpreceive 5000"
+					"text" : "udpreceive 1234"
 				}
 
 			}
