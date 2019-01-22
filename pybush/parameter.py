@@ -42,44 +42,6 @@ class Parameter(Value):
                               domain=self.domain, clipmode=self.clipmode, \
                               unique=self.unique, tags=self.tags, states=len(self.states))
 
-    @property
-    def name(self):
-        """
-        name
-        """
-        return self.parent.name
-    @name.setter
-    def name(self, name):
-        self.parent.name = name
-
-    @property
-    def address(self):
-        """
-        address
-        """
-        return self.parent.address
-
-    @property
-    def description(self):
-        """
-        description
-        """
-        return self.parent.description
-    @description.setter
-    def description(self, description):
-        self.parent.description = description
-
-
-    @property
-    def tags(self):
-        """
-        address
-        """
-        return self.parent.tags
-    @tags.setter
-    def tags(self, tags):
-        self.parent.tags = tags
-
     def post_export(self, export):
         """
         export the Parameter to a json_string/python_dict with all its properties
@@ -90,16 +52,6 @@ class Parameter(Value):
             snaps.append(snap.export())
         export.setdefault('states', snaps)
         return export
-
-    @property
-    def parent(self):
-        """
-        parent of the node
-        """
-        return self._parent
-    @parent.setter
-    def parent(self, parent):
-        self._parent = parent
 
     def make_state(self, the_snap=None):
         """
