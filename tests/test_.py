@@ -208,12 +208,12 @@ class TestAll(unittest.TestCase):
 
     def test_address(self):
         announcement('ADDRESSES')
-        self.assertEqual(my_device.address, 'My_device')
-        self.assertEqual(node_1.address, 'My_device/node.1')
-        self.assertEqual(node_2.address, 'My_device/node.1/node.2')
-        self.assertEqual(node_3.address, 'My_device/node.1/node.2/node.3')
-        self.assertEqual(param2.address, 'My_device/node.1')
-        self.assertEqual(param3.address, 'My_device/node.1/node.2')
+        self.assertEqual(my_device.address, '/My_device')
+        self.assertEqual(node_1.address, '/My_device/node.1')
+        self.assertEqual(node_2.address, '/My_device/node.1/node.2')
+        self.assertEqual(node_3.address, '/My_device/node.1/node.2/node.3')
+        self.assertEqual(param2.address, '/My_device/node.1')
+        self.assertEqual(param3.address, '/My_device/node.1/node.2')
 
     def test_errors(self):
         announcement('RASING ERRORS')
