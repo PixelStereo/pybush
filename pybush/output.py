@@ -59,6 +59,7 @@ class OutputMIDI(Output):
         self._protocol = 'MIDI'
         self._channel = 1
         self._message = 'CC'
+        self._name = 'MIDI Output'
 
     def __repr__(self):
         printer = 'MIDI Output (name:{name}, port:{port}, \

@@ -5,10 +5,11 @@
 from time import sleep
 from pybush import new_device
 
-My_device = new_device(name='test device', author='Pixel Stereo', version='0.1.0')
-output = My_device.new_output(protocol='OSC', port='127.0.0.1:5000')
+my_device = new_device(name='test device', author='Pixel Stereo', version='0.1.0')
+osc_output = my_device.new_output(protocol='OSC', port='127.0.0.1:5000')
+midi_output = my_device.new_output(protocol='MIDI', port='IAC 1')
 
-my_int = My_device.add_param({
+my_int = my_device.add_param({
 									'name':'int',
 									'value':8,
 									'tags':['int', 'no_dot'],
@@ -18,7 +19,7 @@ my_int = My_device.add_param({
 									'unique':False})
 
 
-my_float = My_device.add_param({
+my_float = my_device.add_param({
 									'name':'float',
 									'value':0.2,
 									'tags':['float', 'decimal'],
@@ -30,7 +31,7 @@ my_float = My_device.add_param({
 from pprint import pprint
 pprint(my_int.export())
 pprint(my_float.export())
-pprint(My_device.export())
+pprint(my_device.export())
 
 # WAIT UNTIL CMD+C
 try:
