@@ -124,8 +124,7 @@ class Value(object):
         """
         listen value through an input / protocol
         """
-        self._value = value[0]
-        print(address, value[0])
+        self.value = value[0]
 
     def clip(self, value):
         """

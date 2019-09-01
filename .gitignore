@@ -66,3 +66,4 @@ tests/export-*.bush
 tests/BOGUS.bush
 pylint*
 *.bush
+.DS_Store
